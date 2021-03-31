@@ -16,7 +16,7 @@ private:
     QGraphicsScene* scene;
     QGraphicsRectItem* board[8][8];
 
-    void generate_board();
+    void generate_board(QColor black = Qt::black, QColor white = Qt::white);
 
 public:
     MainWindow(QWidget *parent = nullptr);

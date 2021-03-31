@@ -19,15 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete scene;
-    delete view;
 }
 
-void MainWindow::generate_board(){
+void MainWindow::generate_board(QColor black, QColor white){
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             board[i][j] = new QGraphicsRectItem(squareSize*i, squareSize*j, squareSize, squareSize);
-            board[i][j]->setBrush((i+j)%2 ? Qt::black : Qt::white);
+            board[i][j]->setBrush((i+j)%2 ? black : white);
             scene->addItem(board[i][j]);
         }
     }
