@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     resize(800,800);
 
+    //TODO: Move this
     pieceImages['n'] = new QPixmap(":/ChessPieces/bN.png");
     pieceImages['r'] = new QPixmap(":/ChessPieces/bR.png");
     pieceImages['k'] = new QPixmap(":/ChessPieces/bK.png");
@@ -27,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
     render_pieces("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
 
-
     view->setScene(scene);
     view->show();
 
@@ -37,16 +37,19 @@ MainWindow::~MainWindow()
 {
 }
 
+//This simply draws a board in the specified colors
 void MainWindow::generate_board(QColor black, QColor white){
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            board[i][j] = new QGraphicsRectItem(squareSize*i+1, squareSize*j, squareSize, squareSize);
+            board[i][j] = new QGraphicsRectItem(squareSize*i, squareSize*j, squareSize, squareSize);
             board[i][j]->setBrush((i+j)%2 ? black : white);
             scene->addItem(board[i][j]);
         }
     }
 }
 
+//This function takes a string in fen notation(Only the first placement part)
+//And places out pieces based on that.
 void MainWindow::render_pieces(std::string fen){
 
     //Delete all previously rendered pieces
@@ -56,7 +59,7 @@ void MainWindow::render_pieces(std::string fen){
     }
     pieces.clear();
 
-
+    //Pointers for where to place the pieces
     int i = 0;
     int j = 0;
     for(char a : fen){
@@ -68,14 +71,14 @@ void MainWindow::render_pieces(std::string fen){
             i+= (a-'0');
         }
         else{
-                QGraphicsPixmapItem *newItem=new QGraphicsPixmapItem(*pieceImages[a]);
-                newItem->setOffset(squareSize * i, squareSize * j);
-                scene->addItem(newItem);
-                pieces.push_back(newItem);
-                i++;
+            //Get piece path from map and add it to the scene
+            QGraphicsPixmapItem *newItem=new QGraphicsPixmapItem(*pieceImages[a]);
+            newItem->setOffset(squareSize * i-1, squareSize * j);
+            scene->addItem(newItem);
+            pieces.push_back(newItem);
+            i++;
         }
     }
-
 }
 
 
