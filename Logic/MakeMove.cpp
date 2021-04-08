@@ -54,28 +54,28 @@ CalculateMoves moveCalc(chessBoard);
 MakeMove m(chessBoard);   
 
 int main() {
-    //chessBoard.PrintBoard();
-    int sum = moveCalc.SumOfAllMoves(2);
-    std::cout<<sum<<std::endl;
-    // while(true) {
-    //     int x, y, xNew, yNew;
-    //     std::cin >> x >> y >> xNew >> yNew;
-    //     // MakeLegalMove(m ,chessBoard, moveCalc, {2, 5}, {3, 5});
-    //     // MakeLegalMove(m, chessBoard, moveCalc, {7, 5}, {5, 5});
-    //     // MakeLegalMove(m, chessBoard, moveCalc, {1, 4}, {5, 8});
-    //     // x = 8;
-    //     // y = 7;
-    //     // xNew = 6;
-    //     // yNew = 6;
-    //     std::set<std::pair<int, int>> legalMoves = moveCalc.CalculatePieceMove({x, y}, chessBoard); 
-    //     for(auto it : legalMoves) {
-    //         std::cout<<it.first<<" "<<it.second<<std::endl;
-    //     }       
-    //     if(legalMoves.count({xNew, yNew})) {
-    //         MakeLegalMove(m, chessBoard, moveCalc, {x, y}, {xNew, yNew});
-    //     }
-    //     else {
-    //         std::cout<<"Illegal move!"<<std::endl;
-    //     }
-    // }
+    chessBoard.PrintBoard();
+    // int sum = moveCalc.SumOfAllMoves(3);
+    // std::cout<<sum<<std::endl;
+    while(true) {
+        int x, y, xNew, yNew;
+        std::cin >> x >> y >> xNew >> yNew;
+        // MakeLegalMove(m ,chessBoard, moveCalc, {2, 5}, {3, 5});
+        // MakeLegalMove(m, chessBoard, moveCalc, {7, 5}, {5, 5});
+        // MakeLegalMove(m, chessBoard, moveCalc, {1, 4}, {5, 8});
+        // x = 8;
+        // y = 7;
+        // xNew = 6;
+        // yNew = 6;
+        std::set<std::pair<int, int>> legalMoves = moveCalc.CalculatePieceMove({x, y}, chessBoard); 
+        for(auto it : legalMoves) {
+            std::cout<<it.first<<" "<<it.second<<std::endl;
+        }       
+        if(legalMoves.count({xNew, yNew})) {
+            MakeLegalMove(m, chessBoard, moveCalc, {x, y}, {xNew, yNew});
+        }
+        else {
+            std::cout<<"Illegal move!"<<std::endl;
+        }
+    }
 }

@@ -12,7 +12,7 @@ private:
                 if(OnBoard({pos.first + i, pos.second + j}) && chessBoard->GetPieceType(pos.first + i, pos.second + j) == ((chessBoard->currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
                     return true;
                 }
-                if(OnBoard({pos.first + j, pos.first + i}) && chessBoard->GetPieceType(pos.first + j, pos.second + i) == ((chessBoard->currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
+                if(OnBoard({pos.first + j, pos.second + i}) && chessBoard->GetPieceType(pos.first + j, pos.second + i) == ((chessBoard->currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
                     return true;
                 }
             }
@@ -68,13 +68,13 @@ private:
     bool IsAttackedByPawns(std::pair<int, int> position) {
         if(chessBoard->currentPlayer == Black) {
             if(OnBoard({position.first - 1, position.second - 1}) && chessBoard->GetPieceType(position.first - 1, position.second - 1) == WhitePawn 
-            || OnBoard({position.first - 1, position.first + 1}) && chessBoard->GetPieceType(position.first - 1, position.first + 1) == WhitePawn){
+            || OnBoard({position.first - 1, position.second + 1}) && chessBoard->GetPieceType(position.first - 1, position.second + 1) == WhitePawn){
                 return true;
             }
         }
         else if(chessBoard->currentPlayer == White) {
             if(OnBoard({position.first + 1, position.second - 1}) && chessBoard->GetPieceType(position.first + 1, position.second - 1) == BlackPawn   
-            || OnBoard({position.first + 1, position.second + 1}) && chessBoard->GetPieceType(position.first + 1, position.first + 1) == BlackPawn){
+            || OnBoard({position.first + 1, position.second + 1}) && chessBoard->GetPieceType(position.first + 1, position.second + 1) == BlackPawn){
                 return true;
             }
         }
@@ -87,8 +87,21 @@ private:
         }
         return false;
     }
+
+     //Converts a coordinate consisting of one integer to a coordinate of a pair of two integers
+    std::pair<int, int> ConvertToPair (int oneD) {
+        return {(oneD - (oneD % 8))/8 +1, 1 + oneD%8}; 
+    }
+
 public:
-    bool CheckIfSomeoneHasCheck(Board& board, std::pair<int, int> kingPos) {
+    bool CheckIfSomeoneHasCheck(Board& board) {
+        std::pair<int, int> kingPos;
+        if(board.currentPlayer == Black) {
+            kingPos = ConvertToPair(board.gameState.blackKingPos);
+        }   
+        else {
+            kingPos = ConvertToPair(board.gameState.whiteKingPos); 
+        }
         chessBoard = std::make_unique<Board>(board);
         if(IsAttackedDiagonally(kingPos) || IsAttackedVerticallyHorizontally(kingPos) || IsAttackedByPawns(kingPos) || IsAttackedByKnights(kingPos)) {
             return true;

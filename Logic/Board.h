@@ -29,10 +29,9 @@ enum CurrentPlayer {
 class Board {
 private:
     std::array<Piece, 64> boardArray;     //The actual chess board
-
-public:
     std::unordered_map<int, Piece> whitePositions;    //Maps each board position to a white piece. This makes it so we don't have to iterate over the whole board when calculating all possible moves
-    std::unordered_map<int, Piece> blackPositions;    
+    std::unordered_map<int, Piece> blackPositions;  
+public:  
     CurrentPlayer currentPlayer;    //0 if it's white turn, 1 if it's black
     GameState gameState;
     Board() {
@@ -111,28 +110,35 @@ public:
         boardArray[(7)*8+4] = BlackKing;    
     }
 
+        //Update and retrieve a copy of the board. Used to see if a move puts the king in check
+    Board UpdateBoardCopy(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Board boardCopy) {
+        Piece pieceType = boardCopy.GetPieceType(firstPos.first, firstPos.second);
+        boardCopy.UpdateBoard(firstPos, secondPos, pieceType);
+        return boardCopy;
+    }
+
     //Update the board's positions
     void UpdateBoard(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
         IfEnPassant(pieceType, firstPos, secondPos);
-        UpdateKingPosAfterMove(firstPos, secondPos, pieceType);
-        boardArray[(firstPos.first-1)*8 + (firstPos.second-1)] = Empty;
-        boardArray[(secondPos.first-1)*8 + (secondPos.second - 1)] = pieceType;
-        if(pieceType == BlackRook || pieceType == BlackKing) gameState.blackCanCastle = false;           //If the player moves his rook or king, he can no longer castle
-        else if(pieceType == WhiteRook || pieceType == WhiteKing) gameState.whiteCanCastle = false;
+        boardArray[ConvertToSingle(firstPos.first, firstPos.second)] = Empty;
+        boardArray[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
         UpdateEnPassant(pieceType, firstPos, secondPos);
         UpdatePieceMap(firstPos, secondPos, pieceType);
+        UpdateKingPosAfterMove(firstPos, secondPos, pieceType);
+        if(pieceType == BlackRook || pieceType == BlackKing) gameState.blackCanCastle = false;           //If the player moves his rook or king, he can no longer castle
+        else if(pieceType == WhiteRook || pieceType == WhiteKing) gameState.whiteCanCastle = false;
     }
 
     void UpdateKingPosAfterMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
         if(pieceType == BlackKing) {
-            if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if a castle occured last turn
-                if(secondPos.second < 4) {
+            if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
+                if(secondPos.second == 3) {
                     SetPiece(8, 1, Empty);
-                    SetPiece(8, 3, BlackRook);
+                    SetPiece(8, 4, BlackRook);
                     blackPositions.erase(ConvertToSingle(8, 1));
-                    blackPositions[ConvertToSingle(8, 3)] = BlackRook;
+                    blackPositions[ConvertToSingle(8, 4)] = BlackRook;
                 }
-                else if(secondPos.second > 4) {
+                else if(secondPos.second == 7) {
                     SetPiece(8, 8, Empty);
                     SetPiece(8, 6, BlackRook);
                     blackPositions.erase(ConvertToSingle(8, 8));
@@ -142,14 +148,14 @@ public:
             gameState.blackKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
         } 
         else if(pieceType == WhiteKing) {
-           if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if a castling occured last turn
-                if(secondPos.second < 4) {
+           if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
+                if(secondPos.second == 3) {
                     SetPiece(1, 1, Empty);
-                    SetPiece(1, 3, WhiteRook);
+                    SetPiece(1, 4, WhiteRook);
                     whitePositions.erase(ConvertToSingle(1, 1));
-                    whitePositions[ConvertToSingle(1, 3)] = WhiteRook;
+                    whitePositions[ConvertToSingle(1, 4)] = WhiteRook;
                 }
-                else if(secondPos.second > 4) {
+                else if(secondPos.second == 7) {
                     SetPiece(1, 8, Empty);
                     SetPiece(1, 6, WhiteRook);
                     whitePositions.erase(ConvertToSingle(1, 8));
@@ -180,35 +186,24 @@ public:
         if(pieceType ==  BlackPawn) {     //The move was by black
             if(secondPos.first == firstPos.first - 2) {
                 gameState.whiteCanEnPassant = true;
-                gameState.whiteEnPassant = (secondPos.first)*8 + (secondPos.second-1);
+                gameState.whiteEnPassant = ConvertToSingle(secondPos.first + 1, secondPos.second);
             }
         }
         else if(pieceType == WhitePawn){
             if(secondPos.first == firstPos.first + 2) {
                 gameState.blackCanEnPassant = true;
-                gameState.blackEnPassant = (secondPos.first - 2)*8 + (secondPos.second - 1);
+                gameState.blackEnPassant = ConvertToSingle(secondPos.first - 1, secondPos.second);
             }
         }
     }
 
-    //Update and retrieve a copy of the board. Used to see if a move puts the king in check
-    Board UpdateBoardCopy(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Board boardCopy) {
-        Piece pieceType = boardCopy.GetPieceType(firstPos.first, firstPos.second);
-        boardCopy.IfEnPassant(pieceType, firstPos, secondPos);
-        boardCopy.SetPiece(secondPos.first,secondPos.second, pieceType);
-        boardCopy.SetPiece(firstPos.first, firstPos.second, Empty);
-        boardCopy.UpdatePieceMap(firstPos, secondPos, pieceType);
-        boardCopy.UpdateEnPassant(pieceType, firstPos, secondPos);
-        return boardCopy;
-    }
-
     void UpdatePieceMap(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
         if(pieceType < 0) {    //it's black
-            blackPositions.erase((firstPos.first-1)*8 + (firstPos.second-1)); 
+            blackPositions.erase(ConvertToSingle(firstPos.first, firstPos.second)); 
             blackPositions[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
         }
         else if(pieceType > 0) {
-            whitePositions.erase((firstPos.first-1)*8 + (firstPos.second-1)); 
+            whitePositions.erase(ConvertToSingle(firstPos.first, firstPos.second)); 
             whitePositions[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
         }
     }

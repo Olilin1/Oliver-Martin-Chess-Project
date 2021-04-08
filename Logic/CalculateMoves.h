@@ -23,7 +23,8 @@ public:
         return sum;
     }
 
-    //For each piece of the board belonging to either black or white, calculate all the possible moves that that player can make during the current turn
+    //In this tree where edges are moves and nodes are game configurations, the leaves represent all the unique games for a game with n moves, where the tree has
+    //height logn. This function counts all those leaves for depth moves.
     void CalculateAllMoves(Board currentBoard, int depth, int& sum) {
         if(depth == 0) {
             sum += 1;
@@ -34,10 +35,10 @@ public:
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
                 std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
                 for(auto it : allMovesForOnePiece) {
-                    std::cout<<it.first<<" "<<it.second<<std::endl;    
+                    //std::cout<<it.first<<" "<<it.second<<std::endl;    
                     Board tempBoard = currentBoard.UpdateBoardCopy(currentPos, it, currentBoard);
-                    tempBoard.PrintBoard();
-                    std::cout<<std::endl;
+                    //tempBoard.PrintBoard();
+                    //std::cout<<std::endl;
                     tempBoard.NewTurn();
                     CalculateAllMoves(tempBoard, depth - 1, sum);
                 }
@@ -48,10 +49,10 @@ public:
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
                 std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
                 for(auto it : allMovesForOnePiece) {
-                    std::cout<<it.first<<" "<<it.second<<std::endl;   
+                    //std::cout<<it.first<<" "<<it.second<<std::endl;   
                     Board tempBoard = currentBoard.UpdateBoardCopy(currentPos, it, currentBoard);
-                    tempBoard.PrintBoard();
-                    std::cout<<std::endl;
+                    //tempBoard.PrintBoard();
+                    //std::cout<<std::endl;
                     tempBoard.NewTurn();
                     CalculateAllMoves(tempBoard, depth - 1, sum);
                 }
@@ -63,12 +64,11 @@ public:
         return {(oneD - (oneD % 8))/8 +1, 1 + oneD%8}; 
     }
 
-    std::set<std::pair<int, int>> CalculatePieceMove(std::pair<int, int> startingPos, Board& chessBoard) {
+    std::set<std::pair<int, int>> CalculatePieceMove(std::pair<int, int> startingPos, Board chessBoard) {
         MoveCalculators moveCalculators(chessBoard);
         int pieceType = chessBoard.GetPieceType(startingPos.first, startingPos.second);
         if(pieceType == Empty) {
-            std::set<std::pair<int, int>> empty; 
-            return empty;
+            return std::set<std::pair<int, int>>(); 
         }
         switch (abs(pieceType)) {   //We know the function is called for the pieces of either white or black so the sign is irrelevant here
             case 1:

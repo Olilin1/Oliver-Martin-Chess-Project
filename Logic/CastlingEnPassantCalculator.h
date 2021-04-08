@@ -14,35 +14,44 @@ public:
 
     std::set<std::pair<int, int>> BlackCastle() {
         std::set<std::pair<int, int>> legalMoves;
-        for(int i : {2, 3, 4}) {
-            if(chessBoard.GetPieceType(8, i) != Empty) {
-                break;
+        if(chessBoard.GetPieceType(8, 2) == Empty
+        && chessBoard.GetPieceType(8, 3) == Empty
+        && chessBoard.GetPieceType(8, 4) == Empty) {
+            Board tempBoard = chessBoard.UpdateBoardCopy({8, 5}, {8, 3}, chessBoard);
+            if(!checkCalculator.CheckIfSomeoneHasCheck(tempBoard)) {
+                legalMoves.insert({8, 3});
             }
-            legalMoves.insert({8, 2});
         }
-        for(int i : {7, 6}) {
-            if(chessBoard.GetPieceType(8, i) != Empty) {
-                break;
+        
+        if(chessBoard.GetPieceType(8, 7) == Empty
+        && chessBoard.GetPieceType(8, 6) == Empty) {
+            Board tempBoard = chessBoard.UpdateBoardCopy({8, 5}, {8, 7}, chessBoard);
+            if(!checkCalculator.CheckIfSomeoneHasCheck(tempBoard)) {
+                legalMoves.insert({8, 7});
             }
-            legalMoves.insert({8, 7});
-        } 
+        }
         return legalMoves;
     }
 
     std::set<std::pair<int, int>> WhiteCastle() {
         std::set<std::pair<int, int>> legalMoves;
-        for(int i : {2, 3, 4}) {
-            if(chessBoard.GetPieceType(1, i) != Empty) {
-                break;
+        if(chessBoard.GetPieceType(1, 2) == Empty
+        && chessBoard.GetPieceType(1, 3) == Empty
+        && chessBoard.GetPieceType(1, 4) == Empty) {
+            Board tempBoard = chessBoard.UpdateBoardCopy({1, 5}, {1, 3}, chessBoard);
+            if(!checkCalculator.CheckIfSomeoneHasCheck(tempBoard)) {
+                legalMoves.insert({1, 3});
             }
-            legalMoves.insert({1, 2});
         }
-        for(int i : {7, 6}) {
-            if(chessBoard.GetPieceType(1, i) != Empty) {
-                break;
+
+        if(chessBoard.GetPieceType(1, 7) == Empty
+        && chessBoard.GetPieceType(1, 6) == Empty) {
+            Board tempBoard = chessBoard.UpdateBoardCopy({1, 5}, {1, 7}, chessBoard);
+            if(!checkCalculator.CheckIfSomeoneHasCheck(tempBoard)) {
+                legalMoves.insert({1, 7});
             }
-            legalMoves.insert({1, 7});
-        } 
+        }
+            
         return legalMoves;
     } 
     
@@ -60,28 +69,28 @@ public:
             if(chessBoard.currentPlayer == Black) {
                 if(chessBoard.GetPieceType(pos.first, pos.second) > 0 || BlackCanEnPassantFrom(pos)) {
                     Board tempBoard = chessBoard.UpdateBoardCopy(startingPos, pos, chessBoard);
-                    return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard, ConvertToPair(gameState->blackKingPos));    
+                    return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard);    
                 }
             }
             else {
                 if(chessBoard.GetPieceType(pos.first, pos.second) < 0 || WhiteCanEnPassantFrom(pos)) {
                     Board tempBoard = chessBoard.UpdateBoardCopy(startingPos, pos, chessBoard);
-                    return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard, ConvertToPair(gameState->whiteKingPos));    
+                    return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard);    
                 }
             }
         }
         else {
             if(chessBoard.GetPieceType(pos.first, pos.second) == Empty) {       //If the pawn is not moving diagonally, then the square has to be empty
                 Board tempBoard = chessBoard.UpdateBoardCopy(startingPos, pos, chessBoard);
-                return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard, ((chessBoard.currentPlayer == Black) ? ConvertToPair(gameState->blackKingPos) : ConvertToPair(gameState->whiteKingPos)));     
+                return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard);     
             }
         }
         return false;
     }
     bool BlackCanEnPassantFrom(std::pair<int, int> pos) {
-        return gameState->blackCanEnPassant && gameState->blackEnPassant == ConvertToSingle(pos.first, pos.second);
+        return (gameState->blackCanEnPassant && gameState->blackEnPassant == ConvertToSingle(pos.first, pos.second));
     }
     bool WhiteCanEnPassantFrom(std::pair<int, int> pos) {
-       return gameState->whiteCanEnPassant && gameState->whiteEnPassant == ConvertToSingle(pos.first, pos.second);
+       return (gameState->whiteCanEnPassant && gameState->whiteEnPassant == ConvertToSingle(pos.first, pos.second));
     }
 };
