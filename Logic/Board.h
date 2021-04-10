@@ -129,43 +129,6 @@ public:
         else if(pieceType == WhiteRook || pieceType == WhiteKing) gameState.whiteCanCastle = false;
     }
 
-    void UpdateKingPosAfterMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
-        if(pieceType == BlackKing) {
-            if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
-                if(secondPos.second == 3) {
-                    SetPiece(8, 1, Empty);
-                    SetPiece(8, 4, BlackRook);
-                    blackPositions.erase(ConvertToSingle(8, 1));
-                    blackPositions[ConvertToSingle(8, 4)] = BlackRook;
-                }
-                else if(secondPos.second == 7) {
-                    SetPiece(8, 8, Empty);
-                    SetPiece(8, 6, BlackRook);
-                    blackPositions.erase(ConvertToSingle(8, 8));
-                    blackPositions[ConvertToSingle(8, 6)] = BlackRook;
-                }
-            } 
-            gameState.blackKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
-        } 
-        else if(pieceType == WhiteKing) {
-           if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
-                if(secondPos.second == 3) {
-                    SetPiece(1, 1, Empty);
-                    SetPiece(1, 4, WhiteRook);
-                    whitePositions.erase(ConvertToSingle(1, 1));
-                    whitePositions[ConvertToSingle(1, 4)] = WhiteRook;
-                }
-                else if(secondPos.second == 7) {
-                    SetPiece(1, 8, Empty);
-                    SetPiece(1, 6, WhiteRook);
-                    whitePositions.erase(ConvertToSingle(1, 8));
-                    whitePositions[ConvertToSingle(1, 6)] = WhiteRook;
-                }
-            } 
-            gameState.whiteKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
-        }
-    }
-
     void IfEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
         if(pieceType == BlackPawn && secondPos.second != firstPos.second) {
             if(GetPieceType(secondPos.first, secondPos.second) == Empty) {
@@ -205,6 +168,43 @@ public:
         else if(pieceType > 0) {
             whitePositions.erase(ConvertToSingle(firstPos.first, firstPos.second)); 
             whitePositions[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
+        }
+    }
+
+    void UpdateKingPosAfterMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+        if(pieceType == BlackKing) {
+            if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
+                if(secondPos.second == 3) {
+                    SetPiece(8, 1, Empty);
+                    SetPiece(8, 4, BlackRook);
+                    blackPositions.erase(ConvertToSingle(8, 1));
+                    blackPositions[ConvertToSingle(8, 4)] = BlackRook;
+                }
+                else if(secondPos.second == 7) {
+                    SetPiece(8, 8, Empty);
+                    SetPiece(8, 6, BlackRook);
+                    blackPositions.erase(ConvertToSingle(8, 8));
+                    blackPositions[ConvertToSingle(8, 6)] = BlackRook;
+                }
+            } 
+            gameState.blackKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
+        } 
+        else if(pieceType == WhiteKing) {
+           if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
+                if(secondPos.second == 3) {
+                    SetPiece(1, 1, Empty);
+                    SetPiece(1, 4, WhiteRook);
+                    whitePositions.erase(ConvertToSingle(1, 1));
+                    whitePositions[ConvertToSingle(1, 4)] = WhiteRook;
+                }
+                else if(secondPos.second == 7) {
+                    SetPiece(1, 8, Empty);
+                    SetPiece(1, 6, WhiteRook);
+                    whitePositions.erase(ConvertToSingle(1, 8));
+                    whitePositions[ConvertToSingle(1, 6)] = WhiteRook;
+                }
+            } 
+            gameState.whiteKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
         }
     }
 

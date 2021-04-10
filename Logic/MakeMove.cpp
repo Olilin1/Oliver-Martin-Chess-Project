@@ -53,29 +53,45 @@ Board chessBoard;
 CalculateMoves moveCalc(chessBoard);
 MakeMove m(chessBoard);   
 
+/*
+Almost fully working logic to move the pieces:
+-All the different pieces can move according to the rules
+-A move can't be made if the move results in the current player being in check after the move
+-Castling
+-En passant
+
+Not working:
+Something is not working with the code. When running a function calculating all 
+possible game configurations after a certain amount of moves, I get the correct 
+answer for 1 move (20), 2 moves (400), and 3 moves(8902). After 4 moves, I get 197277, 
+4 less than the correct answer 197281. After 6 moves, I get 119,043,630 (the correct 
+answer is 119,060,324). The number becomes increasingly more inaccurate. It most likely 
+has to do with casting, en passant or check functionality not working correctly. 
+*/
+
 int main() {
-    chessBoard.PrintBoard();
-    // int sum = moveCalc.SumOfAllMoves(3);
-    // std::cout<<sum<<std::endl;
-    while(true) {
-        int x, y, xNew, yNew;
-        std::cin >> x >> y >> xNew >> yNew;
-        // MakeLegalMove(m ,chessBoard, moveCalc, {2, 5}, {3, 5});
-        // MakeLegalMove(m, chessBoard, moveCalc, {7, 5}, {5, 5});
-        // MakeLegalMove(m, chessBoard, moveCalc, {1, 4}, {5, 8});
-        // x = 8;
-        // y = 7;
-        // xNew = 6;
-        // yNew = 6;
-        std::set<std::pair<int, int>> legalMoves = moveCalc.CalculatePieceMove({x, y}, chessBoard); 
-        for(auto it : legalMoves) {
-            std::cout<<it.first<<" "<<it.second<<std::endl;
-        }       
-        if(legalMoves.count({xNew, yNew})) {
-            MakeLegalMove(m, chessBoard, moveCalc, {x, y}, {xNew, yNew});
-        }
-        else {
-            std::cout<<"Illegal move!"<<std::endl;
-        }
-    }
+    //chessBoard.PrintBoard();
+    int sum = moveCalc.SumOfAllMoves(5);
+    std::cout<<sum<<std::endl;
+    // while(true) {
+    //     int x, y, xNew, yNew;
+    //     std::cin >> x >> y >> xNew >> yNew;
+    //     // MakeLegalMove(m ,chessBoard, moveCalc, {2, 5}, {3, 5});
+    //     // MakeLegalMove(m, chessBoard, moveCalc, {7, 5}, {5, 5});
+    //     // MakeLegalMove(m, chessBoard, moveCalc, {1, 4}, {5, 8});
+    //     // x = 8;
+    //     // y = 7;
+    //     // xNew = 6;
+    //     // yNew = 6;
+    //     std::set<std::pair<int, int>> legalMoves = moveCalc.CalculatePieceMove({x, y}, chessBoard); 
+    //     for(auto it : legalMoves) {
+    //         std::cout<<it.first<<" "<<it.second<<std::endl;
+    //     }       
+    //     if(legalMoves.count({xNew, yNew})) {
+    //         MakeLegalMove(m, chessBoard, moveCalc, {x, y}, {xNew, yNew});
+    //     }
+    //     else {
+    //         std::cout<<"Illegal move!"<<std::endl;
+    //     }
+    // }
 }

@@ -23,9 +23,9 @@ public:
 
             if(CanGoTo(startingPos, {startingPos.first - 1, startingPos.second})) {     //The square one step in front of the pawn
                 legalMoves.insert({startingPos.first - 1, startingPos.second});
-                if(startingPos.first == 7 && CanGoTo(startingPos, {5, startingPos.second})) {    //The pawn is at row 7 and can thus can move two steps forward if it isn't blocked
-                    legalMoves.insert({5, startingPos.second});
-                }
+            }
+            if(startingPos.first == 7 && chessBoard.GetPieceType(6, startingPos.second) == Empty && CanGoTo(startingPos, {5, startingPos.second})) {    //The pawn is at row 7 and can thus can move two steps forward if it isn't blocked
+                legalMoves.insert({5, startingPos.second});
             }
         }
         else if(chessBoard.currentPlayer == White) {
@@ -34,9 +34,9 @@ public:
 
             if(CanGoTo(startingPos, {startingPos.first + 1, startingPos.second})) {     //The square one step in front of the pawn is empty, and not outside the edge of the board
                 legalMoves.insert({startingPos.first + 1, startingPos.second});
-                if(startingPos.first == 2 && CanGoTo(startingPos, {4, startingPos.second})) {    //The pawn is at row 2 and can thus move two steps forward if it isn't blocked
-                    legalMoves.insert({4, startingPos.second});
-                }
+            }
+            if(startingPos.first == 2 && chessBoard.GetPieceType(3, startingPos.second) == Empty && CanGoTo(startingPos, {4, startingPos.second})) {    //The pawn is at row 2 and can thus move two steps forward if it isn't blocked
+                legalMoves.insert({4, startingPos.second});
             }
         }
         return legalMoves;
@@ -87,29 +87,42 @@ public:
         std::pair<int, int> nextPos; 
         if(pieceType != 4) {        //It's not a bishop
             for(int i : {1, -1}) {
-                nextPos = {startingPos.first + i, startingPos.second};
-                while(CanGoTo(startingPos, nextPos)) {
-                    legalMoves.insert(nextPos);
-                    if(LastPosWasCollision(nextPos)) break;
+                nextPos = {startingPos.first + i, startingPos.second};              //Test position until you collide with a piece
+                while(OnBoard(nextPos) && !LastPosWasCollision(nextPos)) {
+                    if(CanGoTo(startingPos, nextPos)) {
+                        legalMoves.insert(nextPos);
+                    }
                     nextPos = {nextPos.first + i, nextPos.second}; 
-                }
-                nextPos = {startingPos.first, startingPos.second + i};
-                while(CanGoTo(startingPos, nextPos)) {
+                }  
+                if(CanGoTo(startingPos, nextPos)) {
                     legalMoves.insert(nextPos);
-                    if(LastPosWasCollision(nextPos)) break;
+                } 
+ 
+                nextPos = {startingPos.first, startingPos.second + i};              //Test position until you collide with a piece
+                while(OnBoard(nextPos) && !LastPosWasCollision(nextPos)) {
+                    if(CanGoTo(startingPos, nextPos)) {
+                        legalMoves.insert(nextPos);
+                    }
                     nextPos = {nextPos.first, nextPos.second + i}; 
+                }  
+                if(CanGoTo(startingPos, nextPos)) {
+                    legalMoves.insert(nextPos);
                 }  
             }
         }
         if(pieceType != 2) {        //It's not a rook
             for(int i : {1, -1}) {
                 for(int j : {-1, 1}) {
-                    nextPos = {startingPos.first + i, startingPos.second + j};
-                    while(CanGoTo(startingPos, nextPos)) {
-                        legalMoves.insert(nextPos);
-                        if(LastPosWasCollision(nextPos)) break;
+                    nextPos = {startingPos.first + i, startingPos.second + j};              //Test position until you collide with a piece
+                    while(OnBoard(nextPos) && !LastPosWasCollision(nextPos)) {
+                        if(CanGoTo(startingPos, nextPos)) {
+                            legalMoves.insert(nextPos);
+                        }
                         nextPos = {nextPos.first + i, nextPos.second + j}; 
-                    }   
+                    }  
+                    if(CanGoTo(startingPos, nextPos)) {
+                        legalMoves.insert(nextPos);
+                    } 
                 }
             } 
         }
@@ -119,9 +132,9 @@ public:
     //If the last pos was an opposing piece, then the sliding piece should not be able to keep sliding. This function checks if the currently moving sliding piece has collided with an opposing piece
     bool LastPosWasCollision(std::pair<int, int> pos) {
         if(chessBoard.currentPlayer == Black)   {
-            return (chessBoard.GetPieceType(pos.first, pos.second) > 0);
+            return !(chessBoard.GetPieceType(pos.first, pos.second) == Empty);
         } else {
-            return (chessBoard.GetPieceType(pos.first, pos.second) < 0);
+            return !(chessBoard.GetPieceType(pos.first, pos.second) == Empty);
         }
     }
 
