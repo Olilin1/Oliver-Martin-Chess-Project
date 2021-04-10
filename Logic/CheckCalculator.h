@@ -34,6 +34,7 @@ private:
         return false;
     }
 
+    //Checks the direction (directionY, directionX) (a bit confusion because a piece has coordinates (row, columns)). Returns true if the king is attacked in the direction, returns false otherwise
     bool CheckDirection(std::pair<int, int> startingPos, int directionX, int directionY) {
         std::pair<int, int> nextPos = {startingPos.first + directionX, startingPos.second + directionY};
         while(OnBoard(nextPos) && chessBoard->GetPieceType(nextPos.first, nextPos.second) == Empty) {
