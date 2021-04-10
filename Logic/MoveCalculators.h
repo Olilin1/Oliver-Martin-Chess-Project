@@ -120,7 +120,7 @@ public:
                         }
                         nextPos = {nextPos.first + i, nextPos.second + j}; 
                     }  
-                    if(CanGoTo(startingPos, nextPos)) {
+                    if(CanGoTo(startingPos, nextPos)) {     //If the last nextPos was a collision with an opposing piece, then the final possible is to move to that opposing piece and capture it (if it doesn't check current player of course)
                         legalMoves.insert(nextPos);
                     } 
                 }
@@ -151,7 +151,7 @@ public:
                         Board tempBoard = chessBoard.UpdateBoardCopy(startingPos, pos, chessBoard);
                         return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard);   //If someone has check CheckIfSomeoneHasCheck() returns true and CanGoTo() should thus return false
                     }
-                }       //Because the pawn is the only piece that can't always capture the piece at the same square that it can move to (if the piece is of opposite color and no check occurs), I need to separate it from the other cases in this if statement
+                }       //Because the pawn is weird and has rules that are fairly different to the other pieces, I separate it from the other cases in this if statement
                 else if(currentPiece == BlackPawn){
                     return castlingEnPassantCalc->CheckPawnMove(startingPos, pos);
                 }

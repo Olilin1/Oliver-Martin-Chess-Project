@@ -129,6 +129,7 @@ public:
         else if(pieceType == WhiteRook || pieceType == WhiteKing) gameState.whiteCanCastle = false;
     }
 
+    //This function checks if the current player made en passant, and if so, it deletes the piece that was captured from the en passant
     void IfEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
         if(pieceType == BlackPawn && secondPos.second != firstPos.second) {
             if(GetPieceType(secondPos.first, secondPos.second) == Empty) {
@@ -204,7 +205,7 @@ public:
                     whitePositions[ConvertToSingle(1, 6)] = WhiteRook;
                 }
             } 
-            gameState.whiteKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
+            gameState.whiteKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the white king if it was moved
         }
     }
 

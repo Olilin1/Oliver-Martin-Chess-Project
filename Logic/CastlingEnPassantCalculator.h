@@ -12,6 +12,8 @@ public:
         gameState = std::make_unique<GameState>(board.gameState);
     }
 
+    //If this function is called it is guaranteed that black still has the abillity to castle. 
+    //This function checks if all the squares between the king and the rook in both directions are empty. If they are, and no check occurs after a castling, then a castling move is added to legalMoves
     std::set<std::pair<int, int>> BlackCastle() {
         std::set<std::pair<int, int>> legalMoves;
         if(chessBoard.GetPieceType(8, 2) == Empty
@@ -64,10 +66,12 @@ public:
         return (x-1)*8 + (y-1);
     }
 
+    //This function checks if a pawn can make a certain move, from startingPos to pos. 
+    //I already know that the move is legal in the sense that it is a move that a pawn could potentially make. The function CalculatePawnMoves in MoveCalculators ensures this
     bool CheckPawnMove(std::pair<int, int> startingPos, std::pair<int, int> pos) {
         if(pos.second != startingPos.second) {        //The pawn is trying to move diagonally
             if(chessBoard.currentPlayer == Black) {
-                if(chessBoard.GetPieceType(pos.first, pos.second) > 0 || BlackCanEnPassantFrom(pos)) {
+                if(chessBoard.GetPieceType(pos.first, pos.second) > 0 || BlackCanEnPassantFrom(pos)) {      //A pawn can make a diagonal move if it is either en passant, or the piece diagonal to the pawn is of opposite color
                     Board tempBoard = chessBoard.UpdateBoardCopy(startingPos, pos, chessBoard);
                     return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard);    
                 }

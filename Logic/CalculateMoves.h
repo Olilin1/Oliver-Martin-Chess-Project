@@ -35,10 +35,7 @@ public:
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
                 std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
                 for(auto it : allMovesForOnePiece) {
-                    //std::cout<<it.first<<" "<<it.second<<std::endl;    
                     Board tempBoard = currentBoard.UpdateBoardCopy(currentPos, it, currentBoard);
-                    //tempBoard.PrintBoard();
-                    //std::cout<<std::endl;
                     tempBoard.NewTurn();
                     CalculateAllMoves(tempBoard, depth - 1, sum);
                 }
@@ -49,10 +46,7 @@ public:
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
                 std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
                 for(auto it : allMovesForOnePiece) {
-                    //std::cout<<it.first<<" "<<it.second<<std::endl;   
                     Board tempBoard = currentBoard.UpdateBoardCopy(currentPos, it, currentBoard);
-                    //tempBoard.PrintBoard();
-                    //std::cout<<std::endl;
                     tempBoard.NewTurn();
                     CalculateAllMoves(tempBoard, depth - 1, sum);
                 }
