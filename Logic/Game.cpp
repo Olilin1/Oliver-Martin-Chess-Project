@@ -1,7 +1,7 @@
 #include"Board.h"
 #include"CalculateMoves.h"
 
-void MakeLegalMove(Board& chessBoard, CalculateMoves& moveCalc, std::pair<int, int> startingPos, std::pair<int, int> nextPos) {
+void MakeMove(Board& chessBoard, std::pair<int, int> startingPos, std::pair<int, int> nextPos) {
     Piece pieceType = chessBoard.GetPieceType(startingPos.first, startingPos.second);
     chessBoard.UpdateBoard(startingPos, nextPos, pieceType);
     chessBoard.NewTurn();
@@ -20,11 +20,11 @@ int main() {
     //     std::cin >> x >> y >> xNew >> yNew;
     //     std::set<std::pair<int, int>> legalMoves = moveCalc.CalculatePieceMove({x, y}, chessBoard); 
     //     std::cout<<"Available moves: "<<std::endl;
-    //     for(auto it : legalMoves) {
+    //     for(auto it : legalMoves) {      //Print out all possible moves for the specific piece
     //         std::cout<<it.first<<" "<<it.second<<std::endl;
     //     }       
     //     if(legalMoves.count({xNew, yNew})) {
-    //         MakeLegalMove(chessBoard, moveCalc, {x, y}, {xNew, yNew});
+    //         MakeMove(chessBoard, moveCalc, {x, y}, {xNew, yNew});
     //     }
     //     else {
     //         std::cout<<"Illegal move!"<<std::endl;

@@ -150,7 +150,7 @@ public:
         if(pieceType ==  BlackPawn) {     //The move was by black
             if(secondPos.first == firstPos.first - 2) {
                 gameState.whiteCanEnPassant = true;
-                gameState.whiteEnPassant = ConvertToSingle(secondPos.first + 1, secondPos.second);
+                gameState.whiteEnPassant = ConvertToSingle(secondPos.first + 1, secondPos.second);      //Set whiteEnPassant to the square that white can move to if they decide to en passant next turn
             }
         }
         else if(pieceType == WhitePawn){
