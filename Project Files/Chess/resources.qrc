@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ChessPieces/bN.png</file>
+    <file>ChessPieces/bK.png</file>
+    <file>ChessPieces/bQ.png</file>
+    <file>ChessPieces/bR.png</file>
+    <file>ChessPieces/bB.png</file>
+    <file>ChessPieces/bP.png</file>
+    <file>ChessPieces/wN.png</file>
+    <file>ChessPieces/wK.png</file>
+    <file>ChessPieces/wQ.png</file>
+    <file>ChessPieces/wR.png</file>
+    <file>ChessPieces/wB.png</file>
+    <file>ChessPieces/wP.png</file>
+</qresource>
+</RCC>
