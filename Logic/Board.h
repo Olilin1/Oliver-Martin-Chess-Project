@@ -120,13 +120,25 @@ public:
     //Update the board's positions
     void UpdateBoard(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
         IfEnPassant(pieceType, firstPos, secondPos);
+        UpdateCastling(pieceType, firstPos, secondPos);
         boardArray[ConvertToSingle(firstPos.first, firstPos.second)] = Empty;
         boardArray[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
         UpdateEnPassant(pieceType, firstPos, secondPos);
         UpdatePieceMap(firstPos, secondPos, pieceType);
         UpdateKingPosAfterMove(firstPos, secondPos, pieceType);
+        
+    }
+
+    void UpdateCastling(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
         if(pieceType == BlackRook || pieceType == BlackKing) gameState.blackCanCastle = false;           //If the player moves his rook or king, he can no longer castle
         else if(pieceType == WhiteRook || pieceType == WhiteKing) gameState.whiteCanCastle = false;
+
+        if(GetPieceType(secondPos.first, secondPos.second) == BlackRook) {
+            gameState.blackCanCastle = false;
+        }
+        if(GetPieceType(secondPos.first, secondPos.second) == BlackRook) {
+            gameState.whiteCanCastle = false;
+        }
     }
 
     //This function checks if the current player made en passant, and if so, it deletes the piece that was captured from the en passant
