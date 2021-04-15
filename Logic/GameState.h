@@ -15,6 +15,10 @@ struct GameState {
     bool whiteCanEnPassant;
     bool whiteCanCastle;
     bool blackCanCastle;
+    bool blackCanCastleKingSide;
+    bool blackCanCastleQueenSide;
+    bool whiteCanCastleKingSide;
+    bool whiteCanCastleQueenSide;
 };
 
 #endif
