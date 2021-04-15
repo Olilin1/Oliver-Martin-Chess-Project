@@ -1,3 +1,6 @@
+#ifndef GAMESTATE
+#define GAMESTATE
+
 struct GameState {
     int blackKingPos;
     int whiteKingPos;
@@ -8,3 +11,5 @@ struct GameState {
     bool whiteCanCastle;
     bool blackCanCastle;
 };
+
+#endif
