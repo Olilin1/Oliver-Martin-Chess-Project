@@ -11,7 +11,7 @@ Vi tänker jobba med QT och c++ för att göra det här projektet
 
 ## Naming conventions
 
-Vi tänker använda oss av snake_case för variabler och funktioner
+Vi tänker använda oss av camelCase för variabler och funktioner
 
 Branches skall namnges på följande sätt: \<type of issue\>/\<issue number\>_\<issue description\> till exempel, "Feature/1_Create-A-Board"
   
