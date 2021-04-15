@@ -25,6 +25,7 @@ public:
     void MakeMove(square origin, square destination);
     std::set<square> AvailableMoves(square origin);
     bool IsLegal(square origin, square destination);
+    bool IsAttacking(square, Player attacker);
 
     //Helper functions
     square AlgebraicToSquare(std::string);
@@ -32,6 +33,7 @@ public:
     bool isWhitePiece(Piece);
     std::string ConvertToUnicode(Piece i);
     void PrintBoard();
+
 
 };
 
