@@ -8,6 +8,7 @@
 #include<set>
 #include<vector>
 #include<string>
+#include<iostream>
 #include<sstream>
 
 
@@ -29,6 +30,8 @@ public:
     square AlgebraicToSquare(std::string);
     bool isBlackPiece(Piece);
     bool isWhitePiece(Piece);
+    std::string ConvertToUnicode(Piece i);
+    void PrintBoard();
 
 };
 
