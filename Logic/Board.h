@@ -6,7 +6,7 @@
 #include"Enums.hpp"
 #include<assert.h>
 
-
+typedef std::pair<int, int> square;
 
 class Board {
 private:
@@ -93,14 +93,14 @@ public:
     }
 
         //Update and retrieve a copy of the board. Used to see if a move puts the king in check
-    Board UpdateBoardCopy(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Board boardCopy) {
+    Board UpdateBoardCopy(square firstPos, square secondPos, Board boardCopy) {
         Piece pieceType = boardCopy.GetPieceType(firstPos.first, firstPos.second);
         boardCopy.UpdateBoard(firstPos, secondPos, pieceType);
         return boardCopy;
     }
 
     //Update the board's positions
-    void UpdateBoard(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+    void UpdateBoard(square firstPos, square secondPos, Piece pieceType) {
         IfEnPassant(pieceType, firstPos, secondPos);
         boardArray[ConvertToSingle(firstPos.first, firstPos.second)] = Empty;
         boardArray[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
@@ -112,7 +112,7 @@ public:
     }
 
     //This function checks if the current player made en passant, and if so, it deletes the piece that was captured from the en passant
-    void IfEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
+    void IfEnPassant(Piece pieceType, square firstPos, square secondPos) {
         if(pieceType == BlackPawn && secondPos.second != firstPos.second) {
             if(GetPieceType(secondPos.first, secondPos.second) == Empty) {
                 SetPiece(secondPos.first + 1, secondPos.second, Empty);
@@ -128,7 +128,7 @@ public:
     }
 
     //If any player moved two steps forward with their pawn, then the opposing player will have en passant next round
-    void UpdateEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
+    void UpdateEnPassant(Piece pieceType, square firstPos, square secondPos) {
         if(pieceType ==  BlackPawn) {     //The move was by black
             if(secondPos.first == firstPos.first - 2) {
                 gameState.whiteCanEnPassant = true;
@@ -143,7 +143,7 @@ public:
         }
     }
 
-    void UpdatePieceMap(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+    void UpdatePieceMap(square firstPos, square secondPos, Piece pieceType) {
         if(pieceType < 0) {    //it's black
             blackPositions.erase(ConvertToSingle(firstPos.first, firstPos.second)); 
             blackPositions[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
@@ -154,7 +154,7 @@ public:
         }
     }
 
-    void UpdateKingPosAfterMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+    void UpdateKingPosAfterMove(square firstPos, square secondPos, Piece pieceType) {
         if(pieceType == BlackKing) {
             if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
                 if(secondPos.second == 3) {
