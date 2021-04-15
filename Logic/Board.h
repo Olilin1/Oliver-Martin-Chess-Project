@@ -4,9 +4,10 @@
 #include<unordered_map>
 #include"GameState.h"
 #include"Enums.hpp"
+#include"Typedefs.hpp"
 #include<assert.h>
 
-typedef std::pair<int, int> square;
+
 
 class Board {
 private:

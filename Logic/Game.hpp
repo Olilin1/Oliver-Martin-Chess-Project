@@ -3,13 +3,14 @@
 
 #include"Enums.hpp"
 #include"GameState.h"
+#include"Typedefs.hpp"
 #include<utility>
 #include<set>
 #include<vector>
 #include<string>
 #include<sstream>
 
-typedef std::pair<int, int> square;
+
 
 class Game{
 private:
