@@ -70,7 +70,7 @@ public:
     //I already know that the move is legal in the sense that it is a move that a pawn could potentially make. The function CalculatePawnMoves in MoveCalculators ensures this
     bool CheckPawnMove(std::pair<int, int> startingPos, std::pair<int, int> pos) {
         if(pos.second != startingPos.second) {        //The pawn is trying to move diagonally
-            if(chessBoard.currentPlayer == Black) {
+            if(chessBoard.gameState.currentPlayer == Black) {
                 if(chessBoard.GetPieceType(pos.first, pos.second) > 0 || BlackCanEnPassantFrom(pos)) {      //A pawn can make a diagonal move if it is either en passant, or the piece diagonal to the pawn is of opposite color
                     Board tempBoard = chessBoard.UpdateBoardCopy(startingPos, pos, chessBoard);
                     return !checkCalculator.CheckIfSomeoneHasCheck(tempBoard);    

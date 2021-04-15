@@ -16,7 +16,7 @@ public:
     std::set<std::pair<int, int>> CalculatePawnMoves(std::pair<int, int> startingPos) {
         std::set<std::pair<int, int>> legalMoves;
         //If it's white turn and the piece is at row 2, then it can move 2 steps forward (if it isn't blocked), otherwise it can move 1 step forward (if it isn't blocked and it's not outside the edge)
-        if(chessBoard.currentPlayer == Black) {     
+        if(chessBoard.gameState.currentPlayer == Black) {     
             //If it can capture an enemy piece or has en passant, then it can move diagonally
             if(CanGoTo(startingPos, {startingPos.first - 1, startingPos.second + 1})) legalMoves.insert({startingPos.first - 1, startingPos.second+1});
             if(CanGoTo(startingPos, {startingPos.first - 1, startingPos.second - 1})) legalMoves.insert({startingPos.first - 1, startingPos.second-1});
@@ -28,7 +28,7 @@ public:
                 legalMoves.insert({5, startingPos.second});
             }
         }
-        else if(chessBoard.currentPlayer == White) {
+        else if(chessBoard.gameState.currentPlayer == White) {
             if(CanGoTo(startingPos, {startingPos.first + 1, startingPos.second + 1})) legalMoves.insert({startingPos.first+1, startingPos.second+1});
             if(CanGoTo(startingPos, {startingPos.first + 1, startingPos.second - 1})) legalMoves.insert({startingPos.first + 1, startingPos.second-1});
 
@@ -69,11 +69,11 @@ public:
             }
         }
         //(Castle can only occur if the king isn't in check)
-        if(!checkCalculator.CheckIfSomeoneHasCheck(chessBoard) && chessBoard.currentPlayer == Black && chessBoard.gameState.blackCanCastle) {
+        if(!checkCalculator.CheckIfSomeoneHasCheck(chessBoard) && chessBoard.gameState.currentPlayer == Black && chessBoard.gameState.blackCanCastle) {
             std::set<std::pair<int, int>> castleMoves = castlingEnPassantCalc->BlackCastle();
             legalMoves.insert(castleMoves.begin(), castleMoves.end());
         }
-        else if(!checkCalculator.CheckIfSomeoneHasCheck(chessBoard) && chessBoard.currentPlayer == White && chessBoard.gameState.whiteCanCastle) {
+        else if(!checkCalculator.CheckIfSomeoneHasCheck(chessBoard) && chessBoard.gameState.currentPlayer == White && chessBoard.gameState.whiteCanCastle) {
             std::set<std::pair<int, int>> castleMoves = castlingEnPassantCalc->WhiteCastle();
             legalMoves.insert(castleMoves.begin(), castleMoves.end());
         }
@@ -131,7 +131,7 @@ public:
 
     //If the last pos was an opposing piece, then the sliding piece should not be able to keep sliding. This function checks if the currently moving sliding piece has collided with an opposing piece
     bool LastPosWasCollision(std::pair<int, int> pos) {
-        if(chessBoard.currentPlayer == Black)   {
+        if(chessBoard.gameState.currentPlayer == Black)   {
             return !(chessBoard.GetPieceType(pos.first, pos.second) == Empty);
         } else {
             return !(chessBoard.GetPieceType(pos.first, pos.second) == Empty);
@@ -144,7 +144,7 @@ public:
 
     bool CanGoTo(std::pair<int, int> startingPos, std::pair<int, int> pos) {
         if(OnBoard(pos)) {
-            if(chessBoard.currentPlayer == Black) {    
+            if(chessBoard.gameState.currentPlayer == Black) {    
                 Piece currentPiece = chessBoard.GetPieceType(startingPos.first, startingPos.second);
                 if(currentPiece < -1) {
                     if(chessBoard.GetPieceType(pos.first,pos.second) >= 0) {        //If the value at the position is greater than or equal to 0, then it contains a white piece or is empty and black can therefore move to it

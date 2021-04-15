@@ -9,10 +9,10 @@ private:
     bool IsAttackedByKnights (std::pair<int, int> pos) {
         for(int i : {2, -2}) {
             for(int j : {1, -1}) {
-                if(OnBoard({pos.first + i, pos.second + j}) && chessBoard->GetPieceType(pos.first + i, pos.second + j) == ((chessBoard->currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
+                if(OnBoard({pos.first + i, pos.second + j}) && chessBoard->GetPieceType(pos.first + i, pos.second + j) == ((chessBoard->gameState.currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
                     return true;
                 }
-                if(OnBoard({pos.first + j, pos.second + i}) && chessBoard->GetPieceType(pos.first + j, pos.second + i) == ((chessBoard->currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
+                if(OnBoard({pos.first + j, pos.second + i}) && chessBoard->GetPieceType(pos.first + j, pos.second + i) == ((chessBoard->gameState.currentPlayer == Black) ? WhiteKnight : BlackKnight)) {
                     return true;
                 }
             }
@@ -47,7 +47,7 @@ private:
         else {
             return false;   //There was no piece blocking up until an edge, therefore return false
         }
-        if(chessBoard->currentPlayer == Black) {
+        if(chessBoard->gameState.currentPlayer == Black) {
             if(directionX != 0 && directionY != 0) {        //It was a diagonal direction
                 return ((blockingPiece == WhiteBishop || blockingPiece == WhiteQueen) ? true : false);    //If the black piece at the startingPos has an open diagonal with a white piece at the end, then it is under attack if that white piece is a white queen or bishop
             }
@@ -55,7 +55,7 @@ private:
                 return ((blockingPiece == WhiteRook || blockingPiece == WhiteQueen) ? true : false);
             }
         }
-        else if(chessBoard->currentPlayer == White) {
+        else if(chessBoard->gameState.currentPlayer == White) {
             if(directionX != 0 && directionY != 0) {
                 return ((blockingPiece == BlackBishop || blockingPiece == BlackQueen) ? true : false);    
             }
@@ -67,13 +67,13 @@ private:
     }
 
     bool IsAttackedByPawns(std::pair<int, int> position) {
-        if(chessBoard->currentPlayer == Black) {
+        if(chessBoard->gameState.currentPlayer == Black) {
             if(OnBoard({position.first - 1, position.second - 1}) && chessBoard->GetPieceType(position.first - 1, position.second - 1) == WhitePawn 
             || OnBoard({position.first - 1, position.second + 1}) && chessBoard->GetPieceType(position.first - 1, position.second + 1) == WhitePawn){
                 return true;
             }
         }
-        else if(chessBoard->currentPlayer == White) {
+        else if(chessBoard->gameState.currentPlayer == White) {
             if(OnBoard({position.first + 1, position.second - 1}) && chessBoard->GetPieceType(position.first + 1, position.second - 1) == BlackPawn   
             || OnBoard({position.first + 1, position.second + 1}) && chessBoard->GetPieceType(position.first + 1, position.second + 1) == BlackPawn){
                 return true;
@@ -97,7 +97,7 @@ private:
 public:
     bool CheckIfSomeoneHasCheck(Board& board) {
         std::pair<int, int> kingPos;
-        if(board.currentPlayer == Black) {
+        if(board.gameState.currentPlayer == Black) {
             kingPos = ConvertToPair(board.gameState.blackKingPos);
         }   
         else {

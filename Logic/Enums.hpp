@@ -17,7 +17,7 @@ enum Piece {
     WhiteKing = 6
 };
 
-enum CurrentPlayer {
+enum Player {
     Black = 1, 
     White = 0
 };

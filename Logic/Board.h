@@ -14,11 +14,10 @@ private:
     std::unordered_map<int, Piece> whitePositions;    //Maps each board position to a white piece. This makes it so we don't have to iterate over the whole board when calculating all possible moves
     std::unordered_map<int, Piece> blackPositions;  
 public:  
-    CurrentPlayer currentPlayer;    //0 if it's white turn, 1 if it's black
     GameState gameState;
     Board() {
         //Populate board with starting positions
-        currentPlayer = White;
+        gameState.currentPlayer = White;
         gameState.blackCanCastle = true;
         gameState.whiteCanCastle = true;
         gameState.blackCanEnPassant = false;
@@ -193,13 +192,13 @@ public:
     }
 
     void NewTurn () {
-        if(currentPlayer == White) {
+        if(gameState.currentPlayer == White) {
             gameState.whiteCanEnPassant = false;
-            currentPlayer = Black;
+            gameState.currentPlayer = Black;
         }
-        else if(currentPlayer == Black) {
+        else if(gameState.currentPlayer == Black) {
             gameState.blackCanEnPassant = false;
-            currentPlayer = White;
+            gameState.currentPlayer = White;
         }
     }
 

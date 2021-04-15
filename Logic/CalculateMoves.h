@@ -30,7 +30,7 @@ public:
             sum += 1;
             return;
         }
-        if(currentBoard.currentPlayer == White) {
+        if(currentBoard.gameState.currentPlayer == White) {
             for(auto posIterator = currentBoard.getWhitePositions().first; posIterator != currentBoard.getWhitePositions().second; posIterator++) {
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
                 std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
