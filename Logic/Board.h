@@ -36,6 +36,7 @@ public:
     GameState gameState;
     Board() {
         //Populate board with starting positions
+        currentPlayer = White;
         gameState.blackCanCastle = true;
         gameState.whiteCanCastle = true;
         gameState.blackCanEnPassant = false;
