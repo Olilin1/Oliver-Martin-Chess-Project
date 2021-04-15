@@ -5,6 +5,8 @@
 
 struct GameState {
     Player currentPlayer;
+    int fullMoveClock;
+    int halfMoveClock;
     int blackKingPos;
     int whiteKingPos;
     int blackEnPassant;

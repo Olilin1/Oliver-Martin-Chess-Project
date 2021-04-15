@@ -4,6 +4,10 @@
 #include"Enums.hpp"
 #include"GameState.h"
 #include<utility>
+#include<set>
+#include<vector>
+#include<string>
+#include<sstream>
 
 typedef std::pair<int, int> square;
 
@@ -14,7 +18,10 @@ private:
 
 public:
     Game();
+    void SetupGame(std::string fen);
     void MakeMove(square origin, square destination);
+    std::set<square> AvailableMoves(square origin);
+    bool IsLegal(square origin, square destination);
 
 };
 
