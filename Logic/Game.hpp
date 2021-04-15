@@ -21,6 +21,8 @@ public:
     Game();
     void SetupGame(std::string fen);
     square AlgebraicToSquare(std::string);
+    bool isBlackPiece(Piece);
+    bool isWhitePiece(Piece);
     void MakeMove(square origin, square destination);
     std::set<square> AvailableMoves(square origin);
     bool IsLegal(square origin, square destination);

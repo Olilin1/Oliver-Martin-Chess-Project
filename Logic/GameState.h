@@ -12,8 +12,7 @@ struct GameState {
     square whiteKingPos;
     square blackEnPassant;
     square whiteEnPassant;
-    bool blackCanEnPassant;
-    bool whiteCanEnPassant;
+    bool canEnPassant;
     bool blackCanCastleKingSide;
     bool blackCanCastleQueenSide;
     bool whiteCanCastleKingSide;
