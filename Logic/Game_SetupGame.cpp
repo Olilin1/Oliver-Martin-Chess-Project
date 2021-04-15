@@ -90,4 +90,17 @@ void Game::SetupGame(std::string fen)
     gameState.blackCanCastleQueenSide = availability.count('q');
 
     //enPassant availability
+    if(enPassant == "-"){
+        gameState.canEnPassant = false;
+    }
+    else{
+        gameState.canEnPassant = true;
+        gameState.enPassant = AlgebraicToSquare(enPassant);
+    }
+
+    //Halfmove clock
+    gameState.halfMoveClock = std::stoi(halfMove);
+
+    //FullMoveClock
+    gameState.fullMoveClock = std::stoi(fullMove);
 }

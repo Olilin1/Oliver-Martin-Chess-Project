@@ -10,8 +10,7 @@ struct GameState {
     int halfMoveClock;
     square blackKingPos;
     square whiteKingPos;
-    square blackEnPassant;
-    square whiteEnPassant;
+    square enPassant;
     bool canEnPassant;
     bool blackCanCastleKingSide;
     bool blackCanCastleQueenSide;
