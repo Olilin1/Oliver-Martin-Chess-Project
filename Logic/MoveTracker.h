@@ -7,17 +7,6 @@
 #include<iostream>
 #include<set>
 
-//Struct that contains the relevant information about the move that was made
-struct Move {
-    std::pair<int, int> moveFrom;
-    std::pair<int, int> moveTo;
-    Piece pieceType;
-    bool captureMove;   //True if the moved piece captures another piece
-    bool castling;  //True if the move was a castling move. If it was, then no more castling can be done for that player
-    bool enPassant;     //True if the move enables the opponent to do an en passant on the upcoming move
-    Move(std::pair<int, int> mF, std::pair<int, int> mT, Piece pTWM) : moveFrom(mF), moveTo(mT), pieceType(pTWM) {}
-};
-
 //This class is for later, in case that we add functionality to store each move in a vector of moves, so that we don't need to create a new board after each move. The idea came from the first section of https://www.cs.cornell.edu/boom/2004sp/ProjectArch/Chess/algorithms.html
 class MoveTracker {
 private:

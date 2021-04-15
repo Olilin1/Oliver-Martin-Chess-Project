@@ -19,36 +19,38 @@ public:
 
     int SumOfAllMoves(int depth) {
         int sum = 0;
-        CalculateAllMoves(chessBoard, depth, sum);
+        CalculateAllMoves(depth, sum);
         return sum;
     }
 
     //In this tree where edges are moves and nodes are game configurations, the leaves represent all the unique games for a game with n moves, where the tree has
     //height logn. This function counts all those leaves for depth moves.
-    void CalculateAllMoves(Board currentBoard, int depth, int& sum) {
+    void CalculateAllMoves(int depth, int& sum) {
         if(depth == 0) {
             sum += 1;
             return;
         }
-        if(currentBoard.currentPlayer == White) {
-            for(auto posIterator = currentBoard.getWhitePositions().first; posIterator != currentBoard.getWhitePositions().second; posIterator++) {
+        if(chessBoard.currentPlayer == White) {
+            for(auto posIterator = chessBoard.getWhitePositions().first; posIterator != chessBoard.getWhitePositions().second; posIterator++) {
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
-                std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
+                Piece currentPiece = chessBoard.GetPieceType(currentPos.first, currentPos.second);
+                std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos);
                 for(auto it : allMovesForOnePiece) {
-                    Board tempBoard = currentBoard.UpdateBoardCopy(currentPos, it, currentBoard);
-                    tempBoard.NewTurn();
-                    CalculateAllMoves(tempBoard, depth - 1, sum);
+                    chessBoard.UpdateBoard(currentPos, it, currentPiece);
+                    CalculateAllMoves(depth - 1, sum);
+                    chessBoard.UnUpdateBoard();
                 }
             }
         }
         else {
-            for(auto posIterator = currentBoard.getBlackPositions().first; posIterator != currentBoard.getBlackPositions().second; posIterator++) {
+            for(auto posIterator = chessBoard.getBlackPositions().first; posIterator != chessBoard.getBlackPositions().second; posIterator++) {
                 std::pair<int, int> currentPos = ConvertToPair(posIterator->first);
-                std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos, currentBoard);
+                std::set<std::pair<int, int>> allMovesForOnePiece = CalculatePieceMove(currentPos);
+                Piece currentPiece = chessBoard.GetPieceType(currentPos.first, currentPos.second);
                 for(auto it : allMovesForOnePiece) {
-                    Board tempBoard = currentBoard.UpdateBoardCopy(currentPos, it, currentBoard);
-                    tempBoard.NewTurn();
-                    CalculateAllMoves(tempBoard, depth - 1, sum);
+                    chessBoard.UpdateBoard(currentPos, it, currentPiece);
+                    CalculateAllMoves(depth - 1, sum);
+                    chessBoard.UnUpdateBoard();
                 }
             }
         }
@@ -58,7 +60,7 @@ public:
         return {(oneD - (oneD % 8))/8 +1, 1 + oneD%8}; 
     }
 
-    std::set<std::pair<int, int>> CalculatePieceMove(std::pair<int, int> startingPos, Board chessBoard) {
+    std::set<std::pair<int, int>> CalculatePieceMove(std::pair<int, int> startingPos) {
         MoveCalculators moveCalculators(chessBoard);
         int pieceType = chessBoard.GetPieceType(startingPos.first, startingPos.second);
         if(pieceType == Empty) {

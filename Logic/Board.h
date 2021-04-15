@@ -4,6 +4,7 @@
 #include<unordered_map>
 #include"GameState.h"
 #include<assert.h>
+#include<vector>
 
 enum Piece {
     Empty = 0,
@@ -26,11 +27,33 @@ enum CurrentPlayer {
     White = 0
 };
 
+//Struct that contains the relevant information about the move that was made
+struct Move {
+    std::pair<int, int> moveFrom;
+    std::pair<int, int> moveTo;
+    Piece pieceType;
+    CurrentPlayer playerTurn;
+    std::pair<Piece, int> capturedPiece;   //The type of piece that was captured, and the position at which it was captured
+    bool changedCastling;  //True if the move was a castling move. If it was, then no more castling can be done for that player
+    bool enPassant;     //True if the move enables the opponent to do an en passant on the upcoming move
+    bool leftCastling;
+    bool rightCastling;
+    Move(std::pair<int, int> mF, std::pair<int, int> mT, Piece pT) : moveFrom(mF), moveTo(mT), pieceType(pT) {
+        if(pieceType < 0) playerTurn = Black;
+        else if(pieceType > 0) playerTurn = White;
+        changedCastling = false;
+        enPassant = false;
+        leftCastling = false;
+        rightCastling = false;
+    }
+};
+
 class Board {
 private:
     std::array<Piece, 64> boardArray;     //The actual chess board
     std::unordered_map<int, Piece> whitePositions;    //Maps each board position to a white piece. This makes it so we don't have to iterate over the whole board when calculating all possible moves
     std::unordered_map<int, Piece> blackPositions;  
+    std::vector<Move> moveVec;
 public:  
     CurrentPlayer currentPlayer;    //0 if it's white turn, 1 if it's black
     GameState gameState;
@@ -117,58 +140,123 @@ public:
         return boardCopy;
     }
 
-    //Update the board's positions
-    void UpdateBoard(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
-        IfEnPassant(pieceType, firstPos, secondPos);
-        UpdateCastling(pieceType, firstPos, secondPos);
-        boardArray[ConvertToSingle(firstPos.first, firstPos.second)] = Empty;
-        boardArray[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
-        UpdateEnPassant(pieceType, firstPos, secondPos);
-        UpdatePieceMap(firstPos, secondPos, pieceType);
-        UpdateKingPosAfterMove(firstPos, secondPos, pieceType);
+    void UnUpdateBoard() {
+        if(moveVec.size() == 0) return;
         
+        Move currentMove = moveVec.back();
+        if(currentMove.playerTurn == Black) {
+            if(currentMove.enPassant) {     //The move allowed opposite player to en passant
+                gameState.whiteCanEnPassant = false;
+            }
+            if(currentMove.leftCastling) {
+                UpdateBoardNoMove({8,4}, {8, 1}, BlackRook);
+            }
+            else if(currentMove.rightCastling) {
+                UpdateBoardNoMove({8, 6}, {8, 8}, BlackRook);
+            }
+            if(currentMove.changedCastling) {
+                gameState.blackCanCastle = true;
+            }
+            currentPlayer = Black;
+            UpdateBoardNoMove(currentMove.moveTo, currentMove.moveFrom, currentMove.pieceType);
+            boardArray[currentMove.capturedPiece.second] = currentMove.capturedPiece.first;
+            blackPositions[currentMove.capturedPiece.second] = currentMove.capturedPiece.first;
+        }
+        else if(currentMove.playerTurn == White) {
+            if(currentMove.enPassant) {     //The move allowed opposite player to en passant
+                gameState.blackCanEnPassant = false;
+            }
+            if(currentMove.leftCastling) {
+                UpdateBoardNoMove({1,4}, {1, 1}, WhiteRook);
+            }
+            else if(currentMove.rightCastling) {
+                UpdateBoardNoMove({1, 6}, {1, 8}, WhiteRook);
+            }
+            if(currentMove.changedCastling) {
+                gameState.whiteCanCastle = true;
+            }
+            currentPlayer = White; 
+            UpdateBoardNoMove(currentMove.moveTo, currentMove.moveFrom, currentMove.pieceType);
+            boardArray[currentMove.capturedPiece.second] = currentMove.capturedPiece.first;
+            whitePositions[currentMove.capturedPiece.second] = currentMove.capturedPiece.first;
+        }
+        moveVec.pop_back();
     }
 
-    void UpdateCastling(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
-        if(pieceType == BlackRook || pieceType == BlackKing) gameState.blackCanCastle = false;           //If the player moves his rook or king, he can no longer castle
-        else if(pieceType == WhiteRook || pieceType == WhiteKing) gameState.whiteCanCastle = false;
+    //Update the board's positions
+    void UpdateBoardNoMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+        boardArray[ConvertToSingle(firstPos.first, firstPos.second)] = Empty;
+        boardArray[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
+        UpdatePieceMap(firstPos, secondPos, pieceType);
+    }
+
+    //Update the board's positions
+    void UpdateBoard(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+        Move move(firstPos, secondPos, pieceType);
+        move.capturedPiece = {GetPieceType(secondPos.first, secondPos.second), ConvertToSingle(secondPos.first, secondPos.second)};
+        IfEnPassant(pieceType, firstPos, secondPos, move);
+        UpdateCastling(pieceType, firstPos, secondPos, move);
+        boardArray[ConvertToSingle(firstPos.first, firstPos.second)] = Empty;
+        boardArray[ConvertToSingle(secondPos.first, secondPos.second)] = pieceType;
+        UpdateEnPassant(pieceType, firstPos, secondPos, move);
+        UpdatePieceMap(firstPos, secondPos, pieceType);
+        UpdateKingPosAfterMove(firstPos, secondPos, pieceType, move);
+        moveVec.push_back(move);
+        NewTurn();
+    }
+
+    void UpdateCastling(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos, Move& move) {
+        if(pieceType == BlackRook || pieceType == BlackKing) {
+            gameState.blackCanCastle = false;           //If the player moves his rook or king, he can no longer castle
+            move.changedCastling = true;
+        }
+        else if(pieceType == WhiteRook || pieceType == WhiteKing) {
+            gameState.whiteCanCastle = false;
+            move.changedCastling = true;
+        }
 
         if(GetPieceType(secondPos.first, secondPos.second) == BlackRook) {
             gameState.blackCanCastle = false;
+            move.changedCastling = true;
         }
         if(GetPieceType(secondPos.first, secondPos.second) == BlackRook) {
             gameState.whiteCanCastle = false;
+            move.changedCastling = true;
         }
     }
 
     //This function checks if the current player made en passant, and if so, it deletes the piece that was captured from the en passant
-    void IfEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
+    void IfEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos, Move& move) {
         if(pieceType == BlackPawn && secondPos.second != firstPos.second) {
             if(GetPieceType(secondPos.first, secondPos.second) == Empty) {
                 SetPiece(secondPos.first + 1, secondPos.second, Empty);
                 whitePositions.erase(ConvertToSingle(secondPos.first + 1, secondPos.second));   
+                move.capturedPiece = {WhitePawn, ConvertToSingle(secondPos.first + 1, secondPos.second)};
             }
         }
         else if(pieceType == WhitePawn && secondPos.second != firstPos.second) {
             if(GetPieceType(secondPos.first, secondPos.second) == Empty) {
                 SetPiece(secondPos.first - 1, secondPos.second, Empty);
                 blackPositions.erase(ConvertToSingle(secondPos.first - 1, secondPos.second));
+                move.capturedPiece = {BlackPawn, ConvertToSingle(secondPos.first - 1, secondPos.second)}; 
             }
         }
     }
 
     //If any player moved two steps forward with their pawn, then the opposing player will have en passant next round
-    void UpdateEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos) {
+    void UpdateEnPassant(Piece pieceType, std::pair<int, int> firstPos, std::pair<int, int> secondPos, Move& move) {
         if(pieceType ==  BlackPawn) {     //The move was by black
             if(secondPos.first == firstPos.first - 2) {
                 gameState.whiteCanEnPassant = true;
                 gameState.whiteEnPassant = ConvertToSingle(secondPos.first + 1, secondPos.second);      //Set whiteEnPassant to the square that white can move to if they decide to en passant next turn
+                move.enPassant = true;
             }
         }
         else if(pieceType == WhitePawn){
             if(secondPos.first == firstPos.first + 2) {
                 gameState.blackCanEnPassant = true;
                 gameState.blackEnPassant = ConvertToSingle(secondPos.first - 1, secondPos.second);
+                move.enPassant = true;
             }
         }
     }
@@ -184,7 +272,7 @@ public:
         }
     }
 
-    void UpdateKingPosAfterMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType) {
+    void UpdateKingPosAfterMove(std::pair<int, int> firstPos, std::pair<int, int> secondPos, Piece pieceType, Move& move) {
         if(pieceType == BlackKing) {
             if(abs(secondPos.second - firstPos.second) > 1) {     //This applies only if current move is a castling
                 if(secondPos.second == 3) {
@@ -192,12 +280,14 @@ public:
                     SetPiece(8, 4, BlackRook);
                     blackPositions.erase(ConvertToSingle(8, 1));
                     blackPositions[ConvertToSingle(8, 4)] = BlackRook;
+                    move.leftCastling = true;
                 }
                 else if(secondPos.second == 7) {
                     SetPiece(8, 8, Empty);
                     SetPiece(8, 6, BlackRook);
                     blackPositions.erase(ConvertToSingle(8, 8));
                     blackPositions[ConvertToSingle(8, 6)] = BlackRook;
+                    move.rightCastling = true;
                 }
             } 
             gameState.blackKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the black king if it was moved
@@ -209,12 +299,14 @@ public:
                     SetPiece(1, 4, WhiteRook);
                     whitePositions.erase(ConvertToSingle(1, 1));
                     whitePositions[ConvertToSingle(1, 4)] = WhiteRook;
+                    move.leftCastling = true;
                 }
                 else if(secondPos.second == 7) {
                     SetPiece(1, 8, Empty);
                     SetPiece(1, 6, WhiteRook);
                     whitePositions.erase(ConvertToSingle(1, 8));
                     whitePositions[ConvertToSingle(1, 6)] = WhiteRook;
+                    move.rightCastling = true;
                 }
             } 
             gameState.whiteKingPos = ConvertToSingle(secondPos.first, secondPos.second);     //Update the position of the white king if it was moved
