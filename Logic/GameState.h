@@ -2,19 +2,18 @@
 #define GAMESTATE
 
 #include"Enums.hpp"
+#include"Typedefs.hpp"
 
 struct GameState {
     Player currentPlayer;
     int fullMoveClock;
     int halfMoveClock;
-    int blackKingPos;
-    int whiteKingPos;
-    int blackEnPassant;
-    int whiteEnPassant;
+    square blackKingPos;
+    square whiteKingPos;
+    square blackEnPassant;
+    square whiteEnPassant;
     bool blackCanEnPassant;
     bool whiteCanEnPassant;
-    bool whiteCanCastle;
-    bool blackCanCastle;
     bool blackCanCastleKingSide;
     bool blackCanCastleQueenSide;
     bool whiteCanCastleKingSide;
