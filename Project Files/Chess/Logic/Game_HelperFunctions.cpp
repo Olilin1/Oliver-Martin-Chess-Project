@@ -24,6 +24,12 @@ Player Game::pieceColor(Piece p){
     else return None;
 }
 
+Player Game::oppositePlayer(Player p){
+    if(p==White) return Black;
+    if(p==Black) return White;
+    return None;
+}
+
 Piece Game::pieceType(Piece p){
     return Piece(std::abs(p)+6);
 }
