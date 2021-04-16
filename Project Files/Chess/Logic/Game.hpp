@@ -43,12 +43,7 @@ public:
     std::set<square> LegalQueenMoves(square);  
     std::set<square> LegalKingMoves(square);
     std::set<square> LegalKnightMoves(square);
-    bool IsAttacked(square pos, Player attacker);
-    bool IsAttackedByRookQueen(square pos, Player attacker);
-    bool IsAttackedByBishopQueen(square pos, Player attacker);
-    bool IsAttackedByKnight(square pos, Player attacker);
-    bool IsAttackedByPawn(square pos, Player attacker);
-    bool IsAttackedByKing(square pos, Player attacker);
+
 
 
     //Short(ish)Helper functions, some of these should be private, and some should probably be static, 
