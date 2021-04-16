@@ -110,6 +110,7 @@ bool Game::IsAttackedByPawn(square pos, Player attacker){
         Piece p = board[newPos];
         if(pieceColor(p) == attacker && pieceType(p) == Pawn) return true;
     }
+    return false;
 }
 
 bool Game::IsAttackedByKing(square pos, Player attacker){
@@ -122,6 +123,7 @@ bool Game::IsAttackedByKing(square pos, Player attacker){
             if(pieceColor(p) == attacker && pieceType(p) == King) return true;
         }
     }
+    return false;
     
 }
 
