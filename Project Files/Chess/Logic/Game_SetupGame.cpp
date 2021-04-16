@@ -4,7 +4,7 @@ void Game::SetupGame(std::string fen)
 {
     for(int i = 0; i < 8; i++){
         for(int j = 0; j<8; j++){
-            board[i][j] = Empty;
+            board[{i,j}] = Empty;
         }
     }
 
@@ -21,51 +21,51 @@ void Game::SetupGame(std::string fen)
         switch (c)
         {
         case 'p':
-            board[row][col] = BlackPawn;
+            board[{row,col}] = BlackPawn;
             col++;
             break;
         case 'r':
-            board[row][col] = BlackRook;
+            board[{row,col}] = BlackRook;
             col++;
             break;
         case 'k':
-            board[row][col] = BlackKing;
+            board[{row,col}] = BlackKing;
             col++;
             break;
         case 'q':
-            board[row][col] = BlackQueen;
+            board[{row,col}] = BlackQueen;
             col++;
             break;
         case 'b':
-            board[row][col] = BlackBishop;
+            board[{row,col}] = BlackBishop;
             col++;
             break;
         case 'n':
-            board[row][col] = BlackKnight;
+            board[{row,col}] = BlackKnight;
             col++;
             break;
         case 'P':
-            board[row][col] = WhitePawn;
+            board[{row,col}] = WhitePawn;
             col++;
             break;
         case 'R':
-            board[row][col] = WhiteRook;
+            board[{row,col}] = WhiteRook;
             col++;
             break;
         case 'K':
-            board[row][col] = WhiteKing;
+            board[{row,col}] = WhiteKing;
             col++;
             break;
         case 'Q':
-            board[row][col] = WhiteQueen;
+            board[{row,col}] = WhiteQueen;
             col++;
             break;
         case 'B':
-            board[row][col] = WhiteBishop;
+            board[{row,col}] = WhiteBishop;
             col++;
             break;
         case 'N':
-            board[row][col] = WhiteKnight;
+            board[{row,col}] = WhiteKnight;
             col++;
             break;
         case '/':
