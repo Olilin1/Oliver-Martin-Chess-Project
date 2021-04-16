@@ -18,9 +18,8 @@ enum Piece {
 };
 
 enum Player {
-    Black = -1
-    None = 0; 
-    White = 1
+    Black = 1, 
+    White = 0
 };
 
 #endif

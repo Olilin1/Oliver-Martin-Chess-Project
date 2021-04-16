@@ -2,7 +2,7 @@
 #define GAME
 
 #include"Enums.hpp"
-#include"GameState.h"
+#include"GameState.hpp"
 #include"Typedefs.hpp"
 #include<utility>
 #include<set>
