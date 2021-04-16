@@ -18,6 +18,16 @@ bool Game::isWhitePiece(Piece p)
     return p > 0;
 }
 
+Player Game::pieceColor(Piece p){
+    if (isBlackPiece(p)) return Black;
+    else if (isWhitePiece(p)) return White;
+    else return None;
+}
+
+Piece Game::pieceType(Piece p){
+    return Piece(std::abs(p)+6);
+}
+
 std::string Game::ConvertToUnicode(Piece i)
 {
     switch (i)

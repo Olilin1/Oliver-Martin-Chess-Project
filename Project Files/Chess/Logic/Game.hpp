@@ -5,6 +5,7 @@
 #include"GameState.hpp"
 #include"Typedefs.hpp"
 #include"Board.hpp"
+#include<cmath>
 #include<utility>
 #include<set>
 #include<vector>
@@ -42,6 +43,8 @@ public:
 
     //Helper functions, some of these should be private, and some should probably be static
     square AlgebraicToSquare(std::string);
+    Player pieceColor(Piece);
+    Piece pieceType(Piece);
     bool isBlackPiece(Piece);
     bool isWhitePiece(Piece);
     std::string ConvertToUnicode(Piece i);

@@ -14,12 +14,19 @@ enum Piece {
     WhiteKnight = 3,
     WhiteBishop = 4,
     WhiteQueen = 5,
-    WhiteKing = 6
+    WhiteKing = 6,
+    Pawn = 7,
+    Rook = 8,
+    Knight = 9,
+    Bishop = 10,
+    Queen = 11,
+    King = 12,
 };
 
 enum Player {
-    Black = 1, 
-    White = 0
+    None = 0,
+    Black = -1, 
+    White = 1
 };
 
 #endif
