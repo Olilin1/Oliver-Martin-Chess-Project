@@ -48,6 +48,7 @@ public:
 
     //Short(ish)Helper functions, some of these should be private, and some should probably be static, 
     //and some might not be helper functions (ex printboard)
+    //A lot of these are identical to functions in board.hpp and should be reworked to call on those, or moved to another file
     square AlgebraicToSquare(std::string);
     Player pieceColor(Piece);
     Player oppositePlayer(Player);

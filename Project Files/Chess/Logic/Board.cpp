@@ -6,6 +6,15 @@ Board::Board(){
             board[i][j] = Empty;
         }
     }
+    return;
+}
+
+
+
+void Board::MakeMove(square origin, square destination){
+    board[destination.first][destination.second] = board[origin.first][origin.second];
+    board[origin.first][origin.second] = Empty;
+    return;
 }
 
 Piece& Board::operator[](square pos){
