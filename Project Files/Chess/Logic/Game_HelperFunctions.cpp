@@ -9,6 +9,19 @@ square Game::AlgebraicToSquare(std::string s)
     return {row, col};
 }
 
+//Gets the square of the current players king
+square Game::CurrPlayerKingPostion(){
+    if(gameState.currentPlayer == Black) return gameState.blackKingPos;
+    else if(gameState.currentPlayer == White) return gameState.whiteKingPos;
+}
+
+bool Game::canMove(square pos){
+    if(OnBoard(pos) && 
+    (pieceColor(board[pos]) != gameState.currentPlayer)) 
+    return true;
+    else return false;
+}
+
 //Checks if a piece is black
 bool Game::isBlackPiece(Piece p)
 {
@@ -118,4 +131,11 @@ void Game::RemovePiece(square pos){
     board[pos] = Empty;
     blackPieces.erase(pos);
     whitePieces.erase(pos);
+}
+
+bool Game::isLegal(square origin, square destination){
+    if(!canMove(destination)) return false;
+    Board newBoard = board;
+    newBoard.MakeMove(origin, destination);
+    return !(newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)));
 }

@@ -5,8 +5,12 @@
 #include"Typedefs.hpp"
 #include<string>
 #include<iostream>
+#include<set>
 
-//Simple class that allows us to use board[pos] instead of board[pos.first][pos.second]
+/*
+    A class that keeps track of a board, but nothing else
+    Has some logic to check if squares are under attack but that is it.
+*/
 class Board{
     private:
     Piece board[8][8];
