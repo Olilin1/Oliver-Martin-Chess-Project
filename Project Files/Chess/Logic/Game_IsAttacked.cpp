@@ -1,5 +1,6 @@
 #include "game.hpp"
 
+//Checks if a square is under attack by attacker
 bool Game::IsAttacked(square pos, Player attacker){
     return 
     IsAttackedByRookQueen(pos, attacker) ||
@@ -83,6 +84,7 @@ bool Game::IsAttackedByBishopQueen(square pos, Player attacker){
     return false;
 }
 
+//Okay this entire file needs to be refactored again. This is a mess.
 bool Game::IsAttackedByKnight(square pos, Player attacker){
 
     for(int i : {-2, -1, 1, 2}){

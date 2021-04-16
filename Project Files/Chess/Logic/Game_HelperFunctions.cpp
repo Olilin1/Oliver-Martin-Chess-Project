@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+//Takes a square in algebraic notation and gives it as a square
 square Game::AlgebraicToSquare(std::string s)
 {
     int row, col;
@@ -8,32 +9,38 @@ square Game::AlgebraicToSquare(std::string s)
     return {row, col};
 }
 
+//Checks if a piece is black
 bool Game::isBlackPiece(Piece p)
 {
     return p < 0;
 }
 
+//Checks if a piece is white
 bool Game::isWhitePiece(Piece p)
 {
-    return p > 0;
+    return (p > 0 && p < 7);
 }
 
+//Returns the color of a pice
 Player Game::pieceColor(Piece p){
     if (isBlackPiece(p)) return Black;
     else if (isWhitePiece(p)) return White;
     else return None;
 }
 
+//Returns the color of the opposite of p
 Player Game::oppositePlayer(Player p){
     if(p==White) return Black;
     if(p==Black) return White;
     return None;
 }
 
+//Gives the neutral piece type
 Piece Game::pieceType(Piece p){
     return Piece(std::abs(p)+6);
 }
 
+//Converts a piece to Unicode
 std::string Game::ConvertToUnicode(Piece i)
 {
     switch (i)
@@ -67,6 +74,7 @@ std::string Game::ConvertToUnicode(Piece i)
     }
 }
 
+//Prints the board to console, using unicode charachters
 void Game::PrintBoard()
 {
     for (int i = 7; i >= 0; i--)
@@ -85,27 +93,27 @@ void Game::PrintBoard()
     }
 }
 
+//Checks if a square is on the board
 bool Game::OnBoard(square pos){
-    if(pos.first <= 8 && pos.first >= 1 && pos.second <= 8 && pos.second >= 1) {
+    if(pos.first < 8 && pos.first > 0 && pos.second < 8 && pos.second > 0) {
             return true;
         }
      return false;
 }
 
-bool Game::SameSidePieces(Piece a, Piece b){
-    return !(a > 0 ^ b > 0);
-}
-
+//Checks if a square is empty
 bool Game::IsEmpty(square pos){
     return board[pos] == Empty;
 }
 
+//Places a piece onto the board and adds it to the piece map
 void Game::PlacePiece(square pos, Piece p){
     board[pos] = p;
     if(isBlackPiece(p)) blackPieces[pos] = p;
     else if(isWhitePiece(p)) whitePieces[pos]=p;
 }
 
+//Removes a piece from the board and removes it from the piece maps
 void Game::RemovePiece(square pos){
     board[pos] = Empty;
     blackPieces.erase(pos);

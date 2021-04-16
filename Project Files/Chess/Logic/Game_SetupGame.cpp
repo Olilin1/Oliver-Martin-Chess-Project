@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+//Takes a string in Forsyth–Edwards Notation and uses it to setup the game.
 void Game::SetupGame(std::string fen)
 {
     for(int i = 0; i < 8; i++){

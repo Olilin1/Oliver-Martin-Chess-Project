@@ -15,7 +15,12 @@
 #include<unordered_set>
 #include<map>
 #include<sstream>
-
+/*
+A class that handles all the logic for the game,
+Board represents the board as a 2d array, gameState keeps track of misc things like player, castling, and so on
+whitePieces and blackPieces are maps that make sure we don't have to iterate over the entire board to find whites pieces
+Function explanations can be found at their definitions. Your IDE/Editor should have functionality to jump around between files.
+*/
 
 
 class Game{
@@ -24,6 +29,7 @@ private:
     GameState gameState;
     std::map<square, Piece> whitePieces;
     std::map<square, Piece> blackPieces;
+
 
 public:
     Game();
@@ -45,7 +51,8 @@ public:
     bool IsAttackedByKing(square pos, Player attacker);
 
 
-    //Helper functions, some of these should be private, and some should probably be static
+    //Short(ish)Helper functions, some of these should be private, and some should probably be static, 
+    //and some might not be helper functions (ex printboard)
     square AlgebraicToSquare(std::string);
     Player pieceColor(Piece);
     Player oppositePlayer(Player);
@@ -55,11 +62,9 @@ public:
     std::string ConvertToUnicode(Piece i);
     void PrintBoard();
     bool OnBoard(square);
-    bool SameSidePieces(Piece a, Piece b);
     bool IsEmpty(square);
     void PlacePiece(square, Piece);
     void RemovePiece(square);
-//    void Capture(square origin, square destination); //Combined place and remove
 
 
 };

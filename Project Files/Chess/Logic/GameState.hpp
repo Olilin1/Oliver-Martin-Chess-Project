@@ -4,6 +4,7 @@
 #include"Enums.hpp"
 #include"Typedefs.hpp"
 
+//Contains misc info about the game
 struct GameState {
     Player currentPlayer;
     int fullMoveClock;
