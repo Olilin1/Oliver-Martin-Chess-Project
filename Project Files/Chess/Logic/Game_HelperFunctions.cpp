@@ -68,3 +68,30 @@ void Game::PrintBoard()
         std::cout << std::endl;
     }
 }
+
+bool Game::OnBoard(square pos){
+    if(pos.first <= 8 && pos.first >= 1 && pos.second <= 8 && pos.second >= 1) {
+            return true;
+        }
+     return false;
+}
+
+bool Game::SameSidePieces(Piece a, Piece b){
+    return !(a > 0 ^ b > 0);
+}
+
+bool Game::IsEmpty(square pos){
+    return board[pos.first][pos.second] == Empty;
+}
+
+void Game::PlacePiece(square pos, Piece p){
+    board[pos.first][pos.second] = p;
+    if(isBlackPiece(p)) blackPieces[pos] = p;
+    else if(isWhitePiece(p)) whitePieces[pos]=p;
+}
+
+void Game::RemovePiece(square pos){
+    board[pos.first][pos.second] = Empty;
+    blackPieces.erase(pos);
+    whitePieces.erase(pos);
+}
