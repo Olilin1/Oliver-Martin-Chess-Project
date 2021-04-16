@@ -4,6 +4,7 @@
 #include"Enums.hpp"
 #include"GameState.hpp"
 #include"Typedefs.hpp"
+#include"Board.hpp"
 #include<utility>
 #include<set>
 #include<vector>
@@ -18,7 +19,7 @@
 
 class Game{
 private:
-    Piece board[8][8];
+    Board board;
     GameState gameState;
     std::map<square, Piece> whitePieces;
     std::map<square, Piece> blackPieces;
@@ -28,14 +29,18 @@ public:
     void SetupGame(std::string fen);
 
     void MakeMove(square origin, square destination);
-    std::set<square> AvailableMoves(square origin);
-    bool IsLegal(square origin, square destination);
-    bool IsAttacking(square, Player attacker);
-    bool CanGoTo(square origin, square destination);
+    void IsLegal(square origin, square destination); 
+    std::set<square> LegalPawnMoves(square);
+    std::set<square> LegalBishopMoves(square);
+    std::set<square> LegalRookMoves(square);
+    std::set<square> LegalQueenMoves(square);  
+    std::set<square> LegalKingMoves(square);
+    std::set<square> LegalKnightMoves(square);
+    bool IsAttacked(square pos, Player attacker); 
     
 
 
-    //Helper functions
+    //Helper functions, some of these should be private, and some should probably be static
     square AlgebraicToSquare(std::string);
     bool isBlackPiece(Piece);
     bool isWhitePiece(Piece);
@@ -46,6 +51,7 @@ public:
     bool IsEmpty(square);
     void PlacePiece(square, Piece);
     void RemovePiece(square);
+//    void Capture(square origin, square destination); //Combined place and remove
 
 
 };

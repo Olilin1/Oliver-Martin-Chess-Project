@@ -57,9 +57,9 @@ void Game::PrintBoard()
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board[i][j] != Empty)
+            if (board[{i,j}] != Empty)
             {
-                std::cout << ConvertToUnicode(board[i][j]);
+                std::cout << ConvertToUnicode(board[{i,j}]);
             }
             else{
                 std::cout << (((i+j)%2) ? "\u25A1" : "\u25A0");
@@ -81,17 +81,17 @@ bool Game::SameSidePieces(Piece a, Piece b){
 }
 
 bool Game::IsEmpty(square pos){
-    return board[pos.first][pos.second] == Empty;
+    return board[pos] == Empty;
 }
 
 void Game::PlacePiece(square pos, Piece p){
-    board[pos.first][pos.second] = p;
+    board[pos] = p;
     if(isBlackPiece(p)) blackPieces[pos] = p;
     else if(isWhitePiece(p)) whitePieces[pos]=p;
 }
 
 void Game::RemovePiece(square pos){
-    board[pos.first][pos.second] = Empty;
+    board[pos] = Empty;
     blackPieces.erase(pos);
     whitePieces.erase(pos);
 }
