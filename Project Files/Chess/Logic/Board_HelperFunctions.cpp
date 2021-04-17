@@ -81,9 +81,9 @@ void Board::PrintBoard()
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board[{i,j}] != Empty)
+            if (board[i][j] != Empty)
             {
-                std::cout << ConvertToUnicode(board[{i,j}]);
+                std::cout << ConvertToUnicode(board[i][j]);
             }
             else{
                 std::cout << (((i+j)%2) ? "\u25A1" : "\u25A0");

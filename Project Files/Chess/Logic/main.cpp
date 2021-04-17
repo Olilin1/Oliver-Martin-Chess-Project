@@ -3,5 +3,11 @@
 
 int main() {
     Game g;
-    g.PrintBoard();
+    std::string s;
+    
+    while(true){
+        std::getline(std::cin, s);
+        g.SetupGame(s);
+        g.PrintBoard();
+    }
 }

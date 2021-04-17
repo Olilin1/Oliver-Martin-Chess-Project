@@ -28,8 +28,9 @@ std::set<square> Game::LegalKnightMoves(square pos){
     }
 
     for(square s : moves){
-        
+        if(!isLegal(pos, s)) moves.erase(s);
     }
+    return moves;
 }
 
 std::set<square> Game::LegalBishopMoves(square pos){
@@ -37,6 +38,7 @@ std::set<square> Game::LegalBishopMoves(square pos){
     for(square s : moves){
         if(!isLegal(pos, s)) moves.erase(s);
     }
+    return moves;
 }
 
 std::set<square> Game::LegalRookMoves(square pos){
@@ -44,6 +46,7 @@ std::set<square> Game::LegalRookMoves(square pos){
     for(square s : moves){
         if(!isLegal(pos, s)) moves.erase(s);
     }
+    return moves;
 }
 
 std::set<square> Game::LegalQueenMoves(square pos){
@@ -51,6 +54,7 @@ std::set<square> Game::LegalQueenMoves(square pos){
     for(square s : moves){
         if(!isLegal(pos, s)) moves.erase(s);
     }
+    return moves;
 }
 
 std::set<square> Game::LegalKingMoves(square pos){
@@ -90,9 +94,11 @@ std::set<square> Game::LegalKingMoves(square pos){
         !board.IsAttacked({0,2}, Black)) 
         {moves.insert({0,2});}
     }
+    return moves;
 
 }
 
+//TODO
 std::set<square> Game::LegalPawnMoves(square pos){
     if(gameState.currentPlayer == White){
         

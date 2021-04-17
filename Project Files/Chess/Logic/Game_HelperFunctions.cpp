@@ -13,6 +13,7 @@ square Game::AlgebraicToSquare(std::string s)
 square Game::CurrPlayerKingPostion(){
     if(gameState.currentPlayer == Black) return gameState.blackKingPos;
     else if(gameState.currentPlayer == White) return gameState.whiteKingPos;
+    else return {-1,-1};
 }
 
 bool Game::canMove(square pos){
