@@ -18,7 +18,6 @@ SOURCES += \
     Logic/Game_MakeMove.cpp \
     Logic/Game_SetupGame.cpp \
     Logic/HelperFunctions.cpp \
-    Logic/main.cpp \
     main.cpp \
     mainwindow.cpp
 

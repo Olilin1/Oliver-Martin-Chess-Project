@@ -2,7 +2,7 @@
 
 
 int main() {
-    Game g;
+    /*Game g;
     std::string s;
     int x1, x2, x3, x4;
     g.PrintBoard();
@@ -18,5 +18,5 @@ int main() {
                 std::cout << a.first << ' ' << a.second << '\n';
             }
         }
-    }
+    }*/
 }
