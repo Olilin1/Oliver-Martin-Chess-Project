@@ -9,10 +9,27 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Logic/Board.cpp \
+    Logic/Board_HelperFunctions.cpp \
+    Logic/Board_IsAttacked.cpp \
+    Logic/Game.cpp \
+    Logic/Game_HelperFunctions.cpp \
+    Logic/Game_LegalMoves.cpp \
+    Logic/Game_MakeMove.cpp \
+    Logic/Game_SetupGame.cpp \
+    Logic/HelperFunctions.cpp \
+    Logic/main.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    Logic/Board.hpp \
+    Logic/Constants.hpp \
+    Logic/Enums.hpp \
+    Logic/Game.hpp \
+    Logic/GameState.hpp \
+    Logic/HelperFunctions.hpp \
+    Logic/Typedefs.hpp \
     mainwindow.h
 
 # Default rules for deployment.

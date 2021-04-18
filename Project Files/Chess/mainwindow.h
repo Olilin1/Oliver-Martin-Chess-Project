@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "Logic/Game.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +25,7 @@ private:
     QGraphicsView* view;
     QGraphicsScene* scene;
     QGraphicsRectItem* board[8][8];
+    Game engine;
 
 
     void generate_board(QColor black = Qt::black, QColor white = Qt::white);

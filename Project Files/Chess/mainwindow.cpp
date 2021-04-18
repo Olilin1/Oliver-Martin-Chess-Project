@@ -6,18 +6,18 @@ MainWindow::MainWindow(QWidget *parent)
     resize(800,800);
 
     //TODO: Move this
-    pieceImages['n'] = new QPixmap(":/ChessPieces/bN.png");
-    pieceImages['r'] = new QPixmap(":/ChessPieces/bR.png");
-    pieceImages['k'] = new QPixmap(":/ChessPieces/bK.png");
-    pieceImages['q'] = new QPixmap(":/ChessPieces/bQ.png");
-    pieceImages['b'] = new QPixmap(":/ChessPieces/bB.png");
-    pieceImages['p'] = new QPixmap(":/ChessPieces/bP.png");
-    pieceImages['N'] = new QPixmap(":/ChessPieces/wN.png");
-    pieceImages['R'] = new QPixmap(":/ChessPieces/wR.png");
-    pieceImages['K'] = new QPixmap(":/ChessPieces/wK.png");
-    pieceImages['Q'] = new QPixmap(":/ChessPieces/wQ.png");
-    pieceImages['B'] = new QPixmap(":/ChessPieces/wB.png");
-    pieceImages['P'] = new QPixmap(":/ChessPieces/wP.png");
+    pieceImages[BlackKnight] = new QPixmap(":/ChessPieces/bN.png");
+    pieceImages[BlackRook] = new QPixmap(":/ChessPieces/bR.png");
+    pieceImages[BlackKing] = new QPixmap(":/ChessPieces/bK.png");
+    pieceImages[BlackQueen] = new QPixmap(":/ChessPieces/bQ.png");
+    pieceImages[BlackBishop] = new QPixmap(":/ChessPieces/bB.png");
+    pieceImages[BlackPawn] = new QPixmap(":/ChessPieces/bP.png");
+    pieceImages[WhiteKnight] = new QPixmap(":/ChessPieces/wN.png");
+    pieceImages[WhiteRook] = new QPixmap(":/ChessPieces/wR.png");
+    pieceImages[WhiteKing] = new QPixmap(":/ChessPieces/wK.png");
+    pieceImages[WhiteQueen] = new QPixmap(":/ChessPieces/wQ.png");
+    pieceImages[WhiteBishop] = new QPixmap(":/ChessPieces/wB.png");
+    pieceImages[WhitePawn] = new QPixmap(":/ChessPieces/wP.png");
 
     scene = new QGraphicsScene;
     view = new QGraphicsView(this);
