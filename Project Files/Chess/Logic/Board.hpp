@@ -3,6 +3,7 @@
 
 #include"Enums.hpp"
 #include"Typedefs.hpp"
+#include"HelperFunctions.hpp"
 #include<string>
 #include<iostream>
 #include<set>
@@ -28,15 +29,7 @@ class Board{
     
     //A lot of these helper functions are identical to the ones in the game class, so they should probably be moved to a separate file.
     //Especially the ones that don't require access to members.
-    square AlgebraicToSquare(std::string);
-    Player pieceColor(Piece);
-    Player oppositePlayer(Player);
-    Piece pieceType(Piece);
-    bool isBlackPiece(Piece);
-    bool isWhitePiece(Piece);
-    std::string ConvertToUnicode(Piece i);
     void PrintBoard();
-    bool OnBoard(square);
     bool IsEmpty(square);
     void RemovePiece(square);
 

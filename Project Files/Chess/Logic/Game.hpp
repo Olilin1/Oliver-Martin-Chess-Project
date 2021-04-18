@@ -6,6 +6,7 @@
 #include"Typedefs.hpp"
 #include"Board.hpp"
 #include"Constants.hpp"
+#include"HelperFunctions.hpp"
 #include<cmath>
 #include<utility>
 #include<set>
@@ -57,22 +58,15 @@ public:
     //and some might not be helper functions (ex printboard)
     //A lot of these are identical to functions in board.hpp and should be reworked to call on those, or moved to another file
     square CurrPlayerKingPostion();
-    square AlgebraicToSquare(std::string);
-    Player pieceColor(Piece);
-    Player oppositePlayer(Player);
-    Piece pieceType(Piece);
+
     bool canMove(square);
-    bool isBlackPiece(Piece);
-    bool isWhitePiece(Piece);
     bool isLegal(square origin, square destination);
-    std::string ConvertToUnicode(Piece i);
     void PrintBoard();
-    bool OnBoard(square);
     bool IsEmpty(square);
     void PlacePiece(square, Piece);
     void RemovePiece(square);
 
 
-};
+    };
 
 #endif
