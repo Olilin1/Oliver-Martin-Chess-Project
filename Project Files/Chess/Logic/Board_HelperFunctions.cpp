@@ -105,3 +105,7 @@ bool Board::OnBoard(square pos){
 bool Board::IsEmpty(square pos){
     return board[pos.first][pos.second] == Empty;
 }
+
+void Board::RemovePiece(square pos){
+    board[pos.first][pos.second] = Empty;
+}

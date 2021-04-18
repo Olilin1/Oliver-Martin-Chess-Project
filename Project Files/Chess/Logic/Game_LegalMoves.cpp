@@ -22,14 +22,10 @@ std::set<square> Game::LegalKnightMoves(square pos){
         for(int j : {-2, -1, 1, 2}){
             if(abs(i) == abs(j)) continue;
             square newPos = {pos.first+i, pos.second+j};
-            if(!canMove(newPos)) continue;
-            moves.insert(newPos);
+            if(isLegal(pos, newPos)) moves.insert(newPos);
         }
     }
 
-    for(square s : moves){
-        if(!isLegal(pos, s)) moves.erase(s);
-    }
     return moves;
 }
 
@@ -99,8 +95,28 @@ std::set<square> Game::LegalKingMoves(square pos){
 }
 
 //TODO
+//Refactor suggestion, change +-1 to direction variable and remove the gamestate check
 std::set<square> Game::LegalPawnMoves(square pos){
-    if(gameState.currentPlayer == White){
-        
+    std::set<square> moves;
+    int direction;
+    if(gameState.currentPlayer == White) direction = 1;
+    else direction = -1;
+        if(isLegal(pos, {pos.first+direction*1,pos.second-1})) moves.insert({pos.first+direction*1,pos.second-1});
+        if(isLegal(pos, {pos.first+direction*1,pos.second+1})) moves.insert({pos.first+direction*1,pos.second+1});
+        if(IsEmpty({pos.first+direction*1,pos.second}) && isLegal(pos, {pos.first+direction*1,pos.second})) moves.insert({pos.first+direction*1,pos.second});
+        if(IsEmpty({pos.first+direction*2,pos.second}) && isLegal(pos, {pos.first+direction*2,pos.second})) moves.insert({pos.first+direction*2,pos.second});
+        if(gameState.canEnPassant){
+            if(gameState.enPassant == std::make_pair(pos.first, pos.second-1)){
+                Board newBoard = board;
+                newBoard.RemovePiece({pos.first, pos.second-1});
+                if(isLegal(pos, {pos.first+direction*1, pos.second-1})) moves.insert({pos.first, pos.second-1});
+                
+            }
+            else if(gameState.enPassant == std::make_pair(pos.first, pos.second+1)){
+                Board newBoard = board;
+                newBoard.RemovePiece({pos.first, pos.second+1});
+                if(isLegal(pos, {pos.first+direction*1, pos.second+1})) moves.insert({pos.first, pos.second+1});
+            }
+        }
     }
 }

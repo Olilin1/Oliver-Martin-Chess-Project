@@ -25,7 +25,7 @@ class Board{
     bool IsAttackedByPawn(square pos, Player attacker);
     bool IsAttackedByKing(square pos, Player attacker);
     void MakeMove(square origin, square destination);
-
+    
     //A lot of these helper functions are identical to the ones in the game class, so they should probably be moved to a separate file.
     //Especially the ones that don't require access to members.
     square AlgebraicToSquare(std::string);
@@ -38,6 +38,8 @@ class Board{
     void PrintBoard();
     bool OnBoard(square);
     bool IsEmpty(square);
+    void RemovePiece(square);
+
 
     Piece& operator[](square);
 
