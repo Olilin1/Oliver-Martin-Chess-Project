@@ -1,5 +1,32 @@
 #include "game.hpp"
 
+std::set<square> Game::LegalMoves(square pos){
+ switch (pieceType(board[pos]))
+    {
+    case Knight:
+        return LegalKnightMoves(pos);
+        break;
+    case Bishop:
+        return LegalBishopMoves(pos);
+    break;
+    case Queen:
+        return LegalQueenMoves(pos);
+    break;
+    case Rook:
+        return LegalRookMoves(pos);
+    break;
+    case King:
+        return LegalKingMoves(pos);
+    break;
+    case Pawn:
+        return LegalPawnMoves(pos);
+    break;
+    default:
+        return {};
+        break;
+    }
+}
+
 std::set<square> Game::CalculateSlidingMoves(square pos, std::vector<std::pair<int, int>> directions)
 {
 
@@ -43,6 +70,8 @@ std::set<square> Game::LegalKnightMoves(square pos)
 
 std::set<square> Game::LegalBishopMoves(square pos)
 {
+    if (pieceColor(board[pos]) != gameState.currentPlayer)
+        return {};
     std::set<square> moves = CalculateSlidingMoves(pos, bishopMoves);
     for (square s : moves)
     {
@@ -54,6 +83,8 @@ std::set<square> Game::LegalBishopMoves(square pos)
 
 std::set<square> Game::LegalRookMoves(square pos)
 {
+    if (pieceColor(board[pos]) != gameState.currentPlayer)
+        return {};
     std::set<square> moves = CalculateSlidingMoves(pos, rookMoves);
     for (square s : moves)
     {
@@ -65,6 +96,8 @@ std::set<square> Game::LegalRookMoves(square pos)
 
 std::set<square> Game::LegalQueenMoves(square pos)
 {
+        if (pieceColor(board[pos]) != gameState.currentPlayer)
+        return {};
     std::set<square> moves = CalculateSlidingMoves(pos, queenMoves);
     for (square s : moves)
     {
@@ -76,6 +109,8 @@ std::set<square> Game::LegalQueenMoves(square pos)
 
 std::set<square> Game::LegalKingMoves(square pos)
 {
+        if (pieceColor(board[pos]) != gameState.currentPlayer)
+        return {};
     std::set<square> moves;
     for (int i = -1; i <= 1; i++)
     {
@@ -131,6 +166,8 @@ std::set<square> Game::LegalKingMoves(square pos)
 
 std::set<square> Game::LegalPawnMoves(square pos)
 {
+        if (pieceColor(board[pos]) != gameState.currentPlayer)
+        return {};
     std::set<square> moves;
     int direction;
     if (gameState.currentPlayer == White)
@@ -162,4 +199,5 @@ std::set<square> Game::LegalPawnMoves(square pos)
                 moves.insert({pos.first, pos.second + 1});
         }
     }
+    return moves;
 }

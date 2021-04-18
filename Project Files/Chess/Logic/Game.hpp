@@ -43,13 +43,14 @@ public:
     Game();
     void SetupGame(std::string fen);
 
-    bool MakeMove(square origin, square destination, Piece promotion);
+    bool MakeMove(square origin, square destination, Piece promotion = Empty);
     std::set<square> LegalPawnMoves(square);
     std::set<square> LegalBishopMoves(square);
     std::set<square> LegalRookMoves(square);
     std::set<square> LegalQueenMoves(square);  
     std::set<square> LegalKingMoves(square);
     std::set<square> LegalKnightMoves(square);
+    std::set<square> LegalMoves(square);
     std::set<square> CalculateSlidingMoves(square, std::vector<std::pair<int,int>>);
 
 

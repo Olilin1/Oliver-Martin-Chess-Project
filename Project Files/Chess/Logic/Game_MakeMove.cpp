@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-bool Game::MakeMove(square origin, square destination, Piece promotion = Empty){
+bool Game::MakeMove(square origin, square destination, Piece promotion){
     bool wasLegal = false;
     bool enPassant = false;
     switch (pieceType(board[origin]))

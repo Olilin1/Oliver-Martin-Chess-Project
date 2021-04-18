@@ -2,7 +2,7 @@
 
 //Checks if a square is on the board
 bool OnBoard(square pos){
-    if(pos.first < 8 && pos.first > 0 && pos.second < 8 && pos.second > 0) {
+    if(pos.first < 8 && pos.first >= 0 && pos.second < 8 && pos.second >= 0) {
             return true;
         }
      return false;
