@@ -174,9 +174,11 @@ std::set<square> Game::LegalPawnMoves(square pos)
         direction = 1;
     else
         direction = -1;
-    if (isLegal(pos, {pos.first + direction * 1, pos.second - 1}))
+    if (pieceColor(board[{pos.first + direction * 1, pos.second - 1}]) == oppositePlayer(gameState.currentPlayer) && 
+    isLegal(pos, {pos.first + direction * 1, pos.second - 1}))
         moves.insert({pos.first + direction * 1, pos.second - 1});
-    if (isLegal(pos, {pos.first + direction * 1, pos.second + 1}))
+    if (pieceColor(board[{pos.first + direction * 1, pos.second + 1}]) == oppositePlayer(gameState.currentPlayer) && 
+    isLegal(pos, {pos.first + direction * 1, pos.second + 1}))
         moves.insert({pos.first + direction * 1, pos.second + 1});
     if (IsEmpty({pos.first + direction * 1, pos.second}) && isLegal(pos, {pos.first + direction * 1, pos.second}))
         moves.insert({pos.first + direction * 1, pos.second});
