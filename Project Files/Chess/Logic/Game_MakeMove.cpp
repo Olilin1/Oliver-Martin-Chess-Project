@@ -6,6 +6,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     switch (pieceType(board[origin]))
     {
     case Knight:
+    
         if(LegalKnightMoves(origin).count(destination)){
             if(board[destination] != Empty) gameState.halfMoveClock = 0;
             board.MakeMove(origin, destination);
@@ -50,14 +51,17 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
                 board.MakeMove({origin.first, 7}, {origin.first, origin.second+1});
             }
 
-            if(pieceColor(board[origin]) ==White){
+            if(gameState.currentPlayer ==White){
                 gameState.whiteCanCastleKingSide = false;
                 gameState.whiteCanCastleQueenSide = false;
+                gameState.whiteKingPos = destination;
             } 
             else{
                 gameState.blackCanCastleKingSide = false;
                 gameState.blackCanCastleQueenSide = false;
+                gameState.blackKingPos = destination;
             }
+            
         }
     break;
     case Pawn:
@@ -88,6 +92,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         return true;
     }
     else{
+        std::cout << board[origin];
         return false;
     }
 }

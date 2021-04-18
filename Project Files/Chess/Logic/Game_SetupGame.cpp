@@ -31,6 +31,7 @@ void Game::SetupGame(std::string fen)
             break;
         case 'k':
             board[{row,col}] = BlackKing;
+            gameState.blackKingPos = {row,col};
             col++;
             break;
         case 'q':
@@ -55,6 +56,7 @@ void Game::SetupGame(std::string fen)
             break;
         case 'K':
             board[{row,col}] = WhiteKing;
+            gameState.whiteKingPos = {row,col};
             col++;
             break;
         case 'Q':
