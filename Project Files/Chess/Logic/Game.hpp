@@ -43,7 +43,7 @@ public:
     Game();
     void SetupGame(std::string fen);
 
-    void MakeMove(square origin, square destination);
+    bool MakeMove(square origin, square destination, Piece promotion);
     std::set<square> LegalPawnMoves(square);
     std::set<square> LegalBishopMoves(square);
     std::set<square> LegalRookMoves(square);

@@ -16,14 +16,6 @@ bool Game::canMove(square pos){
     else return false;
 }
 
-
-
-
-
-
-
-
-
 //Prints the board to console, using unicode charachters
 void Game::PrintBoard()
 {

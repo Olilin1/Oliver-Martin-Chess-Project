@@ -11,7 +11,7 @@ bool Board::IsAttacked(square pos, Player attacker){
 
 }
 
-//Should Probably refactor this further
+//Should Probably refactor this further using the new constants.
 bool Board::IsAttackedByRookQueen(square pos, Player attacker){
     for(int i = 0; i > -8; i--){    
         square newPos = {pos.first+i, pos.second};
