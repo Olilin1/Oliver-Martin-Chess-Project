@@ -22,7 +22,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
             render_pieces();
             prevPress = {-1,-1};
             return;
-
         }
     }
 

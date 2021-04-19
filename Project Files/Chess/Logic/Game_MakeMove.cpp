@@ -50,6 +50,9 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
                 board.MakeMove(origin, destination);
                 board.MakeMove({origin.first, 7}, {origin.first, origin.second+1});
             }
+            else{
+                board.MakeMove(origin, destination);
+            }
 
             if(gameState.currentPlayer ==White){
                 gameState.whiteCanCastleKingSide = false;
@@ -69,7 +72,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
             wasLegal = true;
             gameState.halfMoveClock = 0;
             board.MakeMove(origin, destination);
-            if(abs(destination.second-origin.second) == 2){
+            if(abs(destination.first-origin.first) == 2){
                 enPassant = true;
                 gameState.enPassant = destination;
             }
@@ -84,11 +87,18 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     default:
         break;
     }
+
+    
+
     if(wasLegal){
         gameState.halfMoveClock++;
         if(gameState.currentPlayer == Black) gameState.fullMoveClock++;
         gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);
         gameState.canEnPassant = enPassant;
+        if(destination == std::make_pair(0,0) || origin == std::make_pair(0,0)) gameState.whiteCanCastleQueenSide = false;
+        if(destination == std::make_pair(0,7) || origin == std::make_pair(0,7)) gameState.whiteCanCastleKingSide = false;
+        if(destination == std::make_pair(7,0) || origin == std::make_pair(7,0)) gameState.blackCanCastleQueenSide = false;
+        if(destination == std::make_pair(7,7) || origin == std::make_pair(7,7)) gameState.blackCanCastleKingSide = false;
         return true;
     }
     else{

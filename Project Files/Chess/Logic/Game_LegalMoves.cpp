@@ -187,19 +187,20 @@ std::set<square> Game::LegalPawnMoves(square pos)
         moves.insert({pos.first + direction * 2, pos.second});
     if (gameState.canEnPassant)
     {
+        std::cout << "ENPASSANT TIME AT " << gameState.enPassant.first << ' ' << gameState.enPassant.second << std::endl;
         if (gameState.enPassant == std::make_pair(pos.first, pos.second - 1))
         {
             Board newBoard = board;
             newBoard.RemovePiece({pos.first, pos.second - 1});
             if (isLegal(pos, {pos.first + direction * 1, pos.second - 1}))
-                moves.insert({pos.first, pos.second - 1});
+                moves.insert({pos.first + direction * 1, pos.second - 1});
         }
         else if (gameState.enPassant == std::make_pair(pos.first, pos.second + 1))
         {
             Board newBoard = board;
             newBoard.RemovePiece({pos.first, pos.second + 1});
             if (isLegal(pos, {pos.first + direction * 1, pos.second + 1}))
-                moves.insert({pos.first, pos.second + 1});
+                moves.insert({pos.first+ direction * 1, pos.second + 1});
         }
     }
     return moves;
