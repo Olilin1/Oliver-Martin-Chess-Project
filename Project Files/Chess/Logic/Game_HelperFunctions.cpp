@@ -47,5 +47,5 @@ bool Game::isLegal(square origin, square destination){
     if(!canMove(destination)) return false;
     Board newBoard = board;
     newBoard.MakeMove(origin, destination);
-    return !(newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)));
+    return !newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer));
 }

@@ -1,85 +1,56 @@
 #include "board.hpp"
 
+std::set<square> Board::CalculateSlidingMoves(square pos, std::vector<std::pair<int, int>> directions)
+{
+
+    std::set<square> moves;
+    for (std::pair<int, int> p : directions)
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            square newPos = {pos.first + p.first * i, pos.second + p.second * i};
+            if(!OnBoard(newPos)) break;
+
+            if(!IsEmpty(newPos)){
+                moves.insert(newPos);
+                break;
+            }    
+        }
+    }
+    return moves;
+}
+
 //Checks if a square is under attack by attacker
 bool Board::IsAttacked(square pos, Player attacker){
     return 
-    IsAttackedByRookQueen(pos, attacker) ||
-    IsAttackedByBishopQueen(pos, attacker) ||
+    IsAttackedByRook(pos, attacker) ||
+    IsAttackedByBishop(pos, attacker) ||
     IsAttackedByKnight(pos, attacker) ||
     IsAttackedByPawn(pos, attacker) ||
+    IsAttackedByQueen ||
     IsAttackedByKing(pos, attacker);
 
 }
 
 //Should Probably refactor this further using the new constants.
-bool Board::IsAttackedByRookQueen(square pos, Player attacker){
-    for(int i = 0; i > -8; i--){    
-        square newPos = {pos.first+i, pos.second};
-        if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Rook)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
-    }
-
-    for(int i = 0; i < 8; i++){
-        square newPos = {pos.first+i, pos.second};
-                if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Rook)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
-    }
-
-    for(int i = 0; i > -8; i--){
-        square newPos = {pos.first, pos.second+i};
-                if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Rook)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
-    }
-
-    for(int i = 0; i < 8; i++){
-        square newPos = {pos.first, pos.second+i};
-                if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Rook)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
+bool Board::IsAttackedByRook(square pos, Player attacker){
+    for(square a : CalculateSlidingMoves(pos, rookMoves)){
+        if(pieceType(board[a.first][a.second]) == Rook && pieceColor( board[a.first][a.second]) == attacker) return true;
     }
     return false;
 }
 
 //Should probably be refactored further too
-bool Board::IsAttackedByBishopQueen(square pos, Player attacker){
-    for(int i = 0; i < 8; i++){
-        
-        square newPos = {pos.first+i, pos.second+i};
-        if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Bishop)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
+bool Board::IsAttackedByBishop(square pos, Player attacker){
+    for(square a : CalculateSlidingMoves(pos, bishopMoves)){
+        if(pieceType(board[a.first][a.second]) == Bishop && pieceColor( board[a.first][a.second]) == attacker) return true;
     }
-        for(int i = 0; i < 8; i++){
-        
-        square newPos = {pos.first+i, pos.second-i};
-        if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Bishop)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
-    }
-        for(int i = 0; i < 8; i++){
-        
-        square newPos = {pos.first-i, pos.second+i};
-        if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Bishop)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
-    }
-        for(int i = 0; i < 8; i++){
-        
-        square newPos = {pos.first-i, pos.second-i};
-        if(!OnBoard(newPos)) break;
-        if(pieceColor(board[newPos.first][newPos.second]) == attacker && 
-        ( pieceType(board[newPos.first][newPos.second]) == Queen || pieceType(board[newPos.first][newPos.second]) == Bishop)) return true;
-        if (board[newPos.first][newPos.second] != Empty) break;
+    return false;
+}
+
+bool Board::IsAttackedByQueen(square pos, Player attacker){
+    for(square a : CalculateSlidingMoves(pos, queenMoves)){
+        if(pieceType(board[a.first][a.second]) == Queen && pieceColor( board[a.first][a.second]) == attacker) return true;
     }
     return false;
 }

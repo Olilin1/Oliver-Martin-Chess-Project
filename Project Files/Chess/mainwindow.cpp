@@ -2,18 +2,48 @@
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
+
+    //Delete all previously rendered pieces
+    for(auto a : moveCircles){
+        scene->removeItem(a);
+        delete a;
+    }
+    moveCircles.clear();
     // handle the event as you like
-    if(event->pos().y() < 145 || event->pos().y() > 145+8*squareSize || event->pos().x() < 145 || event->pos().x() > 145+8*squareSize) return;
+    if(event->pos().y() < 145 || event->pos().y() > 145+8*squareSize || event->pos().x() < 145 || event->pos().x() > 145+8*squareSize){
+        prevPress = {-1,-1};
+        return;
+    }
     int row = abs((event->pos().y()-145)/squareSize-7);
     int col = (event->pos().x()-145)/squareSize;
+
+    if(prevPress != std::make_pair(-1,-1)){
+        if(game.MakeMove(prevPress, {row,col})){
+            render_pieces();
+            prevPress = {-1,-1};
+            return;
+
+        }
+    }
+
     std::cout   << row<< ' '<< col  << std::endl;
-    board[row][col]->setBrush(Qt::red);
+
+    std::set<square> moves = game.LegalMoves({row,col});
+    for(square move : moves){
+        QGraphicsEllipseItem* moveCircle = new QGraphicsEllipseItem(squareSize*move.second +squareSize/2 -5, squareSize*move.first +squareSize/2-5, 10, 10);
+        moveCircles.push_back(moveCircle);
+        moveCircle->setBrush(Qt::red);
+        scene->addItem(moveCircle);
+    }
+
+    prevPress = {row,col};
     QMainWindow::mousePressEvent(event); // then call default implementation
 }
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    prevPress = {-1,-1};
     resize(800,800);
 
     //TODO: Move this

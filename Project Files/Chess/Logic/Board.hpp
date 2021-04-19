@@ -20,9 +20,11 @@ class Board{
     public:
     Board();
 
+    std::set<square> CalculateSlidingMoves(square, std::vector<std::pair<int,int>>);
     bool IsAttacked(square pos, Player attacker);
-    bool IsAttackedByRookQueen(square pos, Player attacker);
-    bool IsAttackedByBishopQueen(square pos, Player attacker);
+    bool IsAttackedByRook(square pos, Player attacker);
+    bool IsAttackedByBishop(square pos, Player attacker);
+    bool IsAttackedByQueen(square pos, Player attacker);
     bool IsAttackedByKnight(square pos, Player attacker);
     bool IsAttackedByPawn(square pos, Player attacker);
     bool IsAttackedByKing(square pos, Player attacker);

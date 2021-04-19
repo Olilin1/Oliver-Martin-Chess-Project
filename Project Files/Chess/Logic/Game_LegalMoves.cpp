@@ -40,6 +40,7 @@ std::set<square> Game::CalculateSlidingMoves(square pos, std::vector<std::pair<i
                 moves.insert(newPos);
             else
                 break;
+            if(!IsEmpty(newPos)) break;
         }
     }
     return moves;
@@ -182,7 +183,7 @@ std::set<square> Game::LegalPawnMoves(square pos)
         moves.insert({pos.first + direction * 1, pos.second + 1});
     if (IsEmpty({pos.first + direction * 1, pos.second}) && isLegal(pos, {pos.first + direction * 1, pos.second}))
         moves.insert({pos.first + direction * 1, pos.second});
-    if (IsEmpty({pos.first + direction * 2, pos.second}) && isLegal(pos, {pos.first + direction * 2, pos.second}))
+    if (IsEmpty({pos.first + direction * 1, pos.second}) && IsEmpty({pos.first + direction * 2, pos.second}) && (pos.first == (pieceColor(board[pos]) == White ? 1 : 6)) && isLegal(pos, {pos.first + direction * 2, pos.second}))
         moves.insert({pos.first + direction * 2, pos.second});
     if (gameState.canEnPassant)
     {

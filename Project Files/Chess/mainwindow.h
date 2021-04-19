@@ -15,6 +15,7 @@
 #include <string>
 #include <map>
 #include <QMouseEvent>
+#include <QGraphicsEllipseItem>
 #include"Logic/Game.hpp"
 
 class MainWindow : public QMainWindow
@@ -24,9 +25,11 @@ private:
     int squareSize;
     std::map<char, QImage*> pieceImages;
     std::vector<QGraphicsPixmapItem*> pieces;
+    std::vector<QGraphicsEllipseItem*> moveCircles;
     QGraphicsView* view;
     QGraphicsScene* scene;
     QGraphicsRectItem* board[8][8];
+    square prevPress;
     Game game;
 
 

@@ -92,7 +92,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         return true;
     }
     else{
-        std::cout << board[origin];
+        
         return false;
     }
 }
