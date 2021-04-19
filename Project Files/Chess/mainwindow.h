@@ -14,6 +14,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <QMouseEvent>
 #include"Logic/Game.hpp"
 
 class MainWindow : public QMainWindow
@@ -35,5 +36,10 @@ private:
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+
+
 };
 #endif // MAINWINDOW_H

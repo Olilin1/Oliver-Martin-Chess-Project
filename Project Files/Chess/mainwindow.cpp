@@ -1,5 +1,16 @@
 #include "mainwindow.h"
 
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    // handle the event as you like
+    if(event->pos().y() < 145 || event->pos().y() > 145+8*squareSize || event->pos().x() < 145 || event->pos().x() > 145+8*squareSize) return;
+    int row = abs((event->pos().y()-145)/squareSize-7);
+    int col = (event->pos().x()-145)/squareSize;
+    std::cout   << row<< ' '<< col  << std::endl;
+    board[row][col]->setBrush(Qt::red);
+    QMainWindow::mousePressEvent(event); // then call default implementation
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -64,7 +75,7 @@ void MainWindow::generate_board(QColor black, QColor white){
             scene->addItem(board[i][j]);
         }
     }
-    board[1][0]->setBrush(Qt::red);
+
 }
 
 //This function takes a string in fen notation(Only the first placement part)
@@ -84,16 +95,12 @@ void MainWindow::render_pieces(){
         for(int j = 0; j<8; j++){
             if(b[{i,j}] == Empty) continue;
 
-
-
             QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[b[{i,j}]]->mirrored(false,true)));
             newItem->setOffset(squareSize * j-1, squareSize * i);
             scene->addItem(newItem);
             pieces.push_back(newItem);
         }
     }
-
-
 }
 
 
