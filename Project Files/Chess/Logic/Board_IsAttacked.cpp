@@ -27,7 +27,7 @@ bool Board::IsAttacked(square pos, Player attacker){
     IsAttackedByBishop(pos, attacker) ||
     IsAttackedByKnight(pos, attacker) ||
     IsAttackedByPawn(pos, attacker) ||
-    IsAttackedByQueen ||
+    IsAttackedByQueen(pos, attacker) ||
     IsAttackedByKing(pos, attacker);
 
 }
