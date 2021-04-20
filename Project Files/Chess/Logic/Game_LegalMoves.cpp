@@ -30,6 +30,8 @@ std::set<square> Game::LegalMoves(square pos){
 std::set<square> Game::CalculateSlidingMoves(square pos, std::vector<std::pair<int, int>> directions)
 {
 
+    if (pieceColor(board[pos]) != gameState.currentPlayer)
+        return {};
     std::set<square> moves;
     for (std::pair<int, int> p : directions)
     {
@@ -70,24 +72,21 @@ std::set<square> Game::LegalKnightMoves(square pos)
 
 std::set<square> Game::LegalBishopMoves(square pos)
 {
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return {};
+
     std::set<square> moves = CalculateSlidingMoves(pos, bishopMoves);
     return moves;
 }
 
 std::set<square> Game::LegalRookMoves(square pos)
 {
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return {};
+
     std::set<square> moves = CalculateSlidingMoves(pos, rookMoves);
     return moves;
 }
 
 std::set<square> Game::LegalQueenMoves(square pos)
 {
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return {};
+
     std::set<square> moves = CalculateSlidingMoves(pos, queenMoves);
     return moves;
 }
