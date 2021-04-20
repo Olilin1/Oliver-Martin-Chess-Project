@@ -119,8 +119,13 @@ std::set<square> Game::LegalKingMoves(square pos)
         {
             if (i == 0 && j == 0)
                 continue;
-            if (isLegal(pos, {pos.first + i, pos.second + j}))
-                moves.insert({pos.first + i, pos.second + j});
+            square newPos = {pos.first+i, pos.second+j};
+            if(!canMove(newPos)) continue;
+            Board newBoard = board;
+            newBoard.MakeMove(pos, newPos);
+            if(!newBoard.IsAttacked(newPos, oppositePlayer(gameState.currentPlayer))){
+                moves.insert(newPos);
+            }
         }
     }
 
