@@ -36,10 +36,9 @@ std::set<square> Game::CalculateSlidingMoves(square pos, std::vector<std::pair<i
         for (int i = 1; i < 8; i++)
         {
             square newPos = {pos.first + p.first * i, pos.second + p.second * i};
-            if (canMove(newPos))
+            
+            if (isLegal(pos, newPos))
                 moves.insert(newPos);
-            else
-                break;
             if(!IsEmpty(newPos)) break;
         }
     }
@@ -74,11 +73,6 @@ std::set<square> Game::LegalBishopMoves(square pos)
     if (pieceColor(board[pos]) != gameState.currentPlayer)
         return {};
     std::set<square> moves = CalculateSlidingMoves(pos, bishopMoves);
-    for (square s : moves)
-    {
-        if (!isLegal(pos, s))
-            moves.erase(s);
-    }
     return moves;
 }
 
@@ -87,24 +81,14 @@ std::set<square> Game::LegalRookMoves(square pos)
     if (pieceColor(board[pos]) != gameState.currentPlayer)
         return {};
     std::set<square> moves = CalculateSlidingMoves(pos, rookMoves);
-    for (square s : moves)
-    {
-        if (!isLegal(pos, s))
-            moves.erase(s);
-    }
     return moves;
 }
 
 std::set<square> Game::LegalQueenMoves(square pos)
 {
-        if (pieceColor(board[pos]) != gameState.currentPlayer)
+    if (pieceColor(board[pos]) != gameState.currentPlayer)
         return {};
     std::set<square> moves = CalculateSlidingMoves(pos, queenMoves);
-    for (square s : moves)
-    {
-        if (!isLegal(pos, s))
-            moves.erase(s);
-    }
     return moves;
 }
 
@@ -192,7 +176,6 @@ std::set<square> Game::LegalPawnMoves(square pos)
         moves.insert({pos.first + direction * 2, pos.second});
     if (gameState.canEnPassant)
     {
-        std::cout << "ENPASSANT TIME AT " << gameState.enPassant.first << ' ' << gameState.enPassant.second << std::endl;
         if (gameState.enPassant == std::make_pair(pos.first, pos.second - 1))
         {
             Board newBoard = board;
