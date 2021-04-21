@@ -7,13 +7,13 @@ std::set<square> Game::LegalMoves(square pos){
         return LegalKnightMoves(pos);
         break;
     case Bishop:
-        return LegalBishopMoves(pos);
+        return  CalculateSlidingMoves(pos, bishopMoves);
     break;
     case Queen:
-        return LegalQueenMoves(pos);
+        return  CalculateSlidingMoves(pos, queenMoves);
     break;
     case Rook:
-        return LegalRookMoves(pos);
+        return  CalculateSlidingMoves(pos, rookMoves);
     break;
     case King:
         return LegalKingMoves(pos);
@@ -70,26 +70,6 @@ std::set<square> Game::LegalKnightMoves(square pos)
     return moves;
 }
 
-std::set<square> Game::LegalBishopMoves(square pos)
-{
-
-    std::set<square> moves = CalculateSlidingMoves(pos, bishopMoves);
-    return moves;
-}
-
-std::set<square> Game::LegalRookMoves(square pos)
-{
-
-    std::set<square> moves = CalculateSlidingMoves(pos, rookMoves);
-    return moves;
-}
-
-std::set<square> Game::LegalQueenMoves(square pos)
-{
-
-    std::set<square> moves = CalculateSlidingMoves(pos, queenMoves);
-    return moves;
-}
 
 std::set<square> Game::LegalKingMoves(square pos)
 {

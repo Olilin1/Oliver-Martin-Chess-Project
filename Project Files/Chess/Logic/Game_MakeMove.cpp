@@ -1,45 +1,46 @@
 #include "Game.hpp"
 
 bool Game::MakeMove(square origin, square destination, Piece promotion){
-    bool wasLegal = false;
+
     bool enPassant = false;
+    if(!LegalMoves(origin).count(destination)) return false;
+    if(board[destination] != Empty) gameState.halfMoveClock = 0;
     switch (pieceType(board[origin]))
     {
     case Knight:
     
-        if(LegalKnightMoves(origin).count(destination)){
-            if(board[destination] != Empty) gameState.halfMoveClock = 0;
+
+            
             board.MakeMove(origin, destination);
-            wasLegal = true;
-        }
+
+        
         break;
     case Bishop:
-        if(LegalBishopMoves(origin).count(destination)){
-            if(board[destination] != Empty) gameState.halfMoveClock = 0;
+        
+            
             board.MakeMove(origin, destination);
-            wasLegal = true;
-        }
+
+        
     break;
     case Queen:
-        if(LegalQueenMoves(origin).count(destination)){
-            if(board[destination] != Empty) gameState.halfMoveClock = 0;
+        
+            
             board.MakeMove(origin, destination);
-            wasLegal = true;
-        }
+
+        
     break;
     case Rook:
-        if(LegalRookMoves(origin).count(destination)){
-            if(board[destination] != Empty) gameState.halfMoveClock = 0;
+        
+            
             board.MakeMove(origin, destination);
-            wasLegal = true;
-        }
+
+        
     break;
     case King:
-        if(LegalKingMoves(origin).count(destination)){
-            wasLegal = true;
+        
+
             if(board[destination] != Empty)
             {
-            gameState.halfMoveClock = 0;
             board.MakeMove(origin, destination);
             }
             else if(origin.second - destination.second == 2){
@@ -65,11 +66,11 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
                 gameState.blackKingPos = destination;
             }
             
-        }
+        
     break;
     case Pawn:
-        if(LegalPawnMoves(origin).count(destination)){
-            wasLegal = true;
+        
+
             gameState.halfMoveClock = 0;
             board.MakeMove(origin, destination);
             if(abs(destination.first-origin.first) == 2){
@@ -82,7 +83,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
                     board.RemovePiece(gameState.enPassant);
                 }
             }
-        }
+        
     break;
     default:
         break;
@@ -90,7 +91,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
 
     
 
-    if(wasLegal){
+
         gameState.halfMoveClock++;
         if(gameState.currentPlayer == Black) gameState.fullMoveClock++;
         gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);
@@ -100,9 +101,6 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         if(destination == std::make_pair(7,0) || origin == std::make_pair(7,0)) gameState.blackCanCastleQueenSide = false;
         if(destination == std::make_pair(7,7) || origin == std::make_pair(7,7)) gameState.blackCanCastleKingSide = false;
         return true;
-    }
-    else{
-        
-        return false;
-    }
+    
+
 }

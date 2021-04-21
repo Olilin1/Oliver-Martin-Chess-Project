@@ -45,9 +45,6 @@ public:
 
     bool MakeMove(square origin, square destination, Piece promotion = Empty);
     std::set<square> LegalPawnMoves(square);
-    std::set<square> LegalBishopMoves(square);
-    std::set<square> LegalRookMoves(square);
-    std::set<square> LegalQueenMoves(square);  
     std::set<square> LegalKingMoves(square);
     std::set<square> LegalKnightMoves(square);
     std::set<square> LegalMoves(square);
@@ -58,7 +55,6 @@ public:
 
     //Short(ish)Helper functions, some of these should be private, and some should probably be static, 
     //and some might not be helper functions (ex printboard)
-    //A lot of these are identical to functions in board.hpp and should be reworked to call on those, or moved to another file
     square CurrPlayerKingPostion();
 
     bool canMove(square);
