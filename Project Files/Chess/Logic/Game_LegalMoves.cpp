@@ -7,13 +7,13 @@ std::set<square> Game::LegalMoves(square pos){
         return LegalKnightMoves(pos);
         break;
     case Bishop:
-        return  CalculateSlidingMoves(pos, bishopMoves);
+        return  LegalSlidingMoves(pos, bishopMoves);
     break;
     case Queen:
-        return  CalculateSlidingMoves(pos, queenMoves);
+        return  LegalSlidingMoves(pos, queenMoves);
     break;
     case Rook:
-        return  CalculateSlidingMoves(pos, rookMoves);
+        return  LegalSlidingMoves(pos, rookMoves);
     break;
     case King:
         return LegalKingMoves(pos);
@@ -27,7 +27,7 @@ std::set<square> Game::LegalMoves(square pos){
     }
 }
 
-std::set<square> Game::CalculateSlidingMoves(square pos, std::vector<std::pair<int, int>> directions)
+std::set<square> Game::LegalSlidingMoves(square pos, std::vector<std::pair<int, int>> directions)
 {
 
     if (pieceColor(board[pos]) != gameState.currentPlayer)

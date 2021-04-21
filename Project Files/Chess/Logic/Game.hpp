@@ -47,8 +47,8 @@ public:
     std::set<square> LegalPawnMoves(square);
     std::set<square> LegalKingMoves(square);
     std::set<square> LegalKnightMoves(square);
+    std::set<square> LegalSlidingMoves(square, std::vector<std::pair<int,int>>);
     std::set<square> LegalMoves(square);
-    std::set<square> CalculateSlidingMoves(square, std::vector<std::pair<int,int>>);
     Board getBoard();
 
 
