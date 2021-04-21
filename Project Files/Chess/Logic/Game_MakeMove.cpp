@@ -21,11 +21,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     break;
     case King:
     
-        if(board[destination] != Empty)
-        {
-        board.MakeMove(origin, destination);
-        }
-        else if(origin.second - destination.second == 2){
+        if(origin.second - destination.second == 2){
             board.MakeMove(origin, destination);
             board.MakeMove({origin.first, 0}, {origin.first, origin.second-1});
         }
