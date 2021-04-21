@@ -73,7 +73,7 @@ std::set<square> Game::LegalKnightMoves(square pos)
 
 std::set<square> Game::LegalKingMoves(square pos)
 {
-        if (pieceColor(board[pos]) != gameState.currentPlayer)
+    if (pieceColor(board[pos]) != gameState.currentPlayer)
         return {};
     std::set<square> moves;
     for (int i = -1; i <= 1; i++)
@@ -105,6 +105,7 @@ std::set<square> Game::LegalKingMoves(square pos)
         if (gameState.blackCanCastleQueenSide &&
             canMove({7, 3}) &&
             canMove({7, 2}) &&
+            canMove({7, 1}) &&
             !board.IsAttacked({7, 3}, White) &&
             !board.IsAttacked({7, 2}, White))
         {
@@ -124,6 +125,7 @@ std::set<square> Game::LegalKingMoves(square pos)
         if (gameState.whiteCanCastleQueenSide &&
             canMove({0, 3}) &&
             canMove({0, 2}) &&
+            canMove({0, 1}) &&
             !board.IsAttacked({0, 3}, Black) &&
             !board.IsAttacked({0, 2}, Black))
         {
@@ -135,7 +137,7 @@ std::set<square> Game::LegalKingMoves(square pos)
 
 std::set<square> Game::LegalPawnMoves(square pos)
 {
-        if (pieceColor(board[pos]) != gameState.currentPlayer)
+    if (pieceColor(board[pos]) != gameState.currentPlayer)
         return {};
     std::set<square> moves;
     int direction;
