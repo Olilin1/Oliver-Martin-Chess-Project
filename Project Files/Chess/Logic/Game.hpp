@@ -1,5 +1,4 @@
-#ifndef GAME
-#define GAME
+#pragma once
 
 #include"Enums.hpp"
 #include"GameState.hpp"
@@ -67,4 +66,3 @@ public:
 
     };
 
-#endif

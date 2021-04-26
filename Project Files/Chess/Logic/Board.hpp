@@ -1,5 +1,4 @@
-#ifndef BOARD
-#define BOARD
+#pragma once
 
 #include"Enums.hpp"
 #include"Typedefs.hpp"
@@ -40,5 +39,3 @@ class Board{
     Piece& operator[](square);
 
 };
-
-#endif

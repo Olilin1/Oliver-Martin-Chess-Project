@@ -1,6 +1,4 @@
-#ifndef ENUMS
-#define ENUMS
-
+#pragma once
 enum Piece {
     Empty = 0,
     BlackPawn = -1,
@@ -28,5 +26,3 @@ enum Player {
     Black = -1, 
     White = 1
 };
-
-#endif

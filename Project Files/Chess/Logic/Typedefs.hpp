@@ -1,8 +1,5 @@
-#ifndef TYPEDEFS
-#define TYPEDEFS
+#pragma once
 
 #include<utility>
 
 typedef std::pair<int, int> square;
-
-#endif

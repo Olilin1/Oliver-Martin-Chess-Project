@@ -1,5 +1,4 @@
-#ifndef GAMESTATE
-#define GAMESTATE
+#pragma once
 
 #include"Enums.hpp"
 #include"Typedefs.hpp"
@@ -18,5 +17,3 @@ struct GameState {
     bool whiteCanCastleKingSide;
     bool whiteCanCastleQueenSide;
 };
-
-#endif

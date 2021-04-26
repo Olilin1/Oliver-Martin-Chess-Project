@@ -1,5 +1,4 @@
-#ifndef HELPER_FUNCTIONS
-#define HELPER_FUNCTIONS
+#pragma once
 
     #include"Typedefs.hpp"
     #include"Enums.hpp"
@@ -13,5 +12,3 @@
     bool OnBoard(square);
     std::string ConvertToUnicode(Piece i);
     Player oppositePlayer(Player);
-
-#endif
