@@ -31,7 +31,6 @@ class Game{
 
 private:
     
-
     Board board;
     GameState gameState;
     std::map<square, Piece> whitePieces;

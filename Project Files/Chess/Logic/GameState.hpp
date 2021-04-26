@@ -16,4 +16,6 @@ struct GameState {
     bool blackCanCastleQueenSide;
     bool whiteCanCastleKingSide;
     bool whiteCanCastleQueenSide;
+    bool awaitingPromotion;
+    square promotion;
 };

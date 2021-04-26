@@ -2,6 +2,13 @@
 
 bool Game::MakeMove(square origin, square destination, Piece promotion){
 
+    if(gameState.awaitingPromotion){
+        if(promotion == Empty) return false;
+        board[gameState.promotion] = promotion;
+        return true;
+    }
+
+    gameState.awaitingPromotion = false;
     bool enPassant = false;
     if(!LegalMoves(origin).count(destination)) return false;
     if(board[destination] != Empty) gameState.halfMoveClock = 0;
@@ -61,12 +68,16 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
                 board.RemovePiece(gameState.enPassant);
             }
         }
+        if(destination.first == 0 || destination.first == 7){
+            gameState.promotion = destination;
+            gameState.awaitingPromotion = true;
+        }
         
     break;
     default:
         break;
     }
-
+  
     gameState.halfMoveClock++;
     if(gameState.currentPlayer == Black) gameState.fullMoveClock++;
     gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);

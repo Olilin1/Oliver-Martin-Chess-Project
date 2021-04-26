@@ -1,6 +1,7 @@
 #include "game.hpp"
 
 std::set<square> Game::LegalMoves(square pos){
+    if(gameState.awaitingPromotion) return {}; 
  switch (pieceType(board[pos]))
     {
     case Knight:
