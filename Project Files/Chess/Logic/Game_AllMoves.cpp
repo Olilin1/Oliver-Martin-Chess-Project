@@ -14,29 +14,37 @@ long long int Game::SumOfAllMoves(int depth) {
         return ans;
     }
 
-
+    
     if(depth == 0) return 1;
 
     long long int ans = 0;
-    for(auto move : CalculateAllMoves()){
+    long long int t;
+    std::set<std::pair<square,square>> allMoves;
+    CalculateAllMoves(allMoves);
+    for(auto move : allMoves){
         Game g(*this);
         g.MakeMove(move.first,move.second);
-        ans += g.SumOfAllMoves(depth-1);
+        t = g.SumOfAllMoves(depth-1);
+        /*if(depth == 2){
+            std::cout << SquareToAlgebraic(move.first) << SquareToAlgebraic(move.second) << ' '<<t << std::endl;
+        }*/
+        ans+=t;
     }
-
+    if(ans == 0) return 1;
     return ans;
 }
 
-std::set<std::pair<square,square>> Game::CalculateAllMoves(){
-    std::set<std::pair<square,square>> allMoves;
+void Game::CalculateAllMoves(std::set<std::pair<square,square>>& allMoves){
+    
 
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            for(auto dest : LegalMoves({i,j})){
-                
+            std::set<square> moves;
+            LegalMoves({i,j}, moves);
+            for(auto dest : moves){
                 allMoves.insert({{i,j},dest});
             }
         }
     }
-    return allMoves;
+    return;
 }

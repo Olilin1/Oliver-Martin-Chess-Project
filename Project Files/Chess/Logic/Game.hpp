@@ -42,15 +42,15 @@ public:
     void SetupGame(std::string fen);
 
     bool MakeMove(square origin, square destination, Piece promotion = Empty);
-    std::set<square> LegalPawnMoves(square);
-    std::set<square> LegalKingMoves(square);
-    std::set<square> LegalKnightMoves(square);
-    std::set<square> LegalSlidingMoves(square, std::vector<std::pair<int,int>>);
-    std::set<square> LegalMoves(square);
+    void LegalPawnMoves(square,std::set<square>& moves);
+    void LegalKingMoves(square,std::set<square>& moves);
+    void LegalKnightMoves(square,std::set<square>& moves);
+    void LegalSlidingMoves(square, std::vector<std::pair<int,int>>,std::set<square>& moves);
+    void LegalMoves(square,std::set<square>& moves);
     Board getBoard();
 
     long long int SumOfAllMoves(int depth);
-    std::set<std::pair<square,square>> CalculateAllMoves();
+    void CalculateAllMoves(std::set<std::pair<square,square>>& );
 
     bool gameIsOver();
     bool awaitingPromotion();
@@ -66,7 +66,7 @@ public:
     void PlacePiece(square, Piece);
     void RemovePiece(square);
     Piece toCurrPlayer(Piece);
-    
+
 
 
     };

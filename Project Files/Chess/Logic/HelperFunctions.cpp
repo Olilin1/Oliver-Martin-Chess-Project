@@ -82,3 +82,12 @@ square AlgebraicToSquare(std::string s)
     col = s[0] - 'a';
     return {row, col};
 }
+
+std::string SquareToAlgebraic(square s){
+    char row = s.first + '1';
+    char col = s.second + 'a';
+    std::string ans = "  ";
+    ans[0] = col;
+    ans[1] = row;
+    return ans;
+}

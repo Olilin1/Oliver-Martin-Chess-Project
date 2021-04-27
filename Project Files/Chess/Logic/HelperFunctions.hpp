@@ -5,6 +5,7 @@
     #include<string>
     
     square AlgebraicToSquare(std::string);
+    std::string SquareToAlgebraic(square);
     Player pieceColor(Piece);
     Piece pieceType(Piece);
     bool isBlackPiece(Piece);

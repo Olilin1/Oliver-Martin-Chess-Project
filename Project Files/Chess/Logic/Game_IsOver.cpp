@@ -1,7 +1,9 @@
 #include "Game.hpp"
 
 bool Game::gameIsOver(){
-    if(CalculateAllMoves().empty()){
+    std::set<std::pair<square,square>> moves;
+    CalculateAllMoves(moves);
+    if(moves.empty()){
         if(board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer))){
             gameState.winner = oppositePlayer(gameState.currentPlayer);
         }

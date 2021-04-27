@@ -14,7 +14,9 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
 
     gameState.awaitingPromotion = false;
     bool enPassant = false;
-    if(!LegalMoves(origin).count(destination)) return false;
+    std::set<square> moves;
+    LegalMoves(origin, moves);
+    if(!moves.count(destination)) return false;
     if(board[destination] != Empty) gameState.halfMoveClock = 0;
     switch (pieceType(board[origin]))
     {
