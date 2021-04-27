@@ -44,6 +44,7 @@ std::string ConvertToUnicode(Piece i)
 
 //Gives the neutral piece type
 Piece pieceType(Piece p){
+    if(p >6) return p;
     return Piece(std::abs(p)+6);
 }
 

@@ -49,3 +49,18 @@ bool Game::isLegal(square origin, square destination){
     newBoard.MakeMove(origin, destination);
     return !newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer));
 }
+
+bool Game::awaitingPromotion(){
+    return gameState.awaitingPromotion;
+}
+
+Piece Game::toCurrPlayer(Piece p){
+    p = pieceType(p);
+    if(gameState.currentPlayer == White){
+        p = Piece(p-6);
+    }
+    else{
+        p = Piece(-(p-6));
+    }
+    return p;
+}

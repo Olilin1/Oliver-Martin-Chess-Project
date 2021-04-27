@@ -10,6 +10,7 @@ void Game::SetupGame(std::string fen)
     }
 
     gameState.awaitingPromotion = false;
+    gameState.winner = None;
 
     std::stringstream ss(fen);
     std::string placement, color, castling, enPassant, halfMove, fullMove;

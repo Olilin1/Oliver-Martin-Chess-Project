@@ -4,8 +4,11 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
 
     if(gameState.awaitingPromotion){
         if(promotion == Empty) return false;
+        gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);
+        promotion = toCurrPlayer(promotion);
         board[gameState.promotion] = promotion;
         gameState.awaitingPromotion = false;
+        gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);
         return true;
     }
 

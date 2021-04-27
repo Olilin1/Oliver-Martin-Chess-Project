@@ -2,24 +2,18 @@
 
 long long int Game::SumOfAllMoves(int depth) {
 
+    
     if(gameState.awaitingPromotion){
         long long int ans = 0;
-        if(gameState.currentPlayer == Black){
-            for(auto p : blackPromotions){
-                Game g(*this);
-                g.MakeMove({-1,-1},{-1,-1}, p);
-                ans += g.SumOfAllMoves(depth);
-            }
+        for(auto p : neutralPromotions){
+            Game g(*this);
+            g.MakeMove({-1,-1},{-1,-1}, p);
+            ans += g.SumOfAllMoves(depth);
         }
-        else{
-            for(auto p : whitePromotions){
-                Game g(*this);
-                g.MakeMove({-1,-1},{-1,-1}, p);
-                ans += g.SumOfAllMoves(depth);
-            }
-        }
+    
         return ans;
     }
+
 
     if(depth == 0) return 1;
 

@@ -9,7 +9,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         delete a;
     }
     moveCircles.clear();
-    // handle the event as you like
     if(event->pos().y() < 145 || event->pos().y() > 145+8*squareSize || event->pos().x() < 145 || event->pos().x() > 145+8*squareSize){
         prevPress = {-1,-1};
         return;
@@ -21,6 +20,30 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         if(game.MakeMove(prevPress, {row,col})){
             render_pieces();
             prevPress = {-1,-1};
+            if(game.awaitingPromotion()){
+                start:
+                bool ok;
+                QStringList items;
+                items << tr("Rook") << tr("Knight") << tr("Queen") << tr("Bishop");
+                QString item = QInputDialog::getItem(this, tr("Promotion"),
+                                                         tr("Piece:"), items, 0, false, &ok);
+                if(ok){
+                    if(item == "Rook"){
+                        game.MakeMove(nullSquare,nullSquare, Rook);
+                    }
+                    if(item == "Knight"){
+                        game.MakeMove(nullSquare,nullSquare, Knight);
+                    }
+                    if(item == "Bishop"){
+                        game.MakeMove(nullSquare,nullSquare, Bishop);
+                    }
+                    if(item == "Queen"){
+                        game.MakeMove(nullSquare,nullSquare, Queen);
+                    }
+                }
+                else goto start;
+                render_pieces();
+            }
             return;
         }
     }
@@ -44,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     prevPress = {-1,-1};
     resize(800,800);
+
+    game.SetupGame("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
 
     //TODO: Move this
     /*

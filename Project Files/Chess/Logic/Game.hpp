@@ -52,6 +52,9 @@ public:
     long long int SumOfAllMoves(int depth);
     std::set<std::pair<square,square>> CalculateAllMoves();
 
+    bool gameIsOver();
+    bool awaitingPromotion();
+
     //Short(ish)Helper functions, some of these should be private, and some should probably be static, 
     //and some might not be helper functions (ex printboard)
     square CurrPlayerKingPostion();
@@ -62,6 +65,8 @@ public:
     bool IsEmpty(square);
     void PlacePiece(square, Piece);
     void RemovePiece(square);
+    Piece toCurrPlayer(Piece);
+    
 
 
     };

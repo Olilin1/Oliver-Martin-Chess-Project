@@ -16,6 +16,8 @@
 #include <map>
 #include <QMouseEvent>
 #include <QGraphicsEllipseItem>
+#include <QInputDialog>
+#include <QLineEdit>
 #include"Logic/Game.hpp"
 
 class MainWindow : public QMainWindow

@@ -6,6 +6,7 @@
 //Contains misc info about the game
 struct GameState {
     Player currentPlayer;
+    Player winner;
     int fullMoveClock;
     int halfMoveClock;
     square blackKingPos;
