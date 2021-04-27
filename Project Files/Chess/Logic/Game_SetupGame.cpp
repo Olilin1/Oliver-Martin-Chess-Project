@@ -9,6 +9,8 @@ void Game::SetupGame(std::string fen)
         }
     }
 
+    gameState.awaitingPromotion = false;
+
     std::stringstream ss(fen);
     std::string placement, color, castling, enPassant, halfMove, fullMove;
     ss >> placement >> color >> castling >> enPassant >> halfMove >> fullMove;

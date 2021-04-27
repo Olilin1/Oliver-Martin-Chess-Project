@@ -1,22 +1,10 @@
 #include"Game.hpp"
 
-
+using namespace std;
 int main() {
     Game g;
-    std::string s;
-    int x1, x2, x3, x4;
-    g.PrintBoard();
-    while(true){
-        
-        std::cin >> x1 >> x2 >> x3 >> x4;
-        if(g.MakeMove({x1,x2},{x3,x4})){
-            g.PrintBoard();
-        }
-        else{
-            std::cout << "ILLEGAL MOVE!\n";
-            for(auto a : g.LegalMoves({x1,x2})){
-                std::cout << a.first << ' ' << a.second << '\n';
-            }
-        }
+    g.SetupGame("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
+    for(int i= 1; i < 5; i++){
+    cout << g.SumOfAllMoves(i)<<endl;
     }
 }

@@ -49,7 +49,8 @@ public:
     std::set<square> LegalMoves(square);
     Board getBoard();
 
-
+    long long int SumOfAllMoves(int depth);
+    std::set<std::pair<square,square>> CalculateAllMoves();
 
     //Short(ish)Helper functions, some of these should be private, and some should probably be static, 
     //and some might not be helper functions (ex printboard)

@@ -5,6 +5,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     if(gameState.awaitingPromotion){
         if(promotion == Empty) return false;
         board[gameState.promotion] = promotion;
+        gameState.awaitingPromotion = false;
         return true;
     }
 
