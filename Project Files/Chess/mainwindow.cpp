@@ -50,7 +50,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
     std::cout   << row<< ' '<< col  << std::endl;
 
-    std::set<square> moves = game.LegalMoves({row,col});
+    std::set<square> moves;
+    game.LegalMoves({row,col},moves);
     for(square move : moves){
         QGraphicsEllipseItem* moveCircle = new QGraphicsEllipseItem(squareSize*move.second +squareSize/2 -5, squareSize*move.first +squareSize/2-5, 10, 10);
         moveCircles.push_back(moveCircle);

@@ -96,8 +96,8 @@ void Game::LegalKingMoves(square pos, std::set<square>& moves)
     {   
         
         if (gameState.blackCanCastleKingSide &&
-            canMove({7, 5}) &&
-            canMove({7, 6}) &&
+            IsEmpty({7, 5}) &&
+            IsEmpty({7, 6}) &&
             !board.IsAttacked({7, 4}, White) &&
             !board.IsAttacked({7, 5}, White) &&
             !board.IsAttacked({7, 6}, White))
@@ -105,9 +105,9 @@ void Game::LegalKingMoves(square pos, std::set<square>& moves)
             moves.insert({7, 6});
         }
         if (gameState.blackCanCastleQueenSide &&
-            canMove({7, 3}) &&
-            canMove({7, 2}) &&
-            canMove({7, 1}) &&
+            IsEmpty({7, 3}) &&
+            IsEmpty({7, 2}) &&
+            IsEmpty({7, 1}) &&
             !board.IsAttacked({7, 4}, White) &&
             !board.IsAttacked({7, 3}, White) &&
             !board.IsAttacked({7, 2}, White))
@@ -118,8 +118,8 @@ void Game::LegalKingMoves(square pos, std::set<square>& moves)
     else
     {
         if (gameState.whiteCanCastleKingSide &&
-            canMove({0, 5}) &&
-            canMove({0, 6}) &&
+            IsEmpty({0, 5}) &&
+            IsEmpty({0, 6}) &&
             !board.IsAttacked({0, 4}, Black) &&
             !board.IsAttacked({0, 5}, Black) &&
             !board.IsAttacked({0, 6}, Black))
@@ -127,9 +127,9 @@ void Game::LegalKingMoves(square pos, std::set<square>& moves)
             moves.insert({0, 6});
         }
         if (gameState.whiteCanCastleQueenSide &&
-            canMove({0, 3}) &&
-            canMove({0, 2}) &&
-            canMove({0, 1}) &&
+            IsEmpty({0, 3}) &&
+            IsEmpty({0, 2}) &&
+            IsEmpty({0, 1}) &&
             !board.IsAttacked({0, 4}, Black) &&
             !board.IsAttacked({0, 3}, Black) &&
             !board.IsAttacked({0, 2}, Black))

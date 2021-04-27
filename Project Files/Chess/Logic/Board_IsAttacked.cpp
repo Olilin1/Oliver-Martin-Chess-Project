@@ -27,7 +27,6 @@ bool Board::IsAttacked(square pos, Player attacker){
     IsAttackedByBishop(pos, attacker) ||
     IsAttackedByKnight(pos, attacker) ||
     IsAttackedByPawn(pos, attacker) ||
-    IsAttackedByQueen(pos, attacker) ||
     IsAttackedByKing(pos, attacker);
 
 }
@@ -35,7 +34,7 @@ bool Board::IsAttacked(square pos, Player attacker){
 //Should Probably refactor this further using the new constants.
 bool Board::IsAttackedByRook(square pos, Player attacker){
     for(square a : CalculateSlidingMoves(pos, rookMoves)){
-        if(pieceType(board[a.first][a.second]) == Rook && pieceColor( board[a.first][a.second]) == attacker) return true;
+        if((pieceType(board[a.first][a.second]) == Rook || pieceType(board[a.first][a.second]) == Queen) && pieceColor( board[a.first][a.second]) == attacker) return true;
     }
     return false;
 }
@@ -43,7 +42,7 @@ bool Board::IsAttackedByRook(square pos, Player attacker){
 //Should probably be refactored further too
 bool Board::IsAttackedByBishop(square pos, Player attacker){
     for(square a : CalculateSlidingMoves(pos, bishopMoves)){
-        if(pieceType(board[a.first][a.second]) == Bishop && pieceColor( board[a.first][a.second]) == attacker) return true;
+        if((pieceType(board[a.first][a.second]) == Bishop || pieceType(board[a.first][a.second]) == Queen)&& pieceColor( board[a.first][a.second]) == attacker) return true;
     }
     return false;
 }
