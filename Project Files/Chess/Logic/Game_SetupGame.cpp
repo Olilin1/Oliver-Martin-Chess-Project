@@ -104,9 +104,21 @@ void Game::SetupGame(std::string fen)
         gameState.enPassant = AlgebraicToSquare(enPassant);
     }
 
+    try{
     //Halfmove clock
     gameState.halfMoveClock = std::stoi(halfMove);
+    }
+    catch(...){
+    gameState.halfMoveClock = 0; 
+    }
 
-    //FullMoveClock
+    try{
+    //Halfmove clock
     gameState.fullMoveClock = std::stoi(fullMove);
+    }
+    catch(...){
+    gameState.fullMoveClock = 0; 
+    }
+    //FullMoveClock
+    
 }

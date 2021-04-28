@@ -25,9 +25,9 @@ long long int Game::SumOfAllMoves(int depth) {
         Game g(*this);
         g.MakeMove(move.first,move.second);
         t = g.SumOfAllMoves(depth-1);
-        if(depth == 5){
+        /*if(depth == 2){
             std::cout << SquareToAlgebraic(move.first) << SquareToAlgebraic(move.second) << ' '<<t << std::endl;
-        }
+        }*/
         ans+=t;
     }
     return ans;
