@@ -27,14 +27,13 @@ class Board{
     bool IsAttackedByKnight(square pos, Player attacker);
     bool IsAttackedByPawn(square pos, Player attacker);
     bool IsAttackedByKing(square pos, Player attacker);
-    void MakeMove(square origin, square destination);
     
-    //A lot of these helper functions are identical to the ones in the game class, so they should probably be moved to a separate file.
-    //Especially the ones that don't require access to members.
+    
+    //Simple helper functions
     void PrintBoard();
     bool IsEmpty(square);
     void RemovePiece(square);
-
+    void MakeMove(square origin, square destination);
 
     Piece& operator[](square);
 

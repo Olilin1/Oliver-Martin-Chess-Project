@@ -1,5 +1,6 @@
 #include "game.hpp"
 
+//Makes ref contain all legal moves from a square
 void Game::LegalMoves(square pos, std::set<square>& ref){
     if(gameState.awaitingPromotion) return; 
  switch (pieceType(board[pos]))
@@ -49,8 +50,6 @@ void Game::LegalSlidingMoves(square pos, std::vector<std::pair<int, int>> direct
 
 void Game::LegalKnightMoves(square pos, std::set<square>& moves)
 {
-    if (pieceType(board[pos]) != Knight)
-       return;
     if (pieceColor(board[pos]) != gameState.currentPlayer)
         return;
 

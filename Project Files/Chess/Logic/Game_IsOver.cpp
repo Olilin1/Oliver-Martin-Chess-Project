@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+//Will check if the game is over or not.
 bool Game::gameIsOver(){
     std::set<std::pair<square,square>> moves;
     CalculateAllMoves(moves);

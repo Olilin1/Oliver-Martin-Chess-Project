@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+//Makes a move if it is legal and then returns true, if the move was illegal nothing happens and false is returned
 bool Game::MakeMove(square origin, square destination, Piece promotion){
 
     if(gameState.awaitingPromotion){

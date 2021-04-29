@@ -83,6 +83,7 @@ square AlgebraicToSquare(std::string s)
     return {row, col};
 }
 
+//Converts a square to Algebraic notation
 std::string SquareToAlgebraic(square s){
     char row = s.first + '1';
     char col = s.second + 'a';
