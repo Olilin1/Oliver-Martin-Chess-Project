@@ -13,6 +13,7 @@ SOURCES += \
     Logic/Board_HelperFunctions.cpp \
     Logic/Board_IsAttacked.cpp \
     Logic/Game.cpp \
+    Logic/Game_AllMoves.cpp \
     Logic/Game_HelperFunctions.cpp \
     Logic/Game_LegalMoves.cpp \
     Logic/Game_MakeMove.cpp \
