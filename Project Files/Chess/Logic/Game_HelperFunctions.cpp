@@ -9,7 +9,7 @@ square Game::CurrPlayerKingPostion(){
     else return {-1,-1};
 }
 
-//Makes sure that you can move to a square (i.e. it's not blovked by one of your own pieces)
+//Makes sure that you can move to a square (i.e. it's not blocked by one of your own pieces)
 bool Game::canMove(square pos){
     if(OnBoard(pos) && 
     (pieceColor(board[pos]) != gameState.currentPlayer)) 

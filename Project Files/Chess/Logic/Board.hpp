@@ -4,9 +4,11 @@
 #include"Typedefs.hpp"
 #include"HelperFunctions.hpp"
 #include"Constants.hpp"
+#include"Move.hpp"
 #include<string>
 #include<iostream>
 #include<set>
+#include<vector>
 
 /*
     A class that keeps track of a board, but nothing else
@@ -18,7 +20,6 @@ class Board{
 
     public:
     Board();
-
     std::set<square> CalculateSlidingMoves(square, std::vector<std::pair<int,int>>);
     bool IsAttacked(square pos, Player attacker);
     bool IsAttackedByRook(square pos, Player attacker);
@@ -36,5 +37,4 @@ class Board{
     void MakeMove(square origin, square destination);
 
     Piece& operator[](square);
-
 };

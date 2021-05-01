@@ -2,6 +2,10 @@
 
 //Makes a move if it is legal and then returns true, if the move was illegal nothing happens and false is returned
 bool Game::MakeMove(square origin, square destination, Piece promotion){
+    Move currentMove;
+    currentMove.origin = origin;
+    currentMove.destination = destination;
+    currentMove.previousGameState = gameState;
 
     if(gameState.awaitingPromotion){
         if(promotion == Empty) return false;
@@ -10,6 +14,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         board[gameState.promotion] = promotion;
         gameState.awaitingPromotion = false;
         gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);
+        currentMove.Promotion = true;
         return true;
     }
 
@@ -36,10 +41,12 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     case King:
     
         if(origin.second - destination.second == 2){
+            currentMove.castledKingSide = true;
             board.MakeMove(origin, destination);
             board.MakeMove({origin.first, 0}, {origin.first, origin.second-1});
         }
         else if(origin.second - destination.second == -2){
+            currentMove.castledQueenSide = true;
             board.MakeMove(origin, destination);
             board.MakeMove({origin.first, 7}, {origin.first, origin.second+1});
         }
@@ -67,6 +74,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         board.MakeMove(origin, destination);
         if(abs(destination.first-origin.first) == 2){
             enPassant = true;
+            currentMove.enPassantMove = true;
             gameState.enPassant = destination;
         }
         else if(gameState.canEnPassant){

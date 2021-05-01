@@ -1,4 +1,4 @@
-#include "board.hpp"
+#include "Board.hpp"
 
 //Calculates the squares that could potentially be attacked bya sliding piece
 std::set<square> Board::CalculateSlidingMoves(square pos, std::vector<std::pair<int, int>> directions)

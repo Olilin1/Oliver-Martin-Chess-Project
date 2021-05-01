@@ -18,6 +18,7 @@ SOURCES += \
     Logic/Game_LegalMoves.cpp \
     Logic/Game_MakeMove.cpp \
     Logic/Game_SetupGame.cpp \
+    Logic/Game_UnmakeMove.cpp \
     Logic/HelperFunctions.cpp \
     main.cpp \
     mainwindow.cpp
@@ -29,6 +30,7 @@ HEADERS += \
     Logic/Game.hpp \
     Logic/GameState.hpp \
     Logic/HelperFunctions.hpp \
+    Logic/Move.hpp \
     Logic/Typedefs.hpp \
     mainwindow.h
 

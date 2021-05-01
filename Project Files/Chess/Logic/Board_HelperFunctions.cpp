@@ -32,6 +32,6 @@ void Board::RemovePiece(square pos){
 //Moves a piece on the board from origin to destination
 void Board::MakeMove(square origin, square destination){
     board[destination.first][destination.second] = board[origin.first][origin.second];
-    board[origin.first][origin.second] = Empty;
+    RemovePiece(origin);
     return;
 }

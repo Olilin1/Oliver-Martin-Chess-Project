@@ -6,6 +6,7 @@
 #include"Board.hpp"
 #include"Constants.hpp"
 #include"HelperFunctions.hpp"
+#include"Move.hpp"
 #include<cmath>
 #include<utility>
 #include<set>
@@ -35,13 +36,14 @@ private:
     GameState gameState;
     std::map<square, Piece> whitePieces;
     std::map<square, Piece> blackPieces;
-
+    std::vector<Move> moveStack;
 
 public:
     Game();
     void SetupGame(std::string fen);
 
     bool MakeMove(square origin, square destination, Piece promotion = Empty);
+    void UnmakeMove();
     void LegalPawnMoves(square,std::set<square>& moves);
     void LegalKingMoves(square,std::set<square>& moves);
     void LegalKnightMoves(square,std::set<square>& moves);
