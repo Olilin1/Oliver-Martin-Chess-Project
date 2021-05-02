@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 void Game::AiMove(int depth){
-    float maxEval = (gameState.currentPlayer == White ? -inf : inf);
+    float maxEval = (depth+1) * -inf + 1;
     float eval;
     std::pair<square,square> bestMove;
     Piece promotion;
@@ -10,15 +10,11 @@ void Game::AiMove(int depth){
         for(auto p : neutralPromotions){
             Game g(*this);
             g.MakeMove({-1,-1},{-1,-1}, p);
-            eval = g.miniMax(depth);
-            if (gameState.currentPlayer == White && eval >= maxEval){
-                promotion = p;
+            eval = -g.miniMax(depth);
+            if (eval > maxEval){
                 maxEval = eval;
+                promotion = p;
             }
-            else if(gameState.currentPlayer == Black && eval <= maxEval){
-                promotion = p;
-                maxEval = eval;
-            } 
         }
         MakeMove({-1,-1},{-1,-1}, promotion);
         return;
@@ -30,12 +26,8 @@ void Game::AiMove(int depth){
     for(auto move : allMoves){
         Game g(*this);
         g.MakeMove(move.first,move.second);
-        eval = g.miniMax(depth-1);
-        if (gameState.currentPlayer == White && eval >= maxEval){
-            maxEval = eval;
-            bestMove = move;
-        }
-        else if(gameState.currentPlayer == Black && eval <= maxEval){
+        eval = -g.miniMax(depth-1);
+        if (eval > maxEval){
             maxEval = eval;
             bestMove = move;
         }
@@ -44,25 +36,9 @@ void Game::AiMove(int depth){
 }
 
 float Game::miniMax(int depth, float alpha, float beta){
-    float maxEval = (gameState.currentPlayer == White ? -inf : inf);
+    float maxEval = depth * -inf + 1;
     float eval;
-    if(gameState.awaitingPromotion){
-        for(auto p : neutralPromotions){
-            Game g(*this);
-            g.MakeMove({-1,-1},{-1,-1}, p);
-            eval = g.miniMax(depth);
-            if (gameState.currentPlayer == White && eval >= maxEval){
-                maxEval = eval;
-            }
-            else if(gameState.currentPlayer == Black && eval <= maxEval){
-                maxEval = eval;
-            }
-            
-        }
-        return maxEval;
-    }
-    
-    if(depth == 0) return evaluatePosition()*(depth+1);
+    if(depth == 0) return evaluatePosition()*(depth+1) * gameState.currentPlayer;
 
     bool madeMove = false;
     std::set<std::pair<square,square>> allMoves;
@@ -71,16 +47,27 @@ float Game::miniMax(int depth, float alpha, float beta){
         madeMove = true;
         Game g(*this);
         g.MakeMove(move.first,move.second);
-        float eval = g.miniMax(depth-1);
-        if (gameState.currentPlayer == White && eval >= maxEval){
-            maxEval = eval;
+
+
+        if(gameState.awaitingPromotion){
+            for(auto p : neutralPromotions){
+                Game g2(g);
+                g2.MakeMove({-1,-1},{-1,-1}, p);
+                eval = -g2.miniMax(depth);
+                if (eval > maxEval){
+                    maxEval = eval;
+                }
+            }   
         }
-        else if(gameState.currentPlayer == Black && eval <= maxEval){
-            maxEval = eval;
+        else{
+            float eval = -g.miniMax(depth-1);
+            if (eval > maxEval){
+                maxEval = eval;
+            }
         }
     }
     if(madeMove){
         return maxEval;
     }
-    else return evaluatePosition()*(depth+1);
+    else return evaluatePosition()*(depth+1) * gameState.currentPlayer;
 }
