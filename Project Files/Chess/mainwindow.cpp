@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     prevPress = {-1,-1};
     resize(800,800);
 
-    game.SetupGame("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
+    game.SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
     //TODO: Move this
     /*

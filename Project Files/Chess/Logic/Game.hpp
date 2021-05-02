@@ -67,7 +67,7 @@ public:
     void RemovePiece(square);
     Piece toCurrPlayer(Piece);
 
-
+    float evaluatePosition();
 
     };
 
