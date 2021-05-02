@@ -68,6 +68,8 @@ public:
     Piece toCurrPlayer(Piece);
 
     float evaluatePosition();
+    void AiMove(int depth);
+    float miniMax(int depth, float alpha = 0, float beta = 0);
 
     };
 

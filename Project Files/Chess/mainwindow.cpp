@@ -44,6 +44,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 else goto start;
                 render_pieces();
             }
+            else{
+                game.AiMove(3);
+                render_pieces();
+                if(game.awaitingPromotion()){
+                    game.AiMove(3);
+                    render_pieces();
+                }
+            }
             return;
         }
     }
@@ -156,6 +164,7 @@ void MainWindow::render_pieces(){
             pieces.push_back(newItem);
         }
     }
+    qApp->processEvents();
 }
 
 

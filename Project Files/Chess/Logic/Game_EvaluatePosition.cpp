@@ -35,4 +35,5 @@ float Game::evaluatePosition(){
             }
         }
     }
+    return score;
 }

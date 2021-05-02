@@ -18,6 +18,7 @@
 #include <QGraphicsEllipseItem>
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QApplication>
 #include"Logic/Game.hpp"
 
 class MainWindow : public QMainWindow
