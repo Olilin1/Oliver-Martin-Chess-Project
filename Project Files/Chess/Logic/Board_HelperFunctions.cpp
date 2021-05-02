@@ -31,7 +31,19 @@ void Board::RemovePiece(square pos){
 
 //Moves a piece on the board from origin to destination
 void Board::MakeMove(square origin, square destination){
+    Move currentMove;
+    currentMove.origin = origin;
+    currentMove.destination = destination;
+    currentMove.capturedPiece = board[destination.first][destination.second];
     board[destination.first][destination.second] = board[origin.first][origin.second];
     RemovePiece(origin);
+    moveStack.push(currentMove);
     return;
+}
+
+void Board::UnmakeMove() {
+    Move currentMove = moveStack.top();
+    board[currentMove.origin.first][currentMove.origin.second] = board[currentMove.destination.first][currentMove.destination.second];
+    board[currentMove.destination.first][currentMove.destination.second] = currentMove.capturedPiece;
+    moveStack.pop();
 }

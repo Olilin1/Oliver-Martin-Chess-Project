@@ -20,7 +20,6 @@ std::set<square> Board::CalculateSlidingMoves(square pos, std::vector<std::pair<
     return moves;
 }
 
-//Checks if a square is under attack by attacker
 bool Board::IsAttacked(square pos, Player attacker){
     return 
     IsAttackedByRook(pos, attacker) ||
@@ -31,7 +30,6 @@ bool Board::IsAttacked(square pos, Player attacker){
 
 }
 
-//Checks if the square is attacked by a rook or a queen
 bool Board::IsAttackedByRook(square pos, Player attacker){
     for(square a : CalculateSlidingMoves(pos, rookMoves)){
         if((pieceType(board[a.first][a.second]) == Rook || pieceType(board[a.first][a.second]) == Queen) && pieceColor( board[a.first][a.second]) == attacker) return true;
@@ -39,7 +37,6 @@ bool Board::IsAttackedByRook(square pos, Player attacker){
     return false;
 }
 
-//Checks if the square is attacked by a bishop or a queen
 bool Board::IsAttackedByBishop(square pos, Player attacker){
     for(square a : CalculateSlidingMoves(pos, bishopMoves)){
         if((pieceType(board[a.first][a.second]) == Bishop || pieceType(board[a.first][a.second]) == Queen)&& pieceColor( board[a.first][a.second]) == attacker) return true;
@@ -55,7 +52,6 @@ bool Board::IsAttackedByQueen(square pos, Player attacker){
     return false;
 }
 
-//Checks if a square is attacked by a knight
 bool Board::IsAttackedByKnight(square pos, Player attacker){
     for(int i : {-2, -1, 1, 2}){
         for(int j : {-2, -1, 1, 2}){
@@ -69,7 +65,6 @@ bool Board::IsAttackedByKnight(square pos, Player attacker){
     return false;
 }
 
-//Checks if a square is attacked by a pawn
 bool Board::IsAttackedByPawn(square pos, Player attacker){
     square newPos = {pos.first+(attacker == Black ? 1 : -1),pos.second+1};
     if(OnBoard(newPos)){
@@ -84,7 +79,6 @@ bool Board::IsAttackedByPawn(square pos, Player attacker){
     return false;
 }
 
-//Checks if a square is attacked by a king
 bool Board::IsAttackedByKing(square pos, Player attacker){
     for(int i = -1; i <= 1; i++){
         for(int j = -1; j <= 1; j++){

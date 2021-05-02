@@ -8,7 +8,7 @@
 #include<string>
 #include<iostream>
 #include<set>
-#include<vector>
+#include<stack>
 
 /*
     A class that keeps track of a board, but nothing else
@@ -17,6 +17,7 @@
 class Board{
     private:
     Piece board[8][8];
+    std::stack<Move> moveStack;
 
     public:
     Board();
@@ -35,6 +36,7 @@ class Board{
     bool IsEmpty(square);
     void RemovePiece(square);
     void MakeMove(square origin, square destination);
+    void UnmakeMove();
 
     Piece& operator[](square);
 };

@@ -5,9 +5,9 @@ long long int Game::SumOfAllMoves(int depth) {
     if(gameState.awaitingPromotion){
         long long int ans = 0;
         for(auto p : neutralPromotions){
-            Game g(*this);
-            g.MakeMove({-1,-1},{-1,-1}, p);
-            ans += g.SumOfAllMoves(depth);
+            MakeMove({-1,-1},{-1,-1}, p);
+            ans += SumOfAllMoves(depth);
+            UnmakeMove();
         }
     
         return ans;
@@ -20,9 +20,9 @@ long long int Game::SumOfAllMoves(int depth) {
     std::set<std::pair<square,square>> allMoves;
     CalculateAllMoves(allMoves);
     for(auto move : allMoves){
-        Game g(*this);
-        g.MakeMove(move.first,move.second);
-        t = g.SumOfAllMoves(depth-1);
+        MakeMove(move.first,move.second);
+        t = SumOfAllMoves(depth-1);
+        UnmakeMove();
         ans+=t;
         /*
         //Allows a trace of the stack similar to stockfish

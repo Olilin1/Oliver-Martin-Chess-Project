@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "Game.hpp"
 
 //Makes ref contain all legal moves from a square
 void Game::LegalMoves(square pos, std::set<square>& ref){
@@ -83,11 +83,11 @@ void Game::LegalKingMoves(square pos, std::set<square>& moves)
                 continue;
             square newPos = {pos.first+i, pos.second+j};
             if(!canMove(newPos)) continue;
-            Board newBoard = board;
-            newBoard.MakeMove(pos, newPos);
-            if(!newBoard.IsAttacked(newPos, oppositePlayer(gameState.currentPlayer))){
+            board.MakeMove(pos, newPos);
+            if(!board.IsAttacked(newPos, oppositePlayer(gameState.currentPlayer))){
                 moves.insert(newPos);
             }
+            board.UnmakeMove();
         }
     }
 
@@ -163,19 +163,17 @@ void Game::LegalPawnMoves(square pos, std::set<square>& moves)
     {
         if (gameState.enPassant == std::make_pair(pos.first, pos.second - 1))
         {
-            Board newBoard = board;
-            newBoard.RemovePiece({pos.first, pos.second - 1});
-            newBoard.MakeMove(pos, {pos.first + direction * 1, pos.second - 1});
-            if (!newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
+            board.MakeMove(pos, {pos.first + direction * 1, pos.second - 1});
+            if (!board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
                 moves.insert({pos.first + direction * 1, pos.second - 1});
+            board.UnmakeMove();
         }
         else if (gameState.enPassant == std::make_pair(pos.first, pos.second + 1))
         {
-            Board newBoard = board;
-            newBoard.RemovePiece({pos.first, pos.second + 1});
-            newBoard.MakeMove(pos, {pos.first + direction * 1, pos.second + 1});
-            if (!newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
+            board.MakeMove(pos, {pos.first + direction * 1, pos.second + 1});
+            if (!board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
                 moves.insert({pos.first + direction * 1, pos.second + 1});
+            board.UnmakeMove();
         }
     }
     return;

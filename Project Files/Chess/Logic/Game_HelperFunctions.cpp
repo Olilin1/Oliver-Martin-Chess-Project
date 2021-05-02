@@ -1,4 +1,4 @@
-#include "Game.hpp"
+﻿#include "Game.hpp"
 
 
 
@@ -46,9 +46,10 @@ void Game::RemovePiece(square pos){
 //Checks that a move doesn't leave you in check
 bool Game::isLegal(square origin, square destination){
     if(!canMove(destination)) return false;
-    Board newBoard = board;
-    newBoard.MakeMove(origin, destination);
-    return !newBoard.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer));
+    board.MakeMove(origin, destination);
+    bool isLegal =  !board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer));
+    board.UnmakeMove();
+    return isLegal;
 }
 
 //Returns wheter or not the game is waiting for a promotion to occur

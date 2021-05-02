@@ -2,19 +2,23 @@
 
 //Unmakes the latest move made
 void Game::UnmakeMove(){
-    Move currentMove = moveStack.front();
+    if(moveStack.empty()) return;
+    Move currentMove = moveStack.top();
     Piece movedPiece = board[currentMove.destination];
 
-    gameState = currentMove.previousGameState;
+    Player currentPlayer = (movedPiece < 0) ? Black : White;
+
+    gameState = currentMove.moveGameState;
 
     if(currentMove.Promotion) {
-        board[currentMove.origin] = (movedPiece < 0) ? BlackPawn : WhitePawn;
+        board[currentMove.origin] = (currentPlayer == Black) ? BlackPawn : WhitePawn;
         RemovePiece(gameState.promotion);
+        moveStack.pop();
         return;
     }
 
+    board.MakeMove(currentMove.destination, currentMove.origin);
     board[currentMove.destination] = currentMove.capturedPiece;
-    MakeMove(currentMove.destination, currentMove.origin);
     if(currentMove.castledKingSide) {
         square RookPosition = {currentMove.destination.first, 5};
         square NewPosition = {currentMove.destination.first, 7};
@@ -26,7 +30,8 @@ void Game::UnmakeMove(){
         board.MakeMove(RookPosition, NewPosition);
     }
     else if(currentMove.enPassantMove) {
-        square enPassantPosition = (movedPiece < 0) ? std::make_pair(currentMove.destination.first + 1, currentMove.destination.second) : std::make_pair(currentMove.destination.first - 1, currentMove.destination.second);
-        board[enPassantPosition] = (movedPiece < 0) ? WhitePawn : BlackPawn;
+        square enPassantPosition = gameState.enPassant;
+        board[enPassantPosition] = (currentPlayer == Black) ? WhitePawn : BlackPawn;
     }
+    moveStack.pop();
 }

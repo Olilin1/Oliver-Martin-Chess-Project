@@ -5,7 +5,8 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     Move currentMove;
     currentMove.origin = origin;
     currentMove.destination = destination;
-    currentMove.previousGameState = gameState;
+    currentMove.moveGameState = gameState;
+    currentMove.capturedPiece = board[destination];
 
     if(gameState.awaitingPromotion){
         if(promotion == Empty) return false;
@@ -15,14 +16,12 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         gameState.awaitingPromotion = false;
         gameState.currentPlayer = oppositePlayer(gameState.currentPlayer);
         currentMove.Promotion = true;
+        moveStack.push(currentMove);
         return true;
     }
 
     gameState.awaitingPromotion = false;
     bool enPassant = false;
-    std::set<square> moves;
-    LegalMoves(origin, moves);
-    if(!moves.count(destination)) return false;
     if(board[destination] != Empty) gameState.halfMoveClock = 0;
     switch (pieceType(board[origin]))
     {
@@ -74,13 +73,13 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
         board.MakeMove(origin, destination);
         if(abs(destination.first-origin.first) == 2){
             enPassant = true;
-            currentMove.enPassantMove = true;
             gameState.enPassant = destination;
         }
         else if(gameState.canEnPassant){
             int direction = (gameState.currentPlayer == White ? 1:-1);
             if(gameState.enPassant == std::make_pair(destination.first-direction, destination.second)){
                 board.RemovePiece(gameState.enPassant);
+                currentMove.enPassantMove = true;
             }
         }
         if(destination.first == 0 || destination.first == 7){
@@ -101,6 +100,7 @@ bool Game::MakeMove(square origin, square destination, Piece promotion){
     if(destination == std::make_pair(0,7) || origin == std::make_pair(0,7)) gameState.whiteCanCastleKingSide = false;
     if(destination == std::make_pair(7,0) || origin == std::make_pair(7,0)) gameState.blackCanCastleQueenSide = false;
     if(destination == std::make_pair(7,7) || origin == std::make_pair(7,7)) gameState.blackCanCastleKingSide = false;
+    moveStack.push(currentMove);
     return true;
     
 }

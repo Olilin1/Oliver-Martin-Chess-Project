@@ -17,6 +17,7 @@
 #include<unordered_set>
 #include<map>
 #include<sstream>
+#include<stack>
 /*
 A class that handles all the logic for the game,
 Board represents the board as a 2d array, gameState keeps track of misc things like player, castling, and so on
@@ -36,7 +37,7 @@ private:
     GameState gameState;
     std::map<square, Piece> whitePieces;
     std::map<square, Piece> blackPieces;
-    std::vector<Move> moveStack;
+    std::stack<Move> moveStack;
 
 public:
     Game();

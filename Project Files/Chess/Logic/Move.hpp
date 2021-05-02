@@ -4,7 +4,7 @@
 #include"GameState.hpp"
 
 struct Move {
-    GameState previousGameState;
+    GameState moveGameState;
 
     //Contains basic information about the move, which can easily be reversed
     square origin;
@@ -12,7 +12,7 @@ struct Move {
     Piece capturedPiece;
 
     //Contains some metadata around the move, that must be stored in each move in order to be reversed accordingly
-    bool enPassantMove;
+    bool enPassantMove = false;
     bool castledKingSide;
     bool castledQueenSide;
     bool Promotion;

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <QThread>
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
@@ -17,8 +18,13 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     int col = (event->pos().x()-145)/squareSize;
 
     if(prevPress != std::make_pair(-1,-1)){
-        if(game.MakeMove(prevPress, {row,col})){
+
+        std::set<square> moves;
+        game.LegalMoves(prevPress, moves);
+
+        if(moves.count({row, col})){
             render_pieces();
+
             prevPress = {-1,-1};
             if(game.awaitingPromotion()){
                 start:
