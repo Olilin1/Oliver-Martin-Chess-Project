@@ -43,12 +43,13 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 }
                 else goto start;
                 render_pieces();
+                game.AiMove();
             }
             else{
-                game.AiMove(3);
+                game.AiMove();
                 render_pieces();
                 if(game.awaitingPromotion()){
-                    game.AiMove(3);
+                    game.AiMove();
                     render_pieces();
                 }
             }
