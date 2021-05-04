@@ -164,15 +164,19 @@ void Game::LegalPawnMoves(square pos, std::set<square>& moves)
         if (gameState.enPassant == std::make_pair(pos.first, pos.second - 1))
         {
             board.MakeMove(pos, {pos.first + direction * 1, pos.second - 1});
+            board.RemovePiece(gameState.enPassant);
             if (!board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
                 moves.insert({pos.first + direction * 1, pos.second - 1});
+            board[gameState.enPassant] = (gameState.currentPlayer == White) ? BlackPawn : WhitePawn;
             board.UnmakeMove();
         }
         else if (gameState.enPassant == std::make_pair(pos.first, pos.second + 1))
         {
             board.MakeMove(pos, {pos.first + direction * 1, pos.second + 1});
+            board.RemovePiece(gameState.enPassant);
             if (!board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
                 moves.insert({pos.first + direction * 1, pos.second + 1});
+            board[gameState.enPassant] = (gameState.currentPlayer == White) ? BlackPawn : WhitePawn;
             board.UnmakeMove();
         }
     }

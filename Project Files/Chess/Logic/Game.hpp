@@ -18,8 +18,7 @@
 #include<map>
 #include<sstream>
 #include<stack>
-/*
-A class that handles all the logic for the game,
+/*A class that handles all the logic for the game,
 Board represents the board as a 2d array, gameState keeps track of misc things like player, castling, and so on
 whitePieces and blackPieces are maps that make sure we don't have to iterate over the entire board to find whites pieces
 Function explanations can be found at their definitions. Your IDE/Editor should have functionality to jump around between files.
@@ -38,6 +37,14 @@ private:
     std::map<square, Piece> whitePieces;
     std::map<square, Piece> blackPieces;
     std::stack<Move> moveStack;
+
+    //Consists of 1 bitboard for each square, where each bitboard contains all the squares that are attacked by the piece, if any, that resists on the square
+    //For example, if there is a rook at a1, then attackBitBoards[0][0] contains all the squares which that rook attacks
+    uint64_t attackBitBoards[8][8];
+
+    //Consists of 1 bitboard for each square, where each bitboard contains all the squares with pieces that are attacking the current square
+    //For example, if a pawn at b2, a rook at a5 and a bishop at c3  all attack square a1, then defendBitBoards[0][0] = 0000-0000 0100-0000 0010-0000 0000-0000 1000-0000 0000-0000 0000-0000 0000-0000
+    uint64_t defendBitBoards[8][8];
 
 public:
     Game();
