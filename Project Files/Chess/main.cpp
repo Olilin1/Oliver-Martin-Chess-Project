@@ -11,6 +11,6 @@ int main(int argc, char *argv[])
     QElapsedTimer timer;
     timer.start();
     Game g;
-    std::cout<<g.SumOfAllMoves(6)<<std::endl;
+    std::cout<<g.SumOfAllMoves(4)<<std::endl;
     std::cout<<std::endl<<timer.elapsed()/(float)1000<<" seconds elapsed"<<std::endl;
 }
