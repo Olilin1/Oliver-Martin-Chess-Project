@@ -38,6 +38,8 @@ private:
     std::map<square, Piece> blackPieces;
     std::stack<Move> moveStack;
 
+    //hello hello
+
     //Consists of 1 bitboard for each square, where each bitboard contains all the squares that are attacked by the piece, if any, that resists on the square
     //For example, if there is a rook at a1, then attackBitBoards[0][0] contains all the squares which that rook attacks
     uint64_t attackBitBoards[8][8];
