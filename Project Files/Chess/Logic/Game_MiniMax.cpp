@@ -10,38 +10,36 @@ void Game::AiMove(){
     std::pair<square,square> bestMove;
     Piece promotion;
 
-    //TODO: FIX!
-    if(gameState.awaitingPromotion){
-        for(auto p : neutralPromotions){
-            Game g(*this);
-            g.MakeMove({-1,-1},{-1,-1}, p);
-            eval = -g.miniMax(depth);
-            if (eval > maxEval){
-                maxEval = eval;
-                promotion = p;
-            }
-        }
-        MakeMove({-1,-1},{-1,-1}, promotion);
-        return;
-    }
-
-
     std::set<std::pair<square,square>> allMoves;
     CalculateAllMoves(allMoves);
     for(auto move : allMoves){
         Game g(*this);
         g.MakeMove(move.first,move.second);
-        eval = -g.miniMax(depth-1,-beta,-alpha);
-        if (eval > beta){
-            bestMove = move;
-            break;
+        if(g.awaitingPromotion()){
+            for(auto p : neutralPromotions){
+                Game g2(g);
+                g2.MakeMove({-1,-1},{-1,-1}, p);
+                eval = -g2.miniMax(depth,-beta,-alpha);
+                if(eval > alpha){
+                    alpha = eval;
+                    bestMove = move;
+                    promotion = p;
+                }
+            }   
         }
-        if(eval > alpha){
-            alpha = eval;
-            bestMove = move;
+        else{
+            eval = -g.miniMax(depth-1,-beta,-alpha);
+            if(eval > alpha){ 
+                alpha = eval;
+                bestMove = move;
+            }
         }
     }
+
     MakeMove(bestMove.first,bestMove.second);
+    if(gameState.awaitingPromotion){
+        MakeMove(nullSquare, nullSquare, promotion);
+    }
 }
 
 float Game::miniMax(int depth, float alpha, float beta){
@@ -63,7 +61,7 @@ float Game::miniMax(int depth, float alpha, float beta){
         g.MakeMove(move.first,move.second);
 
 
-        if(gameState.awaitingPromotion){
+        if(g.awaitingPromotion()){
             for(auto p : neutralPromotions){
                 Game g2(g);
                 g2.MakeMove({-1,-1},{-1,-1}, p);
