@@ -9,11 +9,13 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Logic/Bitboard.cpp \
     Logic/Board.cpp \
     Logic/Board_HelperFunctions.cpp \
     Logic/Board_IsAttacked.cpp \
     Logic/Game.cpp \
     Logic/Game_AllMoves.cpp \
+    Logic/Game_GenerateBlockerBoards.cpp \
     Logic/Game_HelperFunctions.cpp \
     Logic/Game_LegalMoves.cpp \
     Logic/Game_MakeMove.cpp \
@@ -24,6 +26,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Logic/Bitboard.hpp \
     Logic/Board.hpp \
     Logic/Constants.hpp \
     Logic/Enums.hpp \

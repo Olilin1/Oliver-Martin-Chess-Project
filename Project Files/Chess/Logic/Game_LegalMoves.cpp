@@ -1,184 +1,62 @@
-#include "Game.hpp"
+ #include "Game.hpp"
 
-//Makes ref contain all legal moves from a square
-void Game::LegalMoves(square pos, std::set<square>& ref){
-    if(gameState.awaitingPromotion) return; 
- switch (pieceType(board[pos]))
-    {
-    case Knight:
-        LegalKnightMoves(pos, ref);
-        break;
-    case Bishop:
-        LegalSlidingMoves(pos, bishopMoves, ref);
-    break;
-    case Queen:
-        LegalSlidingMoves(pos, queenMoves, ref);
-    break;
-    case Rook:
-        LegalSlidingMoves(pos, rookMoves, ref);
-    break;
-    case King:
-        LegalKingMoves(pos, ref);
-    break;
-    case Pawn:
-        LegalPawnMoves(pos, ref);
-    break;
-    default:
-        break;
-    }
-}
+ //Makes ref contain all legal moves from a square
+ Bitboard Game::LegalMoves(int pos){
+     Bitboard ref;
+     if(gameState.awaitingPromotion) return ref;
+     switch (pieceType(board[{pos/8, pos%8}]))
+     {
+     case Knight: {
+         LegalKnightMoves(pos, ref);
+         return ref;
+     }
+     case Queen: {
+         Bitboard newBitboard;
+         LegalRookMoves(pos, newBitboard);
+         LegalBishopMoves(pos, ref);
+         ref.bitBoard |= newBitboard.bitBoard;      //The queen moves is the intersection of the rook and bishop moves (intersection = OR operator)
+         return ref;
+     }
+     case Rook: {
+         LegalRookMoves(pos, ref);
+         return ref;
+     }
 
-void Game::LegalSlidingMoves(square pos, std::vector<std::pair<int, int>> directions, std::set<square>& moves)
-{
+     case Bishop: {
+         LegalBishopMoves(pos, ref);
+         return ref;
+     };
+     case King: {
+         LegalKingMoves(pos, ref);
+         return ref;
+     }
 
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return;
+     case Pawn: {
+         LegalPawnMoves(pos, ref);
+         return ref;
+     }
+     default:
+         return ref;
+         break;
+     }
+ }
 
-    for (std::pair<int, int> p : directions)
-    {
-        for (int i = 1; i < 8; i++)
-        {
-            square newPos = {pos.first + p.first * i, pos.second + p.second * i};
-            
-            if (isLegal(pos, newPos))
-                moves.insert(newPos);
-            if(!IsEmpty(newPos)) break;
-        }
-    }
-    return;
-}
+ void Game::LegalRookMoves(int pos, Bitboard& bitBoard){
 
-void Game::LegalKnightMoves(square pos, std::set<square>& moves)
-{
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return;
+ }
 
+ void Game::LegalBishopMoves(int pos, Bitboard& bitBoard){
 
-    for (int i : {-2, -1, 1, 2})
-    {
-        for (int j : {-2, -1, 1, 2})
-        {
-            if (abs(i) == abs(j))
-                continue;
-            square newPos = {pos.first + i, pos.second + j};
-            if (isLegal(pos, newPos))
-                moves.insert(newPos);
-        }
-    }
+ }
 
-   return;
-}
+ void Game::LegalKnightMoves(int pos, Bitboard& bitBoard){
 
+ }
 
-void Game::LegalKingMoves(square pos, std::set<square>& moves)
-{
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return;
+ void Game::LegalKingMoves(int pos, Bitboard& bitBoard){
 
-    for (int i = -1; i <= 1; i++)
-    {
-        for (int j = -1; j <= 1; j++)
-        {
-            if (i == 0 && j == 0)
-                continue;
-            square newPos = {pos.first+i, pos.second+j};
-            if(!canMove(newPos)) continue;
-            board.MakeMove(pos, newPos);
-            if(!board.IsAttacked(newPos, oppositePlayer(gameState.currentPlayer))){
-                moves.insert(newPos);
-            }
-            board.UnmakeMove();
-        }
-    }
+ }
 
-    if (gameState.currentPlayer == Black)
-    {   
-        
-        if (gameState.blackCanCastleKingSide &&
-            IsEmpty({7, 5}) &&
-            IsEmpty({7, 6}) &&
-            !board.IsAttacked({7, 4}, White) &&
-            !board.IsAttacked({7, 5}, White) &&
-            !board.IsAttacked({7, 6}, White))
-        {
-            moves.insert({7, 6});
-        }
-        if (gameState.blackCanCastleQueenSide &&
-            IsEmpty({7, 3}) &&
-            IsEmpty({7, 2}) &&
-            IsEmpty({7, 1}) &&
-            !board.IsAttacked({7, 4}, White) &&
-            !board.IsAttacked({7, 3}, White) &&
-            !board.IsAttacked({7, 2}, White))
-        {
-            moves.insert({7, 2});
-        }
-    }
-    else
-    {
-        if (gameState.whiteCanCastleKingSide &&
-            IsEmpty({0, 5}) &&
-            IsEmpty({0, 6}) &&
-            !board.IsAttacked({0, 4}, Black) &&
-            !board.IsAttacked({0, 5}, Black) &&
-            !board.IsAttacked({0, 6}, Black))
-        {
-            moves.insert({0, 6});
-        }
-        if (gameState.whiteCanCastleQueenSide &&
-            IsEmpty({0, 3}) &&
-            IsEmpty({0, 2}) &&
-            IsEmpty({0, 1}) &&
-            !board.IsAttacked({0, 4}, Black) &&
-            !board.IsAttacked({0, 3}, Black) &&
-            !board.IsAttacked({0, 2}, Black))
-        {
-            moves.insert({0, 2});
-        }
-    }
-    return;
-}
+ void Game::LegalPawnMoves(int pos, Bitboard& bitBoard){
 
-void Game::LegalPawnMoves(square pos, std::set<square>& moves)
-{
-    if (pieceColor(board[pos]) != gameState.currentPlayer)
-        return;
-
-    int direction;
-    if (gameState.currentPlayer == White)
-        direction = 1;
-    else
-        direction = -1;
-    if (pieceColor(board[{pos.first + direction * 1, pos.second - 1}]) == oppositePlayer(gameState.currentPlayer) && 
-    isLegal(pos, {pos.first + direction * 1, pos.second - 1}))
-        moves.insert({pos.first + direction * 1, pos.second - 1});
-    if (pieceColor(board[{pos.first + direction * 1, pos.second + 1}]) == oppositePlayer(gameState.currentPlayer) && 
-    isLegal(pos, {pos.first + direction * 1, pos.second + 1}))
-        moves.insert({pos.first + direction * 1, pos.second + 1});
-    if (IsEmpty({pos.first + direction * 1, pos.second}) && isLegal(pos, {pos.first + direction * 1, pos.second}))
-        moves.insert({pos.first + direction * 1, pos.second});
-    if (IsEmpty({pos.first + direction * 1, pos.second}) && IsEmpty({pos.first + direction * 2, pos.second}) && (pos.first == (pieceColor(board[pos]) == White ? 1 : 6)) && isLegal(pos, {pos.first + direction * 2, pos.second}))
-        moves.insert({pos.first + direction * 2, pos.second});
-    if (gameState.canEnPassant)
-    {
-        if (gameState.enPassant == std::make_pair(pos.first, pos.second - 1))
-        {
-            board.MakeMove(pos, {pos.first + direction * 1, pos.second - 1});
-            board.RemovePiece(gameState.enPassant);
-            if (!board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
-                moves.insert({pos.first + direction * 1, pos.second - 1});
-            board[gameState.enPassant] = (gameState.currentPlayer == White) ? BlackPawn : WhitePawn;
-            board.UnmakeMove();
-        }
-        else if (gameState.enPassant == std::make_pair(pos.first, pos.second + 1))
-        {
-            board.MakeMove(pos, {pos.first + direction * 1, pos.second + 1});
-            board.RemovePiece(gameState.enPassant);
-            if (!board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer)))
-                moves.insert({pos.first + direction * 1, pos.second + 1});
-            board[gameState.enPassant] = (gameState.currentPlayer == White) ? BlackPawn : WhitePawn;
-            board.UnmakeMove();
-        }
-    }
-    return;
-}
+ }

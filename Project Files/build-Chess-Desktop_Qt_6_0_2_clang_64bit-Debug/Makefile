@@ -52,11 +52,13 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../Chess/Logic/Board.cpp \
+SOURCES       = ../Chess/Logic/Bitboard.cpp \
+		../Chess/Logic/Board.cpp \
 		../Chess/Logic/Board_HelperFunctions.cpp \
 		../Chess/Logic/Board_IsAttacked.cpp \
 		../Chess/Logic/Game.cpp \
 		../Chess/Logic/Game_AllMoves.cpp \
+		../Chess/Logic/Game_GenerateBlockerBoards.cpp \
 		../Chess/Logic/Game_HelperFunctions.cpp \
 		../Chess/Logic/Game_LegalMoves.cpp \
 		../Chess/Logic/Game_MakeMove.cpp \
@@ -66,11 +68,13 @@ SOURCES       = ../Chess/Logic/Board.cpp \
 		../Chess/main.cpp \
 		../Chess/mainwindow.cpp qrc_resources.cpp \
 		moc_mainwindow.cpp
-OBJECTS       = Board.o \
+OBJECTS       = Bitboard.o \
+		Board.o \
 		Board_HelperFunctions.o \
 		Board_IsAttacked.o \
 		Game.o \
 		Game_AllMoves.o \
+		Game_GenerateBlockerBoards.o \
 		Game_HelperFunctions.o \
 		Game_LegalMoves.o \
 		Game_MakeMove.o \
@@ -193,7 +197,8 @@ DIST          = ../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/exceptions.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/yacc.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/lex.prf \
-		../Chess/Chess.pro ../Chess/Logic/Board.hpp \
+		../Chess/Chess.pro ../Chess/Logic/Bitboard.hpp \
+		../Chess/Logic/Board.hpp \
 		../Chess/Logic/Constants.hpp \
 		../Chess/Logic/Enums.hpp \
 		../Chess/Logic/Game.hpp \
@@ -201,11 +206,13 @@ DIST          = ../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_pre.prf \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Move.hpp \
 		../Chess/Logic/Typedefs.hpp \
-		../Chess/mainwindow.h ../Chess/Logic/Board.cpp \
+		../Chess/mainwindow.h ../Chess/Logic/Bitboard.cpp \
+		../Chess/Logic/Board.cpp \
 		../Chess/Logic/Board_HelperFunctions.cpp \
 		../Chess/Logic/Board_IsAttacked.cpp \
 		../Chess/Logic/Game.cpp \
 		../Chess/Logic/Game_AllMoves.cpp \
+		../Chess/Logic/Game_GenerateBlockerBoards.cpp \
 		../Chess/Logic/Game_HelperFunctions.cpp \
 		../Chess/Logic/Game_LegalMoves.cpp \
 		../Chess/Logic/Game_MakeMove.cpp \
@@ -502,8 +509,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../Chess/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt/6.0.2/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Chess/Logic/Board.hpp ../Chess/Logic/Constants.hpp ../Chess/Logic/Enums.hpp ../Chess/Logic/Game.hpp ../Chess/Logic/GameState.hpp ../Chess/Logic/HelperFunctions.hpp ../Chess/Logic/Move.hpp ../Chess/Logic/Typedefs.hpp ../Chess/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Chess/Logic/Board.cpp ../Chess/Logic/Board_HelperFunctions.cpp ../Chess/Logic/Board_IsAttacked.cpp ../Chess/Logic/Game.cpp ../Chess/Logic/Game_AllMoves.cpp ../Chess/Logic/Game_HelperFunctions.cpp ../Chess/Logic/Game_LegalMoves.cpp ../Chess/Logic/Game_MakeMove.cpp ../Chess/Logic/Game_SetupGame.cpp ../Chess/Logic/Game_UnmakeMove.cpp ../Chess/Logic/HelperFunctions.cpp ../Chess/main.cpp ../Chess/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Chess/Logic/Bitboard.hpp ../Chess/Logic/Board.hpp ../Chess/Logic/Constants.hpp ../Chess/Logic/Enums.hpp ../Chess/Logic/Game.hpp ../Chess/Logic/GameState.hpp ../Chess/Logic/HelperFunctions.hpp ../Chess/Logic/Move.hpp ../Chess/Logic/Typedefs.hpp ../Chess/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Chess/Logic/Bitboard.cpp ../Chess/Logic/Board.cpp ../Chess/Logic/Board_HelperFunctions.cpp ../Chess/Logic/Board_IsAttacked.cpp ../Chess/Logic/Game.cpp ../Chess/Logic/Game_AllMoves.cpp ../Chess/Logic/Game_GenerateBlockerBoards.cpp ../Chess/Logic/Game_HelperFunctions.cpp ../Chess/Logic/Game_LegalMoves.cpp ../Chess/Logic/Game_MakeMove.cpp ../Chess/Logic/Game_SetupGame.cpp ../Chess/Logic/Game_UnmakeMove.cpp ../Chess/Logic/HelperFunctions.cpp ../Chess/main.cpp ../Chess/mainwindow.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -591,6 +598,7 @@ moc_mainwindow.cpp: ../Chess/mainwindow.h \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
 		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp \
 		moc_predefs.h \
 		../../../../Qt/6.0.2/clang_64/bin/moc
 	/Users/martinorrje/Qt/6.0.2/clang_64/bin/moc $(DEFINES) --include '/Users/martinorrje/inda_tasks/morrje-ollindg-project/Project Files/build-Chess-Desktop_Qt_6_0_2_clang_64bit-Debug/moc_predefs.h' -I/Users/martinorrje/Qt/6.0.2/clang_64/mkspecs/macx-clang -I'/Users/martinorrje/inda_tasks/morrje-ollindg-project/Project Files/Chess' -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtGui.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/Users/martinorrje/Qt/6.0.2/clang_64/lib ../Chess/mainwindow.h -o moc_mainwindow.cpp
@@ -612,6 +620,9 @@ compiler_lex_clean:
 compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
+
+Bitboard.o: ../Chess/Logic/Bitboard.cpp ../Chess/Logic/Bitboard.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Bitboard.o ../Chess/Logic/Bitboard.cpp
 
 Board.o: ../Chess/Logic/Board.cpp ../Chess/Logic/Board.hpp \
 		../Chess/Logic/Enums.hpp \
@@ -647,7 +658,8 @@ Game.o: ../Chess/Logic/Game.cpp ../Chess/Logic/Game.hpp \
 		../Chess/Logic/Board.hpp \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game.o ../Chess/Logic/Game.cpp
 
 Game_AllMoves.o: ../Chess/Logic/Game_AllMoves.cpp ../Chess/Logic/Game.hpp \
@@ -657,8 +669,20 @@ Game_AllMoves.o: ../Chess/Logic/Game_AllMoves.cpp ../Chess/Logic/Game.hpp \
 		../Chess/Logic/Board.hpp \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_AllMoves.o ../Chess/Logic/Game_AllMoves.cpp
+
+Game_GenerateBlockerBoards.o: ../Chess/Logic/Game_GenerateBlockerBoards.cpp ../Chess/Logic/Game.hpp \
+		../Chess/Logic/Enums.hpp \
+		../Chess/Logic/GameState.hpp \
+		../Chess/Logic/Typedefs.hpp \
+		../Chess/Logic/Board.hpp \
+		../Chess/Logic/HelperFunctions.hpp \
+		../Chess/Logic/Constants.hpp \
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_GenerateBlockerBoards.o ../Chess/Logic/Game_GenerateBlockerBoards.cpp
 
 Game_HelperFunctions.o: ../Chess/Logic/Game_HelperFunctions.cpp ../Chess/Logic/Game.hpp \
 		../Chess/Logic/Enums.hpp \
@@ -667,17 +691,19 @@ Game_HelperFunctions.o: ../Chess/Logic/Game_HelperFunctions.cpp ../Chess/Logic/G
 		../Chess/Logic/Board.hpp \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_HelperFunctions.o ../Chess/Logic/Game_HelperFunctions.cpp
 
-Game_LegalMoves.o: ../Chess/Logic/Game_LegalMoves.cpp ../Chess/Logic/game.hpp \
+Game_LegalMoves.o: ../Chess/Logic/Game_LegalMoves.cpp ../Chess/Logic/Game.hpp \
 		../Chess/Logic/Enums.hpp \
 		../Chess/Logic/GameState.hpp \
 		../Chess/Logic/Typedefs.hpp \
 		../Chess/Logic/Board.hpp \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_LegalMoves.o ../Chess/Logic/Game_LegalMoves.cpp
 
 Game_MakeMove.o: ../Chess/Logic/Game_MakeMove.cpp ../Chess/Logic/Game.hpp \
@@ -687,7 +713,8 @@ Game_MakeMove.o: ../Chess/Logic/Game_MakeMove.cpp ../Chess/Logic/Game.hpp \
 		../Chess/Logic/Board.hpp \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_MakeMove.o ../Chess/Logic/Game_MakeMove.cpp
 
 Game_SetupGame.o: ../Chess/Logic/Game_SetupGame.cpp ../Chess/Logic/Game.hpp \
@@ -697,17 +724,11 @@ Game_SetupGame.o: ../Chess/Logic/Game_SetupGame.cpp ../Chess/Logic/Game.hpp \
 		../Chess/Logic/Board.hpp \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_SetupGame.o ../Chess/Logic/Game_SetupGame.cpp
 
-Game_UnmakeMove.o: ../Chess/Logic/Game_UnmakeMove.cpp ../Chess/Logic/Game.hpp \
-		../Chess/Logic/Enums.hpp \
-		../Chess/Logic/GameState.hpp \
-		../Chess/Logic/Typedefs.hpp \
-		../Chess/Logic/Board.hpp \
-		../Chess/Logic/HelperFunctions.hpp \
-		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+Game_UnmakeMove.o: ../Chess/Logic/Game_UnmakeMove.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Game_UnmakeMove.o ../Chess/Logic/Game_UnmakeMove.cpp
 
 HelperFunctions.o: ../Chess/Logic/HelperFunctions.cpp ../Chess/Logic/HelperFunctions.hpp \
@@ -748,43 +769,14 @@ main.o: ../Chess/main.cpp ../Chess/mainwindow.h \
 		../Chess/Logic/HelperFunctions.hpp \
 		../Chess/Logic/Constants.hpp \
 		../Chess/Logic/Move.hpp \
+		../Chess/Logic/Bitboard.hpp \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QElapsedTimer \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/qelapsedtimer.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Chess/main.cpp
 
-mainwindow.o: ../Chess/mainwindow.cpp ../Chess/mainwindow.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsView \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsItemGroup \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsPixmapItem \
-		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QPixmap \
-		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qimage.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/qdir.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QDebug \
-		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/qdebug.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
-		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qevent.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsEllipseItem \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QInputDialog \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qinputdialog.h \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../Chess/Logic/Game.hpp \
-		../Chess/Logic/Enums.hpp \
-		../Chess/Logic/GameState.hpp \
-		../Chess/Logic/Typedefs.hpp \
-		../Chess/Logic/Board.hpp \
-		../Chess/Logic/HelperFunctions.hpp \
-		../Chess/Logic/Constants.hpp \
-		../Chess/Logic/Move.hpp
+mainwindow.o: ../Chess/mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Chess/mainwindow.cpp
 
 qrc_resources.o: qrc_resources.cpp 

@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 //Calculates the total number of (non-unique) positions at a certain depth
-long long int Game::SumOfAllMoves(int depth) {    
+long long int Game::SumOfAllMoves(int depth) {
     if(gameState.awaitingPromotion){
         long long int ans = 0;
         for(auto p : neutralPromotions){
