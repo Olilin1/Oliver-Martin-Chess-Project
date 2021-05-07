@@ -49,6 +49,15 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 }
                 else goto start;
                 render_pieces();
+                game.AiMove();
+            }
+            else{
+                game.AiMove();
+                render_pieces();
+                if(game.awaitingPromotion()){
+                    game.AiMove();
+                    render_pieces();
+                }
             }
             return;
         }
@@ -74,6 +83,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     prevPress = {-1,-1};
     resize(800,800);
+
+
+    game.SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
+
 
     //TODO: Move this
     /*
@@ -160,6 +174,7 @@ void MainWindow::render_pieces(){
             pieces.push_back(newItem);
         }
     }
+    qApp->processEvents();
 }
 
 

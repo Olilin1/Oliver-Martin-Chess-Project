@@ -8,6 +8,9 @@ bool Game::gameIsOver(){
         if(board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer))){
             gameState.winner = oppositePlayer(gameState.currentPlayer);
         }
+        else{
+            gameState.winner = None;
+        }
         return true;
     }
     else{

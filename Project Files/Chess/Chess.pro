@@ -14,9 +14,12 @@ SOURCES += \
     Logic/Board_IsAttacked.cpp \
     Logic/Game.cpp \
     Logic/Game_AllMoves.cpp \
+    Logic/Game_EvaluatePosition.cpp \
     Logic/Game_HelperFunctions.cpp \
+    Logic/Game_IsOver.cpp \
     Logic/Game_LegalMoves.cpp \
     Logic/Game_MakeMove.cpp \
+    Logic/Game_MiniMax.cpp \
     Logic/Game_SetupGame.cpp \
     Logic/Game_UnmakeMove.cpp \
     Logic/HelperFunctions.cpp \

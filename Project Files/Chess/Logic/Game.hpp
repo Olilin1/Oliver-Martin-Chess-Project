@@ -70,7 +70,9 @@ public:
     void RemovePiece(square);
     Piece toCurrPlayer(Piece);
 
-
+    float evaluatePosition();
+    void AiMove();
+    float miniMax(int depth, float alpha = 0, float beta = 0);
 
     };
 
