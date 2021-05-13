@@ -43,15 +43,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 }
                 else goto start;
                 render_pieces();
-                game.AiMove();
+                if(mode == PVEBLACK || mode == PVEWHITE)
+                    funcMakeAiMove();
             }
-            else{
-                game.AiMove();
-                render_pieces();
-                if(game.awaitingPromotion()){
-                    game.AiMove();
-                    render_pieces();
-                }
+            else if (mode == PVEBLACK || mode == PVEWHITE){
+                funcMakeAiMove();
             }
             return;
         }
@@ -72,30 +68,29 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     QMainWindow::mousePressEvent(event); // then call default implementation
 }
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
     : QMainWindow(parent)
 {
+    mode = Mode;
     prevPress = {-1,-1};
-    resize(800,800);
+    if(mode != DEBUG)
+        resize(800,800);
+    else{
+        resize(800, 850);
+        btnMakeAiMove = new QPushButton("AI move",this);
+        btnMakeAiMove->setGeometry(0,800,100,50);
+
+        btnSetupGame = new QPushButton("Setup game",this);
+        btnSetupGame->setGeometry(100,800,100,50);
+
+        editSetupGame = new QLineEdit(this);
+        editSetupGame->setGeometry(200,800, 400,25);
+
+        connect(btnMakeAiMove, SIGNAL(clicked()), this, SLOT(funcMakeAiMove()));
+        connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
+    }
 
     game.SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-
-
-    //TODO: Move this
-    /*
-    pieceImages['n'] = new QPixmap(":/ChessPieces/bN.png");
-    pieceImages['r'] = new QPixmap(":/ChessPieces/bR.png");
-    pieceImages['k'] = new QPixmap(":/ChessPieces/bK.png");
-    pieceImages['q'] = new QPixmap(":/ChessPieces/bQ.png");
-    pieceImages['b'] = new QPixmap(":/ChessPieces/bB.png");
-    pieceImages['p'] = new QPixmap(":/ChessPieces/bP.png");
-    pieceImages['N'] = new QPixmap(":/ChessPieces/wN.png");
-    pieceImages['R'] = new QPixmap(":/ChessPieces/wR.png");
-    pieceImages['K'] = new QPixmap(":/ChessPieces/wK.png");
-    pieceImages['Q'] = new QPixmap(":/ChessPieces/wQ.png");
-    pieceImages['B'] = new QPixmap(":/ChessPieces/wB.png");
-    pieceImages['P'] = new QPixmap(":/ChessPieces/wP.png");
-    */
 
 
     pieceImages[BlackKnight] = new QImage(":/ChessPieces/bN.png");
@@ -169,5 +164,20 @@ void MainWindow::render_pieces(){
     qApp->processEvents();
 }
 
+void MainWindow::funcMakeAiMove(){
+    qDebug() << "AI";
+    game.AiMove();
+    if(game.awaitingPromotion()){
+        game.AiMove();
+    }
+    render_pieces();
+}
+
+void MainWindow::funcSetupGame(){
+    qDebug() << "SETUP";
+    std::string fen = editSetupGame->text().toUtf8().constData();
+    game.SetupGame(fen);
+    render_pieces();
+}
 
 

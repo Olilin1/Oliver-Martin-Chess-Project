@@ -10,6 +10,7 @@
 #include <QImage>
 #include <QDir>
 #include <QDebug>
+#include <QPushButton>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -32,16 +33,25 @@ private:
     QGraphicsView* view;
     QGraphicsScene* scene;
     QGraphicsRectItem* board[8][8];
+    QPushButton* btnMakeAiMove;
+    QPushButton* btnSetupGame;
+    QLineEdit* editSetupGame;
     square prevPress;
     Game game;
+    LaunchMode mode;
 
 
     void generate_board(QColor black = Qt::black, QColor white = Qt::white);
     void render_pieces();
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(LaunchMode = PVEWHITE, QWidget *parent = nullptr);
     ~MainWindow();
+
+
+public slots:
+    void funcMakeAiMove();
+    void funcSetupGame();
 
 protected:
     void mousePressEvent(QMouseEvent *event);

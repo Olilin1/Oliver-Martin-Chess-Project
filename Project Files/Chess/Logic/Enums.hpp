@@ -26,3 +26,9 @@ enum Player {
     Black = -1, 
     White = 1
 };
+enum LaunchMode {
+    PVP,
+    DEBUG,
+    PVEWHITE,
+    PVEBLACK
+};
