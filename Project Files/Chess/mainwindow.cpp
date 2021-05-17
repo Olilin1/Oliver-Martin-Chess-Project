@@ -9,17 +9,21 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         delete a;
     }
     moveCircles.clear();
-    if(event->pos().y() < 145 || event->pos().y() > 145+8*squareSize || event->pos().x() < 145 || event->pos().x() > 145+8*squareSize){
-        prevPress = {-1,-1};
+    if(event->pos().y() < 145 || event->pos().y() > 145+8*squareSize || event->pos().x() < 145 || event->pos().x() > 145+8*squareSize){     //Check if the mouse click is outside of the board
+        prevPress = -1;
         return;
     }
     int row = abs((event->pos().y()-145)/squareSize-7);
     int col = (event->pos().x()-145)/squareSize;
 
-    if(prevPress != std::make_pair(-1,-1)){
-        if(game.MakeMove(prevPress, {row,col})){
+    if(prevPress != -1){
+        //The previous click was selecting a piece, and this next click is where it should move
+        std::set<std::pair<int, int>> allMoves;
+        game.MakeAllLegalMoves(allMoves);
+        if(allMoves.count({prevPress, row*8+col%8})){
+            game.MakeGameMove(prevPress, row*8+col%8);
             render_pieces();
-            prevPress = {-1,-1};
+            prevPress = -1;
             if(game.awaitingPromotion()){
                 start:
                 bool ok;
@@ -29,16 +33,16 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                                                          tr("Piece:"), items, 0, false, &ok);
                 if(ok){
                     if(item == "Rook"){
-                        game.MakeMove(nullSquare,nullSquare, Rook);
+                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Rook));
                     }
                     if(item == "Knight"){
-                        game.MakeMove(nullSquare,nullSquare, Knight);
+                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Knight));
                     }
                     if(item == "Bishop"){
-                        game.MakeMove(nullSquare,nullSquare, Bishop);
-                    }
+                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Bishop));
+                  }
                     if(item == "Queen"){
-                        game.MakeMove(nullSquare,nullSquare, Queen);
+                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Queen));
                     }
                 }
                 else goto start;
@@ -55,16 +59,16 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
     std::cout   << row<< ' '<< col  << std::endl;
 
-    std::set<square> moves;
-    game.LegalMoves({row,col},moves);
-    for(square move : moves){
-        QGraphicsEllipseItem* moveCircle = new QGraphicsEllipseItem(squareSize*move.second +squareSize/2 -5, squareSize*move.first +squareSize/2-5, 10, 10);
+    std::set<int> moves;
+    game.MakeAllLegalMovesFromSquare(moves, row*8+col%8);
+    for(int move : moves){
+        QGraphicsEllipseItem* moveCircle = new QGraphicsEllipseItem(squareSize*(move%8) +squareSize/2 -5, squareSize*(move/8) +squareSize/2-5, 10, 10);
         moveCircles.push_back(moveCircle);
         moveCircle->setBrush(Qt::red);
         scene->addItem(moveCircle);
     }
 
-    prevPress = {row,col};
+    prevPress = row*8+col%8;
     QMainWindow::mousePressEvent(event); // then call default implementation
 }
 
@@ -72,7 +76,8 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
     : QMainWindow(parent)
 {
     mode = Mode;
-    prevPress = {-1,-1};
+    prevPress = -1;
+
     if(mode != DEBUG)
         resize(800,800);
     else{
@@ -80,8 +85,21 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
         btnMakeAiMove = new QPushButton("AI move",this);
         btnMakeAiMove->setGeometry(0,800,100,50);
 
+
         btnSetupGame = new QPushButton("Setup game",this);
         btnSetupGame->setGeometry(100,800,100,50);
+
+        editSetupGame = new QLineEdit(this);
+        editSetupGame->setGeometry(200,800, 400,25);
+
+        connect(btnMakeAiMove, SIGNAL(clicked()), this, SLOT(funcMakeAiMove()));
+        connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
+    }
+
+
+        btnSetupGame = new QPushButton("Setup game",this);
+        btnSetupGame->setGeometry(100,800,100,50);
+
 
         editSetupGame = new QLineEdit(this);
         editSetupGame->setGeometry(200,800, 400,25);
@@ -149,13 +167,13 @@ void MainWindow::render_pieces(){
     }
     pieces.clear();
 
-    Board b = game.getBoard();
+    int* board = game.GetBoard();
 
     for(int i = 0; i < 8; i++){
         for(int j = 0; j<8; j++){
-            if(b[{i,j}] == Empty) continue;
+            if(board[i*8 + j%8] == Empty) continue;
 
-            QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[b[{i,j}]]->mirrored(false,true)));
+            QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[board[8*i + j%8]]->mirrored(false,true)));
             newItem->setOffset(squareSize * j-1, squareSize * i);
             scene->addItem(newItem);
             pieces.push_back(newItem);
@@ -179,5 +197,4 @@ void MainWindow::funcSetupGame(){
     game.SetupGame(fen);
     render_pieces();
 }
-
 

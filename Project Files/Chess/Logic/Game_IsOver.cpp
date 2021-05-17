@@ -1,14 +1,14 @@
 #include "Game.hpp"
 
 //Will check if the game is over or not.
-bool Game::gameIsOver(){
-    std::set<std::pair<square,square>> moves;
-    CalculateAllMoves(moves);
+bool Game::GameIsOver(){
+    std::set<std::pair<int,int>> moves;
+    MakeAllLegalMoves(moves);
     if(moves.empty()){
-        if(board.IsAttacked(CurrPlayerKingPostion(), oppositePlayer(gameState.currentPlayer))){
-            gameState.winner = oppositePlayer(gameState.currentPlayer);
+        if(IsAttacked(CurrPlayerKingPostion())){    //Checkmate
+            gameState.winner = oppositePlayer();
         }
-        else{
+        else{       //Stalemate
             gameState.winner = None;
         }
         return true;

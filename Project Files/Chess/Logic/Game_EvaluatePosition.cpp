@@ -3,36 +3,38 @@
 float Game::evaluatePosition(){
     float score = 0;
 
-    if(gameIsOver()){
+    if(GameIsOver()){
         return inf * gameState.winner;
     }
 
     int mult;
-    for(int i = 0; i< 8; i++){
-        for(int j = 0; j<8; j++){
-            mult = pieceColor(board[{i,j}]);
-            switch (pieceType(board[{i,j}]))
+    for(int i = 0; i< 64; i++){
+            mult = pieceColor(Board[i]);
+            switch (Board[i])
             {
-            case Knight:
+            case BlackKnight:
+            case WhiteKnight:
+            case WhiteBishop:
+            case BlackBishop:
                 score += 3*mult;
                 break;
-            case Bishop:
-                score += 3*mult;
-                break;
-            case Rook:
+            case BlackRook:
+            case WhiteRook:
                 score += 5*mult;
                 break;
-            case Queen:
+            case WhiteQueen:
+            case BlackQueen:
                 score += 9*mult;
                 break;
-            case Pawn:
+            case BlackPawn:
+            case WhitePawn:
                 score += 1*mult;
                 break;
-            case King:
+            case WhiteKing:
+            case BlackKing:
                 break;
             default:
                 break;
-            }
         }
     }
     return score;

@@ -1,22 +1,21 @@
 #pragma once
-
 #include"Enums.hpp"
-#include"Typedefs.hpp"
 
-//Contains misc info about the game
-struct GameState {
+struct GameState{
     Player currentPlayer;
     Player winner;
     int fullMoveClock;
     int halfMoveClock;
-    square blackKingPos;
-    square whiteKingPos;
-    square enPassant;
+
+    int blackKingPos;
+    int whiteKingPos;
+    int enPassant;
+
     bool canEnPassant;
     bool blackCanCastleKingSide;
     bool blackCanCastleQueenSide;
     bool whiteCanCastleKingSide;
     bool whiteCanCastleQueenSide;
-    bool awaitingPromotion;
-    square promotion;
+    bool awaitingPromotion = false;
+    int promotion;
 };

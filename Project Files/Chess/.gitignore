@@ -71,3 +71,10 @@ Thumbs.db
 *.dll
 *.exe
 
+#Unnecessary files
+test.py
+test2.py 
+a.out
+a.out.dSYM
+.vscode
+

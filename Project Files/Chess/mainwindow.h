@@ -7,6 +7,7 @@
 #include <QGraphicsItemGroup>
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
+#include <QPushButton>
 #include <QImage>
 #include <QDir>
 #include <QDebug>
@@ -26,6 +27,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
+    #define nullSquare -1
     int squareSize;
     std::map<char, QImage*> pieceImages;
     std::vector<QGraphicsPixmapItem*> pieces;
@@ -36,7 +38,8 @@ private:
     QPushButton* btnMakeAiMove;
     QPushButton* btnSetupGame;
     QLineEdit* editSetupGame;
-    square prevPress;
+    int prevPress;
+
     Game game;
     LaunchMode mode;
 
