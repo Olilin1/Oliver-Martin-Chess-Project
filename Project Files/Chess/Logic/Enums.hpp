@@ -37,9 +37,4 @@ enum LaunchMode {
     PVEWHITE = 3,
     PVEBLACK = 4
 };
-enum LaunchMode {
-    PVP,
-    DEBUG,
-    PVEWHITE,
-    PVEBLACK
-};
+
