@@ -19,7 +19,7 @@ int main() {
     Game game;
     Tests test;
     std::clock_t start = std::clock();
-    int sum = game.SumOfAllMoves(6, true);
+    int sum = game.SumOfAllMoves(5, true);
     std::cout<<std::endl<<"Nodes searched: "<<sum<<std::endl;
     float time = ((std::clock()-start)/(double)CLOCKS_PER_SEC);
     std::cout<<time<<" seconds elapsed"<<std::endl;
