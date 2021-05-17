@@ -72,8 +72,6 @@ Thumbs.db
 *.exe
 
 #Unnecessary files
-Tests.cpp
-Tests.hpp
 test.py
 test2.py 
 a.out
