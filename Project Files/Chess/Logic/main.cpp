@@ -1,33 +1,28 @@
-#include<iostream>
-#include<time.h>
 #include"Game.hpp"
+#include"Bitboard.hpp"
 #include"Tests.hpp"
+#include<bitset>
+#include<iostream>
+#include <sstream>      // std::stringstream
+#include <ctime>
 
-using namespace std;
 
-void runTests(int depth){
-
-    for(test t : tests){
-        
-        clock_t tStart = clock();
-        Game g;
-        g.SetupGame(t.fen);
-        cout << "Running test: " << t.testName << endl;
-        for(int i = 0; i <= depth; i++){
-            int ans = g.SumOfAllMoves(i);
-            if(ans == t.expected[i]){
-                cout << t.testName << " depth " << i << " PASS"<<endl;
-                //printf("Time taken: %.2fm\n", ((double)(clock() - tStart) / CLOCKS_PER_SEC)/60);
-            }
-            else{
-                cout << t.testName << " depth " << i << " FAIL"<< "expected " << t.expected[i] << " but got "<<ans <<endl;
-                //printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
-            }
-        }
-        cout << endl;
-    }
+template<typename T>
+static std::string toBinaryString(const T& x)
+{
+    std::stringstream ss;
+    ss << std::bitset<sizeof(T) * 8>(x);
+    return ss.str();
 }
 
 int main() {
-    runTests(4);
+    Game game;
+    Tests test;
+    std::clock_t start = std::clock();
+    int sum = game.SumOfAllMoves(6, true);
+    std::cout<<std::endl<<"Nodes searched: "<<sum<<std::endl;
+    float time = ((std::clock()-start)/(double)CLOCKS_PER_SEC);
+    std::cout<<time<<" seconds elapsed"<<std::endl;
+    std::cout<<"Nodes/seconds: "<<sum/time<<std::endl;
+    return 0;
 }

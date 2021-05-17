@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
+    #define nullSquare -1
     int squareSize;
     std::map<char, QImage*> pieceImages;
     std::vector<QGraphicsPixmapItem*> pieces;
@@ -32,7 +33,7 @@ private:
     QGraphicsView* view;
     QGraphicsScene* scene;
     QGraphicsRectItem* board[8][8];
-    square prevPress;
+    int prevPress;
     Game game;
 
 
