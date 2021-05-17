@@ -168,6 +168,7 @@ DIST          = ../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_post.prf \
+		../Chess/.qmake.stash \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/toolchain.prf \
@@ -323,6 +324,7 @@ Makefile: ../Chess/Chess.pro ../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qm
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../../Qt/6.0.2/clang_64/mkspecs/features/toolchain.prf \
@@ -440,6 +442,7 @@ Makefile: ../Chess/Chess.pro ../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qm
 ../../../../Qt/6.0.2/clang_64/mkspecs/features/qt_config.prf:
 ../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qmake.conf:
 ../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../../Qt/6.0.2/clang_64/mkspecs/features/exclusive_builds.prf:
 ../../../../Qt/6.0.2/clang_64/mkspecs/features/mac/sdk.prf:
 ../../../../Qt/6.0.2/clang_64/mkspecs/features/toolchain.prf:
@@ -515,6 +518,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r Chess.app
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -571,6 +575,8 @@ moc_mainwindow.cpp: ../Chess/mainwindow.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsPixmapItem \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QImage \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QDir \
@@ -725,6 +731,8 @@ main.o: ../Chess/main.cpp ../Chess/mainwindow.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsPixmapItem \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QImage \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QDir \
@@ -760,6 +768,8 @@ mainwindow.o: ../Chess/mainwindow.cpp ../Chess/mainwindow.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QGraphicsPixmapItem \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/QImage \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QDir \

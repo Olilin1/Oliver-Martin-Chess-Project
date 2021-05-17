@@ -30,3 +30,10 @@ enum UncoloredPiece{
     Queen = 9,
     King = 11
 };
+
+enum LaunchMode {
+    PVP = 1,
+    DEBUG = 2,
+    PVEWHITE = 3,
+    PVEBLACK = 4
+};
