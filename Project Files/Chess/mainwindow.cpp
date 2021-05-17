@@ -77,12 +77,14 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
 {
     mode = Mode;
     prevPress = -1;
+
     if(mode != DEBUG)
         resize(800,800);
     else{
         resize(800, 850);
         btnMakeAiMove = new QPushButton("AI move",this);
         btnMakeAiMove->setGeometry(0,800,100,50);
+
 
         btnSetupGame = new QPushButton("Setup game",this);
         btnSetupGame->setGeometry(100,800,100,50);
@@ -94,7 +96,20 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
         connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
     }
 
+
+        btnSetupGame = new QPushButton("Setup game",this);
+        btnSetupGame->setGeometry(100,800,100,50);
+
+
+        editSetupGame = new QLineEdit(this);
+        editSetupGame->setGeometry(200,800, 400,25);
+
+        connect(btnMakeAiMove, SIGNAL(clicked()), this, SLOT(funcMakeAiMove()));
+        connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
+    }
+
     game.SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
 
     pieceImages[BlackKnight] = new QImage(":/ChessPieces/bN.png");
     pieceImages[BlackRook] = new QImage(":/ChessPieces/bR.png");
@@ -182,3 +197,4 @@ void MainWindow::funcSetupGame(){
     game.SetupGame(fen);
     render_pieces();
 }
+

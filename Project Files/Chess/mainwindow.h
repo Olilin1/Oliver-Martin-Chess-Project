@@ -11,6 +11,7 @@
 #include <QImage>
 #include <QDir>
 #include <QDebug>
+#include <QPushButton>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -38,6 +39,7 @@ private:
     QPushButton* btnSetupGame;
     QLineEdit* editSetupGame;
     int prevPress;
+
     Game game;
     LaunchMode mode;
 
@@ -48,6 +50,7 @@ private:
 public:
     MainWindow(LaunchMode = PVEWHITE, QWidget *parent = nullptr);
     ~MainWindow();
+
 
 public slots:
     void funcMakeAiMove();
