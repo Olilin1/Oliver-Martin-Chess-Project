@@ -99,7 +99,8 @@ uint64_t random_uint64_fewbits() {
 
 /*This function generates a magic number for either bishops or rooks. 
 The function works by looping through a bunch of random numbers, and for each random numbers, testing if it is a viable magic number
-The thing that determines if it is a viable magic number is if it maps each blocker board into the correct corresponding attack board
+The thing that determines if it is a viable magic number is if it maps each separate blocker board to a unique index between 0 and numOfBits, 
+where numOfBits is the number of bits contained in the blocker board's corresponding blocker mask
 */
 uint64_t Game::GenerateBishopMagicNumbers(int square, Bitboard bishopBlockerBoards[512], Bitboard bishopAttackBoards[512]){
     Bitboard blockerMask = BishopBlockerMasks[square];
