@@ -97,17 +97,6 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
     }
 
 
-        btnSetupGame = new QPushButton("Setup game",this);
-        btnSetupGame->setGeometry(100,800,100,50);
-
-
-        editSetupGame = new QLineEdit(this);
-        editSetupGame->setGeometry(200,800, 400,25);
-
-        connect(btnMakeAiMove, SIGNAL(clicked()), this, SLOT(funcMakeAiMove()));
-        connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
-    }
-
     game.SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
 
