@@ -12,11 +12,11 @@ void runTests(int depth){
     for(test t : tests){
         
         clock_t tStart = clock();
-        Game g;
-        g.SetupGame(t.fen);
+        Game* g = new Game();
+        g->SetupGame(t.fen);
         std::cout << "Running test: " << t.testName << std::endl;
         for(int i = 0; i <= depth; i++){
-            int ans = g.SumOfAllMoves(i, true);
+            int ans = g->SumOfAllMoves(i, false);
             if(ans == t.expected[i]){
                 std::cout << t.testName << " depth " << i << " PASS"<<std::endl;
                 //printf("Time taken: %.2fm\n", ((double)(clock() - tStart) / CLOCKS_PER_SEC)/60);
@@ -27,6 +27,7 @@ void runTests(int depth){
             }
         }
         std::cout << std::endl;
+        delete g;
     }
 }
 
@@ -35,12 +36,7 @@ g++ main.cpp Bitboard.cpp Game\_GenerateBlockerMoves.cpp Game\_MagicNumberGenera
 */
 
 int main() {
-    Game game;
-    std::clock_t start = std::clock();
-    int sum = game.SumOfAllMoves(6, true);
-    std::cout<<std::endl<<"Nodes searched: "<<sum<<std::endl;
-    float time = ((std::clock()-start)/(double)CLOCKS_PER_SEC);
-    std::cout<<time<<" seconds elapsed"<<std::endl;
-    std::cout<<"Nodes/seconds: "<<sum/time<<std::endl;
-    return 0;
+    Game* g = new Game();
+    g->SetupGame("rnbqkbnr/2pppppp/8/8/p7/p7/PPPPPPPP/1RBQKBNR w Kkq - 0 1");
+    std::cout << g->SumOfAllMoves(3, false);
 }
