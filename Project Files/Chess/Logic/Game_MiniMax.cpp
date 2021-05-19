@@ -57,8 +57,9 @@ float Game::miniMax(int depth, float alpha, float beta){
     std::set<std::pair<int,int>> allMoves;
     MakeAllPseudoMoves(allMoves);
     for(auto move : allMoves){
-        madeMove = true;
+        
         if(gameState.awaitingPromotion){
+            madeMove = true;
             for(auto p : {Queen,Knight,Rook,Bishop}){
                 MakeBoardMove(-1, -1, ConvertToOppositeColoredPiece(p));
                 eval = -miniMax(depth,-beta,-alpha);
@@ -71,8 +72,10 @@ float Game::miniMax(int depth, float alpha, float beta){
             gameState.awaitingPromotion = false;
         }
         else if(MakeGameMove(move.first,move.second)){
+            madeMove = true;
             eval = -miniMax(depth-1,-beta,-alpha);
             if (eval >= beta){
+                UnmakeMove();
                 return eval;
             }
             if(eval > alpha) alpha = eval;
