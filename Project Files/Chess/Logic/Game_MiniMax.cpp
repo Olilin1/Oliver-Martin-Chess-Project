@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 void Game::AiMove(){
-    int depth = 3;
+    int depth = 4;
     float maxEval = (depth+1) * inf + 1;
     float beta = maxEval;
     float alpha = -maxEval;
@@ -13,25 +13,27 @@ void Game::AiMove(){
     std::set<std::pair<int, int>> allMoves;
     MakeAllPseudoMoves(allMoves);
     for(auto move : allMoves){
-        if(gameState.awaitingPromotion){
-            for(auto p : {Queen,Knight,Rook,Bishop}){
-                Piece promotionPiece = ConvertToOppositeColoredPiece(p);
-                MakeBoardMove(-1, -1, promotionPiece);
-                eval = -miniMax(depth,-beta,-alpha);
+        if(MakeGameMove(move.first,move.second)){
+            if(gameState.awaitingPromotion){
+                for(auto p : {Queen,Knight,Rook,Bishop}){
+                    Piece promotionPiece = ConvertToOppositeColoredPiece(p);
+                    MakeBoardMove(-1, -1, promotionPiece);
+                    eval = -miniMax(depth,-beta,-alpha);
+                    if(eval > alpha){
+                        alpha = eval;
+                        bestMove = move;
+                        promotion = promotionPiece;
+                    }
+                    gameState.awaitingPromotion = true;
+                }
+                gameState.awaitingPromotion = false;
+            }
+            else{
+                eval = -miniMax(depth-1,-beta,-alpha);
                 if(eval > alpha){
                     alpha = eval;
                     bestMove = move;
-                    promotion = promotionPiece;
                 }
-                gameState.awaitingPromotion = true;
-            }
-            gameState.awaitingPromotion = false;
-        }
-        else if(MakeGameMove(move.first,move.second)){
-            eval = -miniMax(depth-1,-beta,-alpha);
-            if(eval > alpha){
-                alpha = eval;
-                bestMove = move;
             }
             UnmakeMove();
         }
@@ -57,25 +59,30 @@ float Game::miniMax(int depth, float alpha, float beta){
     std::set<std::pair<int,int>> allMoves;
     MakeAllPseudoMoves(allMoves);
     for(auto move : allMoves){
-        madeMove = true;
-        if(gameState.awaitingPromotion){
-            for(auto p : {Queen,Knight,Rook,Bishop}){
-                MakeBoardMove(-1, -1, ConvertToOppositeColoredPiece(p));
-                eval = -miniMax(depth,-beta,-alpha);
+        if(MakeGameMove(move.first,move.second)){
+            madeMove = true;
+
+            if(gameState.awaitingPromotion){
+                for(auto p : {Queen,Knight,Rook,Bishop}){
+                    MakeBoardMove(-1, -1, ConvertToOppositeColoredPiece(p));
+                    eval = -miniMax(depth,-beta,-alpha);
+                    if (eval >= beta){
+                        UnmakeMove();
+                        return eval;
+                    }
+                    if(eval > alpha) alpha = eval;
+                    gameState.awaitingPromotion = true;
+                }
+                gameState.awaitingPromotion = false;
+            }
+            else{
+                eval = -miniMax(depth-1,-beta,-alpha);
                 if (eval >= beta){
+                    UnmakeMove();
                     return eval;
                 }
                 if(eval > alpha) alpha = eval;
-                gameState.awaitingPromotion = true;
             }
-            gameState.awaitingPromotion = false;
-        }
-        else if(MakeGameMove(move.first,move.second)){
-            eval = -miniMax(depth-1,-beta,-alpha);
-            if (eval >= beta){
-                return eval;
-            }
-            if(eval > alpha) alpha = eval;
             UnmakeMove();
         }
     }

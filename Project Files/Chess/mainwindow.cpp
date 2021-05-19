@@ -19,12 +19,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     if(prevPress != -1){
         //The previous click was selecting a piece, and this next click is where it should move
         std::set<std::pair<int, int>> allMoves;
-        game.MakeAllLegalMoves(allMoves);
+        game->MakeAllLegalMoves(allMoves);
         if(allMoves.count({prevPress, row*8+col%8})){
-            game.MakeGameMove(prevPress, row*8+col%8);
+            game->MakeGameMove(prevPress, row*8+col%8);
             render_pieces();
             prevPress = -1;
-            if(game.awaitingPromotion()){
+            if(game->awaitingPromotion()){
                 start:
                 bool ok;
                 QStringList items;
@@ -33,16 +33,16 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                                                          tr("Piece:"), items, 0, false, &ok);
                 if(ok){
                     if(item == "Rook"){
-                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Rook));
+                        game->MakeBoardMove(nullSquare,nullSquare, game->ConvertToOppositeColoredPiece(Rook));
                     }
                     if(item == "Knight"){
-                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Knight));
+                        game->MakeBoardMove(nullSquare,nullSquare, game->ConvertToOppositeColoredPiece(Knight));
                     }
                     if(item == "Bishop"){
-                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Bishop));
+                        game->MakeBoardMove(nullSquare,nullSquare, game->ConvertToOppositeColoredPiece(Bishop));
                   }
                     if(item == "Queen"){
-                        game.MakeBoardMove(nullSquare,nullSquare, game.ConvertToOppositeColoredPiece(Queen));
+                        game->MakeBoardMove(nullSquare,nullSquare, game->ConvertToOppositeColoredPiece(Queen));
                     }
                 }
                 else goto start;
@@ -60,7 +60,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     std::cout   << row<< ' '<< col  << std::endl;
 
     std::set<int> moves;
-    game.MakeAllLegalMovesFromSquare(moves, row*8+col%8);
+    game->MakeAllLegalMovesFromSquare(moves, row*8+col%8);
     for(int move : moves){
         QGraphicsEllipseItem* moveCircle = new QGraphicsEllipseItem(squareSize*(move%8) +squareSize/2 -5, squareSize*(move/8) +squareSize/2-5, 10, 10);
         moveCircles.push_back(moveCircle);
@@ -96,8 +96,8 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
         connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
     }
 
-
-    game.SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    game = new Game();
+    game->SetupGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
 
     pieceImages[BlackKnight] = new QImage(":/ChessPieces/bN.png");
@@ -156,7 +156,7 @@ void MainWindow::render_pieces(){
     }
     pieces.clear();
 
-    int* board = game.GetBoard();
+    int* board = game->GetBoard();
 
     for(int i = 0; i < 8; i++){
         for(int j = 0; j<8; j++){
@@ -173,17 +173,16 @@ void MainWindow::render_pieces(){
 
 void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
-    game.AiMove();
-    if(game.awaitingPromotion()){
-        game.AiMove();
-    }
+    game->AiMove();
     render_pieces();
 }
 
 void MainWindow::funcSetupGame(){
+    delete game;
+    game = new Game();
     qDebug() << "SETUP";
     std::string fen = editSetupGame->text().toUtf8().constData();
-    game.SetupGame(fen);
+    game->SetupGame(fen);
     render_pieces();
 }
 

@@ -88,8 +88,8 @@ int count_1s(uint64_t b) {
 
 uint64_t random_uint64() {
   uint64_t u1, u2, u3, u4;
-  u1 = (uint64_t)(random()) & 0xFFFF; u2 = (uint64_t)(random()) & 0xFFFF;
-  u3 = (uint64_t)(random()) & 0xFFFF; u4 = (uint64_t)(random()) & 0xFFFF;
+  u1 = (uint64_t)(rand()) & 0xFFFF; u2 = (uint64_t)(rand()) & 0xFFFF;
+  u3 = (uint64_t)(rand()) & 0xFFFF; u4 = (uint64_t)(rand()) & 0xFFFF;
   return u1 | (u2 << 16) | (u3 << 32) | (u4 << 48);
 }
 
@@ -161,10 +161,11 @@ uint64_t Game::GenerateRookMagicNumbers(int square, Bitboard rookBlockerBoards[4
 }
 
 void Game::AssignMagicNumbers(){
-    Bitboard rookAttackBoards[64][4096];
-    Bitboard bishopAttackBoards[64][512]; 
-    Bitboard bishopBlockerBoards[64][512];
-    Bitboard rookBlockerBoards[64][4096];
+    
+    auto rookAttackBoards = new Bitboard[64][4096]();
+    auto bishopAttackBoards = new Bitboard[64][512](); 
+    auto bishopBlockerBoards = new Bitboard[64][512]();
+    auto rookBlockerBoards = new Bitboard[64][4096]();
     
     GenerateRookBlockerMasks();
     GenerateBishopBlockerMasks();
@@ -191,4 +192,9 @@ void Game::AssignMagicNumbers(){
             RookAttacks[i][index] = rookAttackBoards[i][j];
         } 
     }
+
+    delete[] rookAttackBoards;
+    delete[] bishopAttackBoards;
+    delete[] rookBlockerBoards;
+    delete[] bishopBlockerBoards;
 }

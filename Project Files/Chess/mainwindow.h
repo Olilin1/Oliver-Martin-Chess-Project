@@ -40,7 +40,7 @@ private:
     QLineEdit* editSetupGame;
     int prevPress;
 
-    Game game;
+    Game* game;
     LaunchMode mode;
 
 
