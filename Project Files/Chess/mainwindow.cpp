@@ -174,9 +174,6 @@ void MainWindow::render_pieces(){
 void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
     game->AiMove();
-    if(game->awaitingPromotion()){
-        game->AiMove();
-    }
     render_pieces();
 }
 
