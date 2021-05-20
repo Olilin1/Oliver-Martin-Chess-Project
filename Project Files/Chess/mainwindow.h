@@ -42,15 +42,20 @@ private:
     QPushButton* btnGoBack;
     QLineEdit* editSetupGame;
     int prevPress;
+    std::pair<int,int> prevRowCol;
     bool white;
+    QColor whiteSquare = Qt::white;
+    QColor blackSquare = Qt::lightGray;
+    QColor markedSquare = Qt::darkGray;
 
     Game* game;
     LaunchMode mode;
 
 
-    void generate_board(QColor black = Qt::black, QColor white = Qt::white);
+    void generate_board();
     void render_pieces();
     void isGameOver();
+    void resetColor();
 
 public:
     MainWindow(LaunchMode = PVEWHITE, QWidget *parent = nullptr);

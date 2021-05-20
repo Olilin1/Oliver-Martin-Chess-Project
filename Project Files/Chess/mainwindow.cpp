@@ -18,12 +18,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     if(!white){
         row = 7-row;
     }
-
     if(prevPress != -1){
         //The previous click was selecting a piece, and this next click is where it should move
         std::set<std::pair<int, int>> allMoves;
         game->MakeAllLegalMoves(allMoves);
         if(allMoves.count({prevPress, row*8+col%8})){
+            board[row][col]->setBrush(markedSquare);
             game->MakeGameMove(prevPress, row*8+col%8);
             render_pieces();
             prevPress = -1;
@@ -69,7 +69,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
     std::set<int> moves;
     game->MakeAllLegalMovesFromSquare(moves, row*8+col%8);
+    resetColor();
     for(int move : moves){
+        board[row][col]->setBrush(markedSquare);
         QGraphicsEllipseItem* moveCircle = new QGraphicsEllipseItem(squareSize*(move%8) +squareSize/2 -5, squareSize*(move/8) +squareSize/2-5, 10, 10);
         moveCircles.push_back(moveCircle);
         moveCircle->setBrush(Qt::red);
@@ -77,6 +79,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
 
     prevPress = row*8+col%8;
+    prevRowCol.first = row;
+    prevRowCol.second = col;
+
     QMainWindow::mousePressEvent(event); // then call default implementation
 }
 
@@ -136,13 +141,16 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
     view->resize(800,800);
     squareSize = 64;
 
-    generate_board(Qt::gray);
+    generate_board();
     render_pieces();
 
 
     view->setScene(scene);
     if(white) view->scale(1,-1);
     view->show();
+    if(mode == PVEBLACK){
+        funcMakeAiMove();
+    }
 
 }
 
@@ -151,11 +159,11 @@ MainWindow::~MainWindow()
 }
 
 //This simply draws a board in the specified colors
-void MainWindow::generate_board(QColor black, QColor white){
+void MainWindow::generate_board(){
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             board[i][j] = new QGraphicsRectItem(squareSize*j, squareSize*i, squareSize, squareSize);
-            board[i][j]->setBrush((i+j)%2 ? white : black);
+            board[i][j]->setBrush((i+j)%2 ? whiteSquare : blackSquare);
             scene->addItem(board[i][j]);
         }
     }
@@ -190,7 +198,14 @@ void MainWindow::render_pieces(){
 
 void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
-    game->AiMove();
+    resetColor();
+    std::pair<int,int> move = game->AiMove();
+
+    std::pair<int,int> s1 = game->intToPair(move.first);
+    std::pair<int,int> s2 = game->intToPair(move.second);
+    board[s1.first][s1.second]->setBrush(markedSquare);
+    board[s2.first][s2.second]->setBrush(markedSquare);
+
     render_pieces();
     isGameOver();
 }
@@ -232,4 +247,12 @@ void MainWindow::funcFlip(){
 void MainWindow::funcGoBack(){
     game->UnmakeMove();
     render_pieces();
+}
+
+void MainWindow::resetColor(){
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            board[i][j]->setBrush((i+j)%2 ? whiteSquare : blackSquare);
+        }
+    }
 }

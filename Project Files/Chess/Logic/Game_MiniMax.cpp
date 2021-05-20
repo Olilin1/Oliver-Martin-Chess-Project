@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-void Game::AiMove(){
+std::pair<int,int> Game::AiMove(){
     int depth = 4;
     float maxEval = (depth+1) * inf + 1;
     float beta = maxEval;
@@ -43,6 +43,7 @@ void Game::AiMove(){
     if(gameState.awaitingPromotion){
         MakeBoardMove(-1, -1, promotion);
     }
+    return {bestMove.first, bestMove.second};
 }
 
 float Game::miniMax(int depth, float alpha, float beta){

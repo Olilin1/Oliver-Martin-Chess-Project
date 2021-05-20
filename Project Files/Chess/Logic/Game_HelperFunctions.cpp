@@ -214,6 +214,7 @@ int* Game::GetBoard(){
     return Board;
 }
 
+
 int Game::CurrPlayerKingPostion(){
     if(gameState.currentPlayer == White) return pieceBitboards[WhiteKing].LSBIndex();
     else return pieceBitboards[BlackKing].LSBIndex();
@@ -241,4 +242,10 @@ Piece Game::ConvertToColoredPiece(UncoloredPiece p){
 Piece Game::ConvertToOppositeColoredPiece(UncoloredPiece p){
     if(gameState.currentPlayer == White) return (Piece)(p+1);
     else return (Piece) p;
+}
+
+std::pair<int,int> Game::intToPair(int square){
+    int row = (square - square%8)/8;
+    int col = square%8;
+    return {row,col};
 }
