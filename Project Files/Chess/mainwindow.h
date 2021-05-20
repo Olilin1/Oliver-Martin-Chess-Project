@@ -38,8 +38,11 @@ private:
     QGraphicsRectItem* board[8][8];
     QPushButton* btnMakeAiMove;
     QPushButton* btnSetupGame;
+    QPushButton* btnFlip;
+    QPushButton* btnGoBack;
     QLineEdit* editSetupGame;
     int prevPress;
+    bool white;
 
     Game* game;
     LaunchMode mode;
@@ -57,6 +60,8 @@ public:
 public slots:
     void funcMakeAiMove();
     void funcSetupGame();
+    void funcFlip();
+    void funcGoBack();
 
 protected:
     void mousePressEvent(QMouseEvent *event);

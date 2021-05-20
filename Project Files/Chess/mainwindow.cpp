@@ -15,6 +15,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
     int row = abs((event->pos().y()-145)/squareSize-7);
     int col = (event->pos().x()-145)/squareSize;
+    if(!white){
+        row = 7-row;
+    }
 
     if(prevPress != -1){
         //The previous click was selecting a piece, and this next click is where it should move
@@ -55,6 +58,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 isGameOver();
                 funcMakeAiMove();
             }
+            else{
+                isGameOver();
+            }
             return;
         }
     }
@@ -79,7 +85,8 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
 {
     mode = Mode;
     prevPress = -1;
-
+    if(mode == PVEBLACK) white = false;
+    else white = true;
     if(mode != DEBUG)
         resize(800,800);
     else{
@@ -94,8 +101,12 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
         editSetupGame = new QLineEdit(this);
         editSetupGame->setGeometry(200,800, 400,25);
 
+        btnFlip = new QPushButton("Flip board",this);
+        btnFlip->setGeometry(600,800,100,50);
+
         connect(btnMakeAiMove, SIGNAL(clicked()), this, SLOT(funcMakeAiMove()));
         connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
+        connect(btnFlip, SIGNAL(clicked()),this,SLOT(funcFlip()));
     }
 
     game = new Game();
@@ -164,7 +175,7 @@ void MainWindow::render_pieces(){
         for(int j = 0; j<8; j++){
             if(board[i*8 + j%8] == Empty) continue;
 
-            QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[board[8*i + j%8]]->mirrored(false,true)));
+            QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[board[8*i + j%8]]->mirrored(false,white)));
             newItem->setOffset(squareSize * j-1, squareSize * i);
             scene->addItem(newItem);
             pieces.push_back(newItem);
@@ -206,4 +217,14 @@ void MainWindow::isGameOver(){
         }
         msgBox.exec();
     }
+}
+
+void MainWindow::funcFlip(){
+    view->scale(1,-1);
+    white = !white;
+    render_pieces();
+}
+
+void MainWindow::funcGoBack(){
+
 }
