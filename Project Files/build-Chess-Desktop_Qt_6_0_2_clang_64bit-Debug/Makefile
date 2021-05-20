@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = /Library/Developer/CommandLineTools/usr/bin/clang
 CXX           = /Library/Developer/CommandLineTools/usr/bin/clang++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=10.14 -Wall -Wextra -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=10.14 -Wall -Wextra -fPIC $(DEFINES)
-INCPATH       = -I../Chess -I. -I../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers -I../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers -I../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AGL.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AGL.framework/Headers -I../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang -F/Users/martinorrje/Qt/6.0.2/clang_64/lib
+INCPATH       = -I../Chess -I. -I../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers -I../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Headers -I../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers -I../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AGL.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AGL.framework/Headers -I../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang -F/Users/martinorrje/Qt/6.0.2/clang_64/lib
 QMAKE         = /Users/martinorrje/Qt/6.0.2/clang_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = Chess1.0.0
 DISTDIR = /Users/martinorrje/inda_tasks/morrje-ollindg-project/Project\ Files/build-Chess-Desktop_Qt_6_0_2_clang_64bit-Debug/.tmp/Chess1.0.0
 LINK          = /Library/Developer/CommandLineTools/usr/bin/clang++
 LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=10.14 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/martinorrje/Qt/6.0.2/clang_64/lib
-LIBS          = $(SUBLIBS) -F/Users/martinorrje/Qt/6.0.2/clang_64/lib -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtCore -framework DiskArbitration -framework IOKit -framework AGL -framework OpenGL   
+LIBS          = $(SUBLIBS) -F/Users/martinorrje/Qt/6.0.2/clang_64/lib -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtConcurrent -framework QtCore -framework DiskArbitration -framework IOKit -framework AGL -framework OpenGL   
 AR            = /Library/Developer/CommandLineTools/usr/bin/ar cq
 RANLIB        = /Library/Developer/CommandLineTools/usr/bin/ranlib -s
 SED           = sed
@@ -357,6 +357,7 @@ Makefile: ../Chess/Chess.pro ../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qm
 		../Chess/resources.qrc \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Resources/QtWidgets.prl \
 		../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Resources/QtGui.prl \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Resources/QtConcurrent.prl \
 		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Resources/QtCore.prl
 	$(QMAKE) -o Makefile ../Chess/Chess.pro -spec macx-clang CONFIG+=debug CONFIG+=x86_64 CONFIG+=qml_debug
 ../../../../Qt/6.0.2/clang_64/mkspecs/features/spec_pre.prf:
@@ -475,6 +476,7 @@ Makefile: ../Chess/Chess.pro ../../../../Qt/6.0.2/clang_64/mkspecs/macx-clang/qm
 ../Chess/resources.qrc:
 ../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Resources/QtWidgets.prl:
 ../../../../Qt/6.0.2/clang_64/lib/QtGui.framework/Resources/QtGui.prl:
+../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Resources/QtConcurrent.prl:
 ../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Resources/QtCore.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../Chess/Chess.pro -spec macx-clang CONFIG+=debug CONFIG+=x86_64 CONFIG+=qml_debug
@@ -592,6 +594,25 @@ moc_mainwindow.cpp: ../Chess/mainwindow.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/QtConcurrent \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtaskbuilder.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentcompilertest.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfilter.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfilterkernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfunctionwrappers.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentiteratekernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmap.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmapkernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmedian.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentreducekernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentrun.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentrunbase.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentstoredfunctioncall.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrenttask.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentthreadengine.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentversion.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QFuture \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/qfuture.h \
 		../Chess/Logic/Game.hpp \
 		../Chess/Logic/Bitboard.hpp \
 		../Chess/Logic/GameState.hpp \
@@ -600,7 +621,7 @@ moc_mainwindow.cpp: ../Chess/mainwindow.h \
 		../Chess/Logic/Move.hpp \
 		moc_predefs.h \
 		../../../../Qt/6.0.2/clang_64/bin/moc
-	/Users/martinorrje/Qt/6.0.2/clang_64/bin/moc $(DEFINES) --include '/Users/martinorrje/inda_tasks/morrje-ollindg-project/Project Files/build-Chess-Desktop_Qt_6_0_2_clang_64bit-Debug/moc_predefs.h' -I/Users/martinorrje/Qt/6.0.2/clang_64/mkspecs/macx-clang -I'/Users/martinorrje/inda_tasks/morrje-ollindg-project/Project Files/Chess' -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtGui.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/Users/martinorrje/Qt/6.0.2/clang_64/lib ../Chess/mainwindow.h -o moc_mainwindow.cpp
+	/Users/martinorrje/Qt/6.0.2/clang_64/bin/moc $(DEFINES) --include '/Users/martinorrje/inda_tasks/morrje-ollindg-project/Project Files/build-Chess-Desktop_Qt_6_0_2_clang_64bit-Debug/moc_predefs.h' -I/Users/martinorrje/Qt/6.0.2/clang_64/mkspecs/macx-clang -I'/Users/martinorrje/inda_tasks/morrje-ollindg-project/Project Files/Chess' -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtGui.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers -I/Users/martinorrje/Qt/6.0.2/clang_64/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/Users/martinorrje/Qt/6.0.2/clang_64/lib ../Chess/mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -748,6 +769,25 @@ main.o: ../Chess/main.cpp ../Chess/mainwindow.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/QtConcurrent \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtaskbuilder.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentcompilertest.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfilter.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfilterkernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfunctionwrappers.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentiteratekernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmap.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmapkernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmedian.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentreducekernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentrun.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentrunbase.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentstoredfunctioncall.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrenttask.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentthreadengine.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentversion.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QFuture \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/qfuture.h \
 		../Chess/Logic/Game.hpp \
 		../Chess/Logic/Bitboard.hpp \
 		../Chess/Logic/GameState.hpp \
@@ -785,6 +825,25 @@ mainwindow.o: ../Chess/mainwindow.cpp ../Chess/mainwindow.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/6.0.2/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/QtConcurrent \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtaskbuilder.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentcompilertest.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfilter.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfilterkernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentfunctionwrappers.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentiteratekernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmap.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmapkernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentmedian.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentreducekernel.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentrun.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentrunbase.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentstoredfunctioncall.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrenttask.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentthreadengine.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtConcurrent.framework/Headers/qtconcurrentversion.h \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/QFuture \
+		../../../../Qt/6.0.2/clang_64/lib/QtCore.framework/Headers/qfuture.h \
 		../Chess/Logic/Game.hpp \
 		../Chess/Logic/Bitboard.hpp \
 		../Chess/Logic/GameState.hpp \
