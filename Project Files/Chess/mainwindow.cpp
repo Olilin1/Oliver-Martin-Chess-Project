@@ -104,9 +104,13 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
         btnFlip = new QPushButton("Flip board",this);
         btnFlip->setGeometry(600,800,100,50);
 
+        btnGoBack = new QPushButton("Undo",this);
+        btnGoBack->setGeometry(700,800,100,50);
+
         connect(btnMakeAiMove, SIGNAL(clicked()), this, SLOT(funcMakeAiMove()));
         connect(btnSetupGame, SIGNAL(clicked()), this, SLOT(funcSetupGame()));
         connect(btnFlip, SIGNAL(clicked()),this,SLOT(funcFlip()));
+        connect(btnGoBack, SIGNAL(clicked()),this,SLOT(funcGoBack()));
     }
 
     game = new Game();
@@ -137,7 +141,7 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
 
 
     view->setScene(scene);
-    view->scale(1,-1);
+    if(white) view->scale(1,-1);
     view->show();
 
 }
@@ -226,5 +230,6 @@ void MainWindow::funcFlip(){
 }
 
 void MainWindow::funcGoBack(){
-
+    game->UnmakeMove();
+    render_pieces();
 }
