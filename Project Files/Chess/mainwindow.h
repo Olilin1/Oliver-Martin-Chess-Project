@@ -22,6 +22,8 @@
 #include <QLineEdit>
 #include <QApplication>
 #include <QMessageBox>
+#include<QtConcurrent>
+#include<QFuture>
 #include"Logic/Game.hpp"
 
 class MainWindow : public QMainWindow
