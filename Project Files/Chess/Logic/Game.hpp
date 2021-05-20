@@ -54,6 +54,7 @@ public:
     int CurrPlayerKingPostion();
     Player oppositePlayer();
     Player pieceColor(int piece);
+    Player getWinner();
     std::string SquareToAlgebraic(int s);
     std::string ConvertToUnicode(int p);
     Piece ConvertToColoredPiece(UncoloredPiece p);
@@ -62,6 +63,7 @@ public:
     int* GetBoard();
     void PrintBoard();
     bool GameIsOver();
+    std::pair<int,int> intToPair(int square);
 
     //-------------------------------------------------Calculate board masks/attack boards/magic numbers----------------------------------------------------
 
@@ -156,7 +158,7 @@ public:
     //-----------------------------------------------Using all the possible moves calculated, we can now use them to create an AI with a minimax algorithm----------------------------------------------
 
     float evaluatePosition();
-    void AiMove();
+    std::pair<int,int> AiMove();
     float miniMax(int depth, float alpha = 0, float beta = 0);
 
     //Arrays of 64, where each element in each array gives a value of how preferable it is that the specific piece is on that square.

@@ -21,6 +21,7 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QApplication>
+#include <QMessageBox>
 #include<QtConcurrent>
 #include<QFuture>
 #include"Logic/Game.hpp"
@@ -39,15 +40,24 @@ private:
     QGraphicsRectItem* board[8][8];
     QPushButton* btnMakeAiMove;
     QPushButton* btnSetupGame;
+    QPushButton* btnFlip;
+    QPushButton* btnGoBack;
     QLineEdit* editSetupGame;
     int prevPress;
+    std::pair<int,int> prevRowCol;
+    bool white;
+    QColor whiteSquare = Qt::white;
+    QColor blackSquare = Qt::lightGray;
+    QColor markedSquare = Qt::darkGray;
 
     Game* game;
     LaunchMode mode;
 
 
-    void generate_board(QColor black = Qt::black, QColor white = Qt::white);
+    void generate_board();
     void render_pieces();
+    void isGameOver();
+    void resetColor();
 
 public:
     MainWindow(LaunchMode = PVEWHITE, QWidget *parent = nullptr);
@@ -57,6 +67,8 @@ public:
 public slots:
     void funcMakeAiMove();
     void funcSetupGame();
+    void funcFlip();
+    void funcGoBack();
 
 protected:
     void mousePressEvent(QMouseEvent *event);
