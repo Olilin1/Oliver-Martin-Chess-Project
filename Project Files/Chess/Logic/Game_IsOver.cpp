@@ -17,3 +17,7 @@ bool Game::GameIsOver(){
         return false;
     }
 }
+
+Player Game::getWinner(){
+    return gameState.winner;
+}

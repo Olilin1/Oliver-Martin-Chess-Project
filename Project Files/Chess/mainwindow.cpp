@@ -47,10 +47,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 }
                 else goto start;
                 render_pieces();
+                isGameOver();
                 if(mode == PVEBLACK || mode == PVEWHITE)
                     funcMakeAiMove();
             }
             else if (mode == PVEBLACK || mode == PVEWHITE){
+                isGameOver();
                 funcMakeAiMove();
             }
             return;
@@ -175,6 +177,7 @@ void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
     game->AiMove();
     render_pieces();
+    isGameOver();
 }
 
 void MainWindow::funcSetupGame(){
@@ -186,3 +189,21 @@ void MainWindow::funcSetupGame(){
     render_pieces();
 }
 
+void MainWindow::isGameOver(){
+    if(game->GameIsOver()){
+        QMessageBox msgBox;
+        switch (game->getWinner()) {
+        case Black:
+            msgBox.setText("Black won!");
+            break;
+        case White:
+            msgBox.setText("White won!");
+            break;
+        case None:
+            msgBox.setText("Stalemate!");
+            break;
+
+        }
+        msgBox.exec();
+    }
+}

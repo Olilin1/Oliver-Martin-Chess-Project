@@ -21,6 +21,7 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QApplication>
+#include <QMessageBox>
 #include"Logic/Game.hpp"
 
 class MainWindow : public QMainWindow
@@ -46,6 +47,7 @@ private:
 
     void generate_board(QColor black = Qt::black, QColor white = Qt::white);
     void render_pieces();
+    void isGameOver();
 
 public:
     MainWindow(LaunchMode = PVEWHITE, QWidget *parent = nullptr);

@@ -54,6 +54,7 @@ public:
     int CurrPlayerKingPostion();
     Player oppositePlayer();
     Player pieceColor(int piece);
+    Player getWinner();
     std::string SquareToAlgebraic(int s);
     std::string ConvertToUnicode(int p);
     Piece ConvertToColoredPiece(UncoloredPiece p);
