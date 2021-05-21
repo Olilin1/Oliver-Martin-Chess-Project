@@ -21,7 +21,3 @@ Issues och commit messages skall namnges i future tense, exempel "Fix 12, image3
   
 ## Workflow
 Alla branches bör godkännas av åtminstone en annan gruppmedlem innan de mergas.
-
-## Vem som ska göra vad
-
-//TODO
