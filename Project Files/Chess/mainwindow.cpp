@@ -50,16 +50,15 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 }
                 else goto start;
                 render_pieces();
-                isGameOver();
-                if(mode == PVEBLACK || mode == PVEWHITE)
-                    funcMakeAiMove();
             }
-            else if (mode == PVEBLACK || mode == PVEWHITE){
-                isGameOver();
+            isGameOver();
+            if (mode == PVEBLACK || mode == PVEWHITE){
+                QFuture<void> future = QtConcurrent::run([=]()
+                {
+                    render_pieces();
+                });
+                future.waitForFinished();
                 funcMakeAiMove();
-            }
-            else{
-                isGameOver();
             }
             return;
         }
