@@ -17,6 +17,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     int col = (event->pos().x()-145)/squareSize;
     if(!white){
         row = 7-row;
+        col = 7-col;
     }
     if(prevPress != -1){
         //The previous click was selecting a piece, and this next click is where it should move
@@ -186,7 +187,7 @@ void MainWindow::render_pieces(){
         for(int j = 0; j<8; j++){
             if(board[i*8 + j%8] == Empty) continue;
 
-            QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[board[8*i + j%8]]->mirrored(false,white)));
+            QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem(QPixmap::fromImage(pieceImages[board[8*i + j%8]]->mirrored(!white ,white)));
             newItem->setOffset(squareSize * j-1, squareSize * i);
             scene->addItem(newItem);
             pieces.push_back(newItem);
@@ -238,7 +239,7 @@ void MainWindow::isGameOver(){
 }
 
 void MainWindow::funcFlip(){
-    view->scale(1,-1);
+    view->scale(-1,-1);
     white = !white;
     render_pieces();
 }
