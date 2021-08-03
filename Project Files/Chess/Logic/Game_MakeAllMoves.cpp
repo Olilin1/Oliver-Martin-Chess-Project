@@ -43,6 +43,17 @@ void Game::MakeAllPseudoMoves(std::set<std::pair<int, int>>& allMoves){
     GenerateKingAttackSet(allMoves);
 }
 
+void Game::MakeAllCaptureMoves(std::set<std::pair<int, int>>& allMoves){
+    std::set<std::pair<int, int>> allPseudoMoves;
+    MakeAllPseudoMoves(allPseudoMoves);
+    for(auto move : allPseudoMoves){
+        if(Board[move.second] != Empty && MakeGameMove(move.first, move.second)){
+            allMoves.insert(move);
+            UnmakeMove();
+        }
+    }
+}
+
 void Game::MakeAllLegalMoves(std::set<std::pair<int, int>>& allMoves){
     std::set<std::pair<int, int>> allPseudoMoves;
     MakeAllPseudoMoves(allPseudoMoves);

@@ -1,6 +1,6 @@
 #include"Game.hpp"
 
-float Game::evaluatePosition(){
+int Game::evaluatePosition(){
     float score = 0;
 
     if(GameIsOver()){
@@ -51,4 +51,33 @@ float Game::evaluatePosition(){
         }
     }
     return score;
+}
+
+int Game::PieceValue(int p){
+    switch (p)
+    {
+    case BlackBishop:
+    case WhiteBishop:
+        return 340;
+    case BlackKnight:
+    case WhiteKnight:
+        return 325;
+        break;
+    case BlackRook:
+    case WhiteRook:
+        return 500;
+    case BlackQueen:
+    case WhiteQueen:
+        return 900;
+    case BlackPawn:
+    case WhitePawn:
+        return 100;
+        break;
+    case BlackKing:
+    case WhiteKing:
+        return 10000;
+        break;
+    default:
+        break;
+}
 }
