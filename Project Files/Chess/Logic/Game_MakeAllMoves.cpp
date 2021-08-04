@@ -47,9 +47,8 @@ void Game::MakeAllCaptureMoves(std::set<std::pair<int, int>>& allMoves){
     std::set<std::pair<int, int>> allPseudoMoves;
     MakeAllPseudoMoves(allPseudoMoves);
     for(auto move : allPseudoMoves){
-        if(Board[move.second] != Empty && MakeGameMove(move.first, move.second)){
+        if(Board[move.second] != Empty){
             allMoves.insert(move);
-            UnmakeMove();
         }
     }
 }

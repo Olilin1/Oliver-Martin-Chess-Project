@@ -163,9 +163,11 @@ public:
 
     int evaluatePosition();
     int PieceValue(int p);
+
     std::pair<int,int> AiMove();
-    int miniMax(int depth, float alpha = 0, float beta = 0);
-    int Quiescent(float alpha, float beta);
+    int miniMax(int depth, int alpha = 0, int beta = 0);
+
+    int Quiescent(int alpha, int beta);
     int SEE(int originSquare, int destinationSquare);
     Bitboard attackAndDefend(Bitboard occupancy, int originSquare);
 

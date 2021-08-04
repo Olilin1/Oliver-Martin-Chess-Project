@@ -1,7 +1,7 @@
 #include"Game.hpp"
 
 int Game::evaluatePosition(){
-    float score = 0;
+    int score = 0;
 
     if(GameIsOver()){
         return inf * gameState.winner;
@@ -41,10 +41,10 @@ int Game::evaluatePosition(){
                 score += 100 + pawnPieceSquareTable[i];
                 break;
             case BlackKing:
-                score -= kingPieceSquareTable[63-i];    //it is assumed that kings will always be on the board, but when they are not, the opponent should always make the move resulting in that
+                score -= (10000 + kingPieceSquareTable[63-i]);    //it is assumed that kings will always be on the board, but when they are not, the opponent should always make the move resulting in that
                 break;
             case WhiteKing:
-                score += kingPieceSquareTable[i];
+                score += 10000 + kingPieceSquareTable[i];
                 break;
             default:
                 break;
