@@ -104,7 +104,9 @@ public:
     //-----------------------------------------------Use the tables calculated in previous section to calculate moves very efficiently-----------------------------------------
 
     Bitboard GetAttackBishopBoardFromMagic(int originSquare);
+    Bitboard GetAttackBishopBoardFromMagic(int originSquare, Bitboard occupancy);
     Bitboard GetAttackRookBoardFromMagic(int originSquare);
+    Bitboard GetAttackRookBoardFromMagic(int originSquare, Bitboard occupancy);
 
     //All of these functions return a bitboard with all possible moves from originSquare
     Bitboard MakeBishopMove(int originSquare);
@@ -153,13 +155,21 @@ public:
 
     void MakeAllLegalMovesFromSquare(std::set<int>& allMoves, int square);
 
+    void MakeAllCaptureMoves(std::set<std::pair<int, int>>& allMoves);
+
     uint64_t SumOfAllMoves(int depth, bool perftAnalysis);
 
     //-----------------------------------------------Using all the possible moves calculated, we can now use them to create an AI with a minimax algorithm----------------------------------------------
 
-    float evaluatePosition();
+    int evaluatePosition();
+    int PieceValue(int p);
+
     std::pair<int,int> AiMove();
-    float miniMax(int depth, float alpha = 0, float beta = 0);
+    int miniMax(int depth, int alpha = 0, int beta = 0);
+
+    int Quiescent(int alpha, int beta);
+    int SEE(int originSquare, int destinationSquare);
+    Bitboard attackAndDefend(Bitboard occupancy, int originSquare);
 
     //Arrays of 64, where each element in each array gives a value of how preferable it is that the specific piece is on that square.
     //These values are for white, for black simply take 63 - index to get the mirrored value.

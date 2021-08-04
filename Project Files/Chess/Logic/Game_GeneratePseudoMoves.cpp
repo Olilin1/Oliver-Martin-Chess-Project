@@ -60,10 +60,26 @@ Bitboard Game::GetAttackBishopBoardFromMagic(int originSquare){
     return BishopAttacks[originSquare][blockerBoard];
 }
 
+Bitboard Game::GetAttackBishopBoardFromMagic(int originSquare, Bitboard occupancy){
+    uint64_t blockerMask = BishopBlockerMasks[originSquare].bitBoard;
+    uint64_t blockerBoard = blockerMask & ~(occupancy.bitBoard);
+    blockerBoard *= BishopMagicNumbers[originSquare];
+    blockerBoard >>= 55;
+    return BishopAttacks[originSquare][blockerBoard];
+}
+
 Bitboard Game::GetAttackRookBoardFromMagic(int originSquare){
     uint64_t blockerMask = RookBlockerMasks[originSquare].bitBoard;
     uint64_t blockerBoard = blockerMask & ~(whitePiecesBB.bitBoard | blackPiecesBB.bitBoard);
     blockerBoard *= RookMagicNumbers[originSquare];
     blockerBoard >>= 52;
     return RookAttacks[originSquare][blockerBoard]; 
+}
+
+Bitboard Game::GetAttackRookBoardFromMagic(int originSquare, Bitboard occupancy){
+    uint64_t blockerMask = RookBlockerMasks[originSquare].bitBoard;
+    uint64_t blockerBoard = blockerMask & ~(occupancy.bitBoard);
+    blockerBoard *= RookMagicNumbers[originSquare];
+    blockerBoard >>= 52;
+    return RookAttacks[originSquare][blockerBoard];
 }
