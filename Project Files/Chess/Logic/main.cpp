@@ -12,7 +12,5 @@ or "g++ *.cpp" should also work
 */
 
 int main() {
-    Game* g = new Game();
-    g->SetupGame("rnbqkbnr/2pppppp/8/8/p7/p7/PPPPPPPP/1RBQKBNR w Kkq - 0 1");
-    std::cout << g->SumOfAllMoves(3, false);
+
 }
