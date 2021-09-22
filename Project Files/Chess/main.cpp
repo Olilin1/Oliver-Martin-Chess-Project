@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     items  << "DEBUG" << "PVP" << "PVEWHITE" << "PVEBLACK";
     QString item = QInputDialog::getItem(NULL, "Launch mode",
                                              "Mode:", items, 0, false, &ok);
-    LaunchMode mode;//For now both PVEWhite and PVEBlack makes you play as black but whatevs.
+    LaunchMode mode;
     if(ok){
         if(item == "PVP") mode = PVP;
         else if (item == "DEBUG") mode = DEBUG;

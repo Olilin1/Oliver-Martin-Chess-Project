@@ -90,8 +90,7 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
 {
     mode = Mode;
     prevPress = -1;
-    if(mode == PVEBLACK) white = false;
-    else white = true;
+    white = true; //This will be changed later if mode == BLACKPVE
     if(mode != DEBUG)
         resize(800,800);
     else{
@@ -146,9 +145,10 @@ MainWindow::MainWindow(LaunchMode Mode, QWidget *parent)
 
 
     view->setScene(scene);
-    if(white) view->scale(1,-1);
+    view->scale(1,-1);
     view->show();
     if(mode == PVEBLACK){
+        funcFlip();
         funcMakeAiMove();
     }
 
