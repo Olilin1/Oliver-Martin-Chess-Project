@@ -24,9 +24,9 @@ enum Piece{     //White pieces are odd numbers, black pieces are even
 
 enum UncoloredPiece{
     Pawn = 1,
-    Rook = 3,
-    Knight = 5,
-    Bishop = 7,
+    Knight = 3,
+    Bishop = 5,
+    Rook = 7,
     Queen = 9,
     King = 11
 };
