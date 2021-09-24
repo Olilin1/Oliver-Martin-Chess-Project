@@ -6,6 +6,11 @@ void Game::SetupGame(std::string fen)
     for(int i = 0; i < 64; i++){
         Board[i] = 0;
     }
+    for(int i = 0; i < 13; i++){
+        pieceBitboards[i].Clear();
+    }
+    whitePiecesBB.Clear();
+    blackPiecesBB.Clear();
 
     gameState.awaitingPromotion = false;
     gameState.winner = None;

@@ -211,8 +211,6 @@ void MainWindow::funcMakeAiMove(){
 }
 
 void MainWindow::funcSetupGame(){
-    delete game;
-    game = new Game();
     qDebug() << "SETUP";
     std::string fen = editSetupGame->text().toUtf8().constData();
     game->SetupGame(fen);
