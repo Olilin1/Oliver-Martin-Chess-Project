@@ -38,3 +38,7 @@ enum LaunchMode {
     PVEBLACK = 4
 };
 
+enum EngineMode{
+    NORMAL,
+    UCI
+};

@@ -4,4 +4,5 @@ Game::Game(){
     AssignMagicNumbers();
     GenerateKingAttackBoards();
     GenerateKnightAttackBoards();
+    mode = NORMAL;
 }

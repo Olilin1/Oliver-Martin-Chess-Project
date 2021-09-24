@@ -254,3 +254,7 @@ std::pair<int,int> Game::intToPair(int square){
     int col = square%8;
     return {row,col};
 }
+
+void Game::setMode(EngineMode m){
+    mode = m;
+}

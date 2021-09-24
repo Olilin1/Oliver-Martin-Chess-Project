@@ -12,6 +12,7 @@ g++ main.cpp Bitboard.cpp Game\_GenerateBlockerMoves.cpp Game\_MagicNumberGenera
 or "g++ *.cpp" should also work
 */
 
+
 using namespace std;
 int main() {
     Game game();
@@ -19,6 +20,6 @@ int main() {
     while(getline(std::cin, line)){
         stringstream ss(line);
         string command;
-
+        ss >> command;
     }
 }

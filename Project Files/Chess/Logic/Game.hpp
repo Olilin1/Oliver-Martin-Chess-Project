@@ -38,6 +38,8 @@ if those moves intersect with the bitboard corresponding to the enemy type of th
 class Game{
 private:
     #define inf 1000000
+
+    EngineMode mode;
     Bitboard pieceBitboards[13];
     Bitboard whitePiecesBB;
     Bitboard blackPiecesBB;
@@ -64,6 +66,7 @@ public:
     void PrintBoard();
     bool GameIsOver();
     std::pair<int,int> intToPair(int square);
+    void setMode(EngineMode mode);
 
     //-------------------------------------------------Calculate board masks/attack boards/magic numbers----------------------------------------------------
 
