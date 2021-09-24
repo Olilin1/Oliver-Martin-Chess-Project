@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<vector>
+#include"time.h"
 
 struct test{
 std::string testName;
