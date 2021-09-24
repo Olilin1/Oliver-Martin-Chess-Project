@@ -11,6 +11,7 @@ public:
 
     void Set(int index);    //Sets the bit at position index to 1
     void Unset(int index);  //Sets the bit at position index to 0
+    void Clear();
     int LSB();          //Returns position of least significant bit
     int LSBIndex();     //Returns the index of the least significant bit
     int popLSB();       //Removes the LSB and returns it
