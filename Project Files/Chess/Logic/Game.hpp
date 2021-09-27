@@ -3,6 +3,7 @@
 #include"Bitboard.hpp"
 #include"GameState.hpp"
 #include"RanksFilesBitboards.hpp"
+#include"SearchParams.hpp"
 #include"Move.hpp"
 #include<iostream>
 #include<cmath>
@@ -50,7 +51,7 @@ private:
 public:
     //-------------------------------------------------Miscellanious helper functions----------------------------------------------------
 
-    Game();
+    Game(search_parameters params = search_parameters());
     void SetupGame(std::string fen);
     int AlgebraicToSquare(std::string algebraicString);
     int CurrPlayerKingPostion();
