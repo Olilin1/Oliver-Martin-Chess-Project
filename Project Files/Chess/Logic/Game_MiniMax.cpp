@@ -2,15 +2,14 @@
 
 #include "Game.hpp"
 
-std::pair<int,int> Game::AiMove(){
+Move Game::AiMove(){
     int depth = 4;
     int maxEval = (depth+1) * inf + 1;
     int beta = maxEval;
     int alpha = -maxEval;
     int eval;
 
-    std::pair<int,int> bestMove;
-    Piece promotion;
+    Move bestMove;
 
     std::set<std::pair<int, int>> allMoves;
     MakeAllPseudoMoves(allMoves);
@@ -23,8 +22,10 @@ std::pair<int,int> Game::AiMove(){
                     eval = -miniMax(depth,-beta,-alpha);
                     if(eval > alpha){
                         alpha = eval;
-                        bestMove = move;
-                        promotion = promotionPiece;
+                        bestMove.origin = move.first;
+                        bestMove.destination = move.second;
+                        bestMove.promotion = true;
+                        bestMove.promotionPiece = promotionPiece;
                     }
                     gameState.awaitingPromotion = true;
                 }
@@ -34,18 +35,19 @@ std::pair<int,int> Game::AiMove(){
                 eval = -miniMax(depth-1,-beta,-alpha);
                 if(eval > alpha){
                     alpha = eval;
-                    bestMove = move;
+                    bestMove.origin = move.first;
+                    bestMove.destination = move.second;
                 }
             }
             UnmakeMove();
         }
     }
 
-    MakeGameMove(bestMove.first,bestMove.second);
+    MakeGameMove(bestMove.origin,bestMove.destination);
     if(gameState.awaitingPromotion){
-        MakeBoardMove(-1, -1, promotion);
+        MakeBoardMove(-1, -1, bestMove.promotionPiece);
     }
-    return {bestMove.first, bestMove.second};
+    return bestMove;
 }
 
 int Game::miniMax(int depth, int alpha, int beta){

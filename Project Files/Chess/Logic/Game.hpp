@@ -168,7 +168,7 @@ public:
     int evaluatePosition();
     int PieceValue(int p);
 
-    std::pair<int,int> AiMove();
+    Move AiMove();
     int miniMax(int depth, int alpha = 0, int beta = 0);
 
     int Quiescent(int alpha, int beta);
