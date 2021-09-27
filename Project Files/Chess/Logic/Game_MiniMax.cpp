@@ -9,7 +9,8 @@ Move Game::AiMove(search_parameters params){
     int alpha = -maxEval;
     int eval;
 
-    Move bestMove;
+    std::pair<int,int> bestMove;
+    Piece promotion;
 
     std::set<std::pair<int, int>> allMoves;
     MakeAllPseudoMoves(allMoves);
@@ -22,10 +23,8 @@ Move Game::AiMove(search_parameters params){
                     eval = -miniMax(depth,-beta,-alpha);
                     if(eval > alpha){
                         alpha = eval;
-                        bestMove.origin = move.first;
-                        bestMove.destination = move.second;
-                        bestMove.promotion = true;
-                        bestMove.promotionPiece = promotionPiece;
+                        bestMove = move;
+                        promotion = promotionPiece;
                     }
                     gameState.awaitingPromotion = true;
                 }
@@ -35,19 +34,18 @@ Move Game::AiMove(search_parameters params){
                 eval = -miniMax(depth-1,-beta,-alpha);
                 if(eval > alpha){
                     alpha = eval;
-                    bestMove.origin = move.first;
-                    bestMove.destination = move.second;
+                    bestMove = move;
                 }
             }
             UnmakeMove();
         }
     }
 
-    MakeGameMove(bestMove.origin,bestMove.destination);
+    MakeGameMove(bestMove.first,bestMove.second);
     if(gameState.awaitingPromotion){
-        MakeBoardMove(-1, -1, bestMove.promotionPiece);
+        MakeBoardMove(-1, -1, promotion);
     }
-    return bestMove;
+    return moveStack.top();
 }
 
 int Game::miniMax(int depth, int alpha, int beta){

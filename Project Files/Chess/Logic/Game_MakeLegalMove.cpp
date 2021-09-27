@@ -29,6 +29,7 @@ void Game::MakeBoardMove(int originSquare, int destinationSquare, Piece promotio
         Board[gameState.promotion] = promotion;
         gameState.awaitingPromotion = false;
         pieceBitboards[promotion].Set(gameState.promotion);
+        moveStack.top().promotionPiece = promotion;
         return;
     }
 
