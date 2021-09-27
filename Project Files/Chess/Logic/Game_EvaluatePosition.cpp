@@ -78,6 +78,7 @@ int Game::PieceValue(int p){
         return 10000;
         break;
     default:
+        return 0;
         break;
 }
 }

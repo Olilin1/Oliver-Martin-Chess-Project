@@ -15,11 +15,6 @@ or "g++ *.cpp" should also work
 
 using namespace std;
 int main() {
-    Game game();
-    string line;
-    while(getline(std::cin, line)){
-        stringstream ss(line);
-        string command;
-        ss >> command;
-    }
+    Game game;
+    cout << game.SquareToAlgebraic(1);
 }
