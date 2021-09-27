@@ -51,7 +51,7 @@ private:
 public:
     //-------------------------------------------------Miscellanious helper functions----------------------------------------------------
 
-    Game(search_parameters params = search_parameters());
+    Game();
     void SetupGame(std::string fen);
     int AlgebraicToSquare(std::string algebraicString);
     int CurrPlayerKingPostion();
@@ -168,7 +168,7 @@ public:
     int evaluatePosition();
     int PieceValue(int p);
 
-    Move AiMove();
+    Move AiMove(search_parameters params = search_parameters());
     int miniMax(int depth, int alpha = 0, int beta = 0);
 
     int Quiescent(int alpha, int beta);

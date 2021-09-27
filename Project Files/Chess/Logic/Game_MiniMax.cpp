@@ -2,7 +2,7 @@
 
 #include "Game.hpp"
 
-Move Game::AiMove(){
+Move Game::AiMove(search_parameters params){
     int depth = 4;
     int maxEval = (depth+1) * inf + 1;
     int beta = maxEval;
