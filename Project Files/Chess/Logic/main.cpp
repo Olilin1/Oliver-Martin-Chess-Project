@@ -15,6 +15,7 @@ or "g++ *.cpp" should also work
 
 using namespace std;
 int main() {
-    Game game;
-    cout << game.SquareToAlgebraic(1);
+    Game* g = new Game;
+    cout << "HEY";
+
 }

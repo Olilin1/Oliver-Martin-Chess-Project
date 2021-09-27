@@ -199,10 +199,10 @@ void MainWindow::render_pieces(){
 void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
     resetColor();
-    std::pair<int,int> move = game->AiMove();
+    Move move = game->AiMove();
 
-    std::pair<int,int> s1 = game->intToPair(move.first);
-    std::pair<int,int> s2 = game->intToPair(move.second);
+    std::pair<int,int> s1 = game->intToPair(move.origin);
+    std::pair<int,int> s2 = game->intToPair(move.destination);
     board[s1.first][s1.second]->setBrush(markedSquare);
     board[s2.first][s2.second]->setBrush(markedSquare);
 
