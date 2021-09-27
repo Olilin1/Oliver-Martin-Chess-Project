@@ -258,3 +258,35 @@ std::pair<int,int> Game::intToPair(int square){
 void Game::setMode(EngineMode m){
     mode = m;
 }
+
+std::string Game::pieceToLongNotation(Piece p){
+    switch (p)
+    {
+    case BlackBishop:
+    case WhiteBishop:
+        return "b";
+    case BlackKnight:
+    case WhiteKnight:
+        return "n";
+
+    case BlackRook:
+    case WhiteRook:
+        return "r";
+    case BlackQueen:
+    case WhiteQueen:
+        return "q";
+    default:
+        return "";
+    }
+}
+
+std::string Game::moveToLongNotation(Move move){
+    if(move.castledKingSide) return "O-O";
+    if(move.castledQueenSide) return "O-O-O";
+
+    std::string longNotation = SquareToAlgebraic(move.origin) + SquareToAlgebraic(move.destination);
+    if(move.promotion){
+        longNotation += pieceToLongNotation(move.promotionPiece);
+    }
+    return longNotation;
+}

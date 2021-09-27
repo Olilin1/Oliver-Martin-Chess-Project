@@ -68,6 +68,8 @@ public:
     bool GameIsOver();
     std::pair<int,int> intToPair(int square);
     void setMode(EngineMode mode);
+    std::string moveToLongNotation(Move move);
+    std::string pieceToLongNotation(Piece p);
 
     //-------------------------------------------------Calculate board masks/attack boards/magic numbers----------------------------------------------------
 

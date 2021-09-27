@@ -200,7 +200,7 @@ void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
     resetColor();
     Move move = game->AiMove();
-
+    std::cout << game->moveToLongNotation(move) << std::endl;
     std::pair<int,int> s1 = game->intToPair(move.origin);
     std::pair<int,int> s2 = game->intToPair(move.destination);
     board[s1.first][s1.second]->setBrush(markedSquare);
