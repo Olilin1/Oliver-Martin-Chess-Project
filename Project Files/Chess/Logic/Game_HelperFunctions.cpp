@@ -3,6 +3,7 @@
 //Takes a string in Forsyth–Edwards Notation and uses it to setup the game.
 void Game::SetupGame(std::string fen)
 {
+    while(!moveStack.empty()) moveStack.pop(); //Clears the movestack
     for(int i = 0; i < 64; i++){
         Board[i] = 0;
     }
