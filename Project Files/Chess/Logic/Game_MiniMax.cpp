@@ -3,11 +3,21 @@
 #include "Game.hpp"
 
 Move Game::AiMove(search_parameters params){
-    int depth = 4;
-    int maxEval = (depth+1) * inf + 1;
-    int beta = maxEval;
-    int alpha = -maxEval;
+    int depth;
+    int maxEval;
+    int beta;
+    int alpha;
     int eval;
+    if(mode == NORMAL){
+        depth = 4;
+        maxEval = (depth+1) * inf + 1;
+        beta = maxEval;
+        alpha = -maxEval;
+    }
+    else if(mode == UCI)
+    {
+        
+    }
 
     std::pair<int,int> bestMove;
     Piece promotion;
