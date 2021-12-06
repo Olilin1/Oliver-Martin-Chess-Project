@@ -41,6 +41,7 @@ private:
     #define inf 1000000
 
     EngineMode mode;
+    bool debugMode;
     Bitboard pieceBitboards[13];
     Bitboard whitePiecesBB;
     Bitboard blackPiecesBB;
@@ -70,6 +71,7 @@ public:
     void setMode(EngineMode mode);
     std::string moveToLongNotation(Move move);
     std::string pieceToLongNotation(Piece p);
+    void setDebugMode(bool on);
 
     //-------------------------------------------------Calculate board masks/attack boards/magic numbers----------------------------------------------------
 

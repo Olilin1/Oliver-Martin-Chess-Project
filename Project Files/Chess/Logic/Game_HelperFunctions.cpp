@@ -291,3 +291,8 @@ std::string Game::moveToLongNotation(Move move){
     }
     return longNotation;
 }
+
+void Game::setDebugMode(bool on){
+    debugMode = on;
+    return;
+}

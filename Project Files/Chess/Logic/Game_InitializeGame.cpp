@@ -5,4 +5,5 @@ Game::Game(){
     GenerateKingAttackBoards();
     GenerateKnightAttackBoards();
     mode = NORMAL;
+    debugMode = false;
 }
