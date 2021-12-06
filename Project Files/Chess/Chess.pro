@@ -25,6 +25,7 @@ SOURCES += \
     Logic/Game_MakeAllMoves.cpp \
     Logic/Game_MakeLegalMove.cpp \
     Logic/Game_MiniMax.cpp \
+    Logic/GetTime.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -36,6 +37,7 @@ HEADERS += \
     Logic/Move.hpp \
     Logic/RanksFilesBitboards.hpp \
     Logic/Typedefs.hpp \
+    Logic/GetTime.hpp \
     mainwindow.h
 
 # Default rules for deployment.

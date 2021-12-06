@@ -2,6 +2,27 @@
 
 //TODO: Something is wrong with whiteKingPos, it updates incorrectly. Check what this is. Maybe it has to with the move generation for kings
 
+bool Game::MakeGameMove(std::string m){
+    if(m == "O-O"){
+        if(gameState.currentPlayer == Black) return MakeGameMove(60, 62);
+        else return MakeGameMove(4, 6);
+    }
+    else if(m == "O-O-O"){
+        if(gameState.currentPlayer == Black) return MakeGameMove(60, 58);
+        else return MakeGameMove(4, 2);
+    }
+    else if(m.length() == 4){
+        return MakeGameMove(AlgebraicToSquare(m.substr(0,2)), AlgebraicToSquare(m.substr(2,2)));
+    }
+    else if(m.length() == 5){
+        
+        if(!MakeGameMove(AlgebraicToSquare(m.substr(0,2)), AlgebraicToSquare(m.substr(2,2)))) return false; //A bit unclean perhaps
+        MakeBoardMove(-1,-1, ConvertToOppositeColoredPiece(longToPiece(m.substr(4,1))));
+        return true;
+    }
+    else return false;
+}
+
 bool Game::MakeGameMove(int originSquare, int destinationSquare){         //Returns true if a move from originSquare to destinationSquare is legal, false otherwise
     if((Board[originSquare] % 2 == 0 && gameState.currentPlayer == White) || (Board[originSquare] % 2 == 1 && gameState.currentPlayer == Black) || Board[originSquare] == Empty) return false;
     MakeBoardMove(originSquare, destinationSquare);

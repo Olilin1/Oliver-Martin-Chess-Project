@@ -260,6 +260,14 @@ void Game::setMode(EngineMode m){
     mode = m;
 }
 
+UncoloredPiece Game::longToPiece(std::string p){
+    if(p == "b") return Bishop;
+    else if(p == "n") return Knight;
+    else if(p == "r") return Rook;
+    else if(p=="q") return Queen;
+    else return Pawn; //Some default?;
+}
+
 std::string Game::pieceToLongNotation(Piece p){
     switch (p)
     {
@@ -301,3 +309,4 @@ void Game::setStop(bool st){
     stop = st;
     return;
 }
+
