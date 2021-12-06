@@ -10,6 +10,9 @@ struct Move {
     int destination;
     Piece capturedPiece = Empty;
 
+    //This information is not used during reversions but it's useful if you want to return a move from a function.
+    Piece promotionPiece = Empty;
+
     //Contains some metadata around the move, that must be stored in each move in order to be reversed accordingly
     bool enPassantMove = false;
     bool castledKingSide = false;

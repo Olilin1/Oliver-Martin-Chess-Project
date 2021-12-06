@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<vector>
+#include"time.h"
 
 struct test{
 std::string testName;
@@ -45,3 +46,27 @@ std::vector<test> tests = {
         {1,46,2079,89890,3894594,164075551}
     }
 };
+
+
+void runTests(int depth){
+    for(test t : tests){
+        
+        clock_t tStart = clock();
+        Game* g = new Game();
+        g->SetupGame(t.fen);
+        std::cout << "Running test: " << t.testName << std::endl;
+        for(int i = 0; i <= depth; i++){
+            int ans = g->SumOfAllMoves(i, false);
+            if(ans == t.expected[i]){
+                std::cout << t.testName << " depth " << i << " PASS"<<std::endl;
+                //printf("Time taken: %.2fm\n", ((double)(clock() - tStart) / CLOCKS_PER_SEC)/60);
+            }
+            else{
+                std::cout << t.testName << " depth " << i << " FAIL"<< "expected " << t.expected[i] << " but got "<<ans <<std::endl;
+                //printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
+            }
+        }
+        std::cout << std::endl;
+        delete g;
+    }
+}

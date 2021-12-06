@@ -65,7 +65,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         }
     }
 
-    std::cout   << row<< ' '<< col  << std::endl;
+    std::cout   << row<< ' '<< col  <<  ' ' << row*8+col%8 << std::endl;
 
     std::set<int> moves;
     game->MakeAllLegalMovesFromSquare(moves, row*8+col%8);
@@ -199,10 +199,14 @@ void MainWindow::render_pieces(){
 void MainWindow::funcMakeAiMove(){
     qDebug() << "AI";
     resetColor();
-    std::pair<int,int> move = game->AiMove();
-
-    std::pair<int,int> s1 = game->intToPair(move.first);
-    std::pair<int,int> s2 = game->intToPair(move.second);
+    search_parameters params;
+    params.depth = 4;
+    Move m;
+    bool done;
+    game->AiMove(params, m, done);
+    std::cout << game->moveToLongNotation(m) << std::endl;
+    std::pair<int,int> s1 = game->intToPair(m.origin);
+    std::pair<int,int> s2 = game->intToPair(m.destination);
     board[s1.first][s1.second]->setBrush(markedSquare);
     board[s2.first][s2.second]->setBrush(markedSquare);
 
@@ -211,8 +215,6 @@ void MainWindow::funcMakeAiMove(){
 }
 
 void MainWindow::funcSetupGame(){
-    delete game;
-    game = new Game();
     qDebug() << "SETUP";
     std::string fen = editSetupGame->text().toUtf8().constData();
     game->SetupGame(fen);

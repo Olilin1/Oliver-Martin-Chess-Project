@@ -88,3 +88,7 @@ int Bitboard::popLSB(){
     bitBoard &= bitBoard-1;
     return lsb;
 }
+
+void Bitboard::Clear(){
+    bitBoard = 0;
+}

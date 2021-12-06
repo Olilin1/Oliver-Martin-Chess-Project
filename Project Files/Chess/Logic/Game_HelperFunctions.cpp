@@ -3,9 +3,15 @@
 //Takes a string in Forsyth–Edwards Notation and uses it to setup the game.
 void Game::SetupGame(std::string fen)
 {
+    while(!moveStack.empty()) moveStack.pop(); //Clears the movestack
     for(int i = 0; i < 64; i++){
         Board[i] = 0;
     }
+    for(int i = 0; i < 13; i++){
+        pieceBitboards[i].Clear();
+    }
+    whitePiecesBB.Clear();
+    blackPiecesBB.Clear();
 
     gameState.awaitingPromotion = false;
     gameState.winner = None;
@@ -249,3 +255,58 @@ std::pair<int,int> Game::intToPair(int square){
     int col = square%8;
     return {row,col};
 }
+
+void Game::setMode(EngineMode m){
+    mode = m;
+}
+
+UncoloredPiece Game::longToPiece(std::string p){
+    if(p == "b") return Bishop;
+    else if(p == "n") return Knight;
+    else if(p == "r") return Rook;
+    else if(p=="q") return Queen;
+    else return Pawn; //Some default?;
+}
+
+std::string Game::pieceToLongNotation(Piece p){
+    switch (p)
+    {
+    case BlackBishop:
+    case WhiteBishop:
+        return "b";
+    case BlackKnight:
+    case WhiteKnight:
+        return "n";
+
+    case BlackRook:
+    case WhiteRook:
+        return "r";
+    case BlackQueen:
+    case WhiteQueen:
+        return "q";
+    default:
+        return "";
+    }
+}
+
+std::string Game::moveToLongNotation(Move move){
+    if(move.castledKingSide) return "O-O";
+    if(move.castledQueenSide) return "O-O-O";
+
+    std::string longNotation = SquareToAlgebraic(move.origin) + SquareToAlgebraic(move.destination);
+    if(move.promotion){
+        longNotation += pieceToLongNotation(move.promotionPiece);
+    }
+    return longNotation;
+}
+
+void Game::setDebugMode(bool on){
+    debugMode = on;
+    return;
+}
+
+void Game::setStop(bool st){
+    stop = st;
+    return;
+}
+

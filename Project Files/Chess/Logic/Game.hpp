@@ -3,13 +3,16 @@
 #include"Bitboard.hpp"
 #include"GameState.hpp"
 #include"RanksFilesBitboards.hpp"
+#include"SearchParams.hpp"
 #include"Move.hpp"
+#include"GetTime.hpp"
 #include<iostream>
 #include<cmath>
 #include<sstream>
 #include<set>
 #include<stack>
 #include<utility>
+#include<chrono>
 
 /*A class that handles all the logic for the game,
 Board represents the board as a 1d array, gameState keeps track of misc things like player, castling, and so on
@@ -38,6 +41,11 @@ if those moves intersect with the bitboard corresponding to the enemy type of th
 class Game{
 private:
     #define inf 1000000
+
+
+    EngineMode mode;
+    bool debugMode;
+    bool stop;
     Bitboard pieceBitboards[13];
     Bitboard whitePiecesBB;
     Bitboard blackPiecesBB;
@@ -46,6 +54,10 @@ private:
     RanksFilesBitboards ranksAndFiles;
     std::stack<Move> moveStack;
 public:
+
+    static const std::string name;
+    static const std::string author;
+
     //-------------------------------------------------Miscellanious helper functions----------------------------------------------------
 
     Game();
@@ -64,6 +76,12 @@ public:
     void PrintBoard();
     bool GameIsOver();
     std::pair<int,int> intToPair(int square);
+    void setMode(EngineMode mode);
+    std::string moveToLongNotation(Move move);
+    std::string pieceToLongNotation(Piece p);
+    void setDebugMode(bool on);
+    void setStop(bool st);
+    UncoloredPiece longToPiece(std::string p);
 
     //-------------------------------------------------Calculate board masks/attack boards/magic numbers----------------------------------------------------
 
@@ -139,6 +157,7 @@ public:
     //-----------------------------------------------Make an actual move and update the gamestate accordingly with the functions below----------------------------------------------
 
     bool MakeGameMove(int originSquare, int destinationSquare);         //MakeGameMove makes a legal move
+    bool MakeGameMove(std::string);     //Still makes a legal move, but is taken in algebraic form
     void MakeBoardMove(int originSquare, int destinationSquare, Piece promotion = Empty);        //MakeBoardMove makes a pseudo-legal move
     void MakeAnyMove(int originSquare, int destinationSquare);         //MakeAnyMove can make any move on board
 
@@ -164,8 +183,8 @@ public:
     int evaluatePosition();
     int PieceValue(int p);
 
-    std::pair<int,int> AiMove();
-    int miniMax(int depth, int alpha = 0, int beta = 0);
+    void AiMove(search_parameters params, Move& m, bool& done);
+    int miniMax(int depth, int& nodes, long long int endTime, int alpha = 0, int beta = 0);
 
     int Quiescent(int alpha, int beta);
     int SEE(int originSquare, int destinationSquare);
