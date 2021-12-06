@@ -296,3 +296,8 @@ void Game::setDebugMode(bool on){
     debugMode = on;
     return;
 }
+
+void Game::setStop(bool st){
+    stop = st;
+    return;
+}

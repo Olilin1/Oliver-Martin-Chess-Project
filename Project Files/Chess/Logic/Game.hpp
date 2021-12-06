@@ -42,6 +42,7 @@ private:
 
     EngineMode mode;
     bool debugMode;
+    bool stop;
     Bitboard pieceBitboards[13];
     Bitboard whitePiecesBB;
     Bitboard blackPiecesBB;
@@ -72,6 +73,7 @@ public:
     std::string moveToLongNotation(Move move);
     std::string pieceToLongNotation(Piece p);
     void setDebugMode(bool on);
+    void setStop(bool st);
 
     //-------------------------------------------------Calculate board masks/attack boards/magic numbers----------------------------------------------------
 
@@ -173,7 +175,7 @@ public:
     int PieceValue(int p);
 
     Move AiMove(search_parameters params = search_parameters());
-    int miniMax(int depth, int alpha = 0, int beta = 0);
+    int miniMax(int depth, int& nodes, int alpha = 0, int beta = 0);
 
     int Quiescent(int alpha, int beta);
     int SEE(int originSquare, int destinationSquare);
