@@ -1,7 +1,11 @@
 #ifndef SEARCH_PARAMS
 #define SEARCH_PARAMS
 
+#include<vector>
+#include<string>
+
 struct search_parameters{
+    std::vector<std::string> searchmoves;
     bool ponder;
     int wtime;
     int btime;
@@ -15,6 +19,7 @@ struct search_parameters{
     bool infinite;
 
     search_parameters(){
+        searchmoves = std::vector<std::string>();
         ponder = false;
         wtime = -1;
         btime = -1;
