@@ -2,7 +2,7 @@
 
 //TODO: Something is wrong with whiteKingPos, it updates incorrectly. Check what this is. Maybe it has to with the move generation for kings
 
-bool Game::MakeGameMove(std::string m){
+bool Game::MakeGameMove(std::string m){ //Make a move taken in long notation. Returns true if move is legal, otherwise returns false
     if(m == "O-O"){
         if(gameState.currentPlayer == Black) return MakeGameMove(60, 62);
         else return MakeGameMove(4, 6);
