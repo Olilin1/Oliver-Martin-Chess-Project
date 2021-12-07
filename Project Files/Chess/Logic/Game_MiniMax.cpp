@@ -19,7 +19,7 @@ void Game::AiMove(search_parameters params, Move& m, bool& done){
         nodes = params.nodes;
         time = params.moveTime;
         if(time != -1){
-            time = getTime() + (uint64_t)params.moveTime;
+            time = getTime() + (uint64_t)params.moveTime; //Calculate what the time will be when we should stop searching
         }
         if(depth == -1) depth = 500;
     }
@@ -30,19 +30,19 @@ void Game::AiMove(search_parameters params, Move& m, bool& done){
 
     std::set<std::pair<int, int>> allMoves;
     MakeAllPseudoMoves(allMoves);
-    std::vector<std::pair<int, std::pair<int,int>>> moveVector;
+    std::vector<std::pair<int, std::pair<int,int>>> moveVector; //moveVector holds the evaluation of a move, and the move itself. Used for iterative deepening.
 
     for(auto move : allMoves){
         moveVector.push_back(std::make_pair(-1, move));
     }
 
-    for(int i = 1; i <= depth && !stop; i++){
+    for(int i = 1; i <= depth && !stop; i++){ //Search first at depth 1, then depth 2, and so on
         maxEval = (i+1) * inf + 1;
         beta = maxEval;
         alpha = -maxEval;
         for(int j = 0; j < moveVector.size() && !stop; j++){
             auto& move = moveVector[j];
-            if(MakeGameMove(move.second.first,move.second.second)){
+            if(MakeGameMove(move.second.first, move.second.second)){ //Move.second is the move. Move.second.first is origin square.
                 if(gameState.awaitingPromotion){
                     for(auto p : {Queen,Knight,Rook,Bishop}){
                         Piece promotionPiece = ConvertToOppositeColoredPiece(p);
@@ -71,12 +71,12 @@ void Game::AiMove(search_parameters params, Move& m, bool& done){
                 }
                 UnmakeMove();
             }
-            else{
+            else{ //The move wasn't legal. At which case we remove it from the moveVector
                 moveVector.erase(moveVector.begin()+j);
                 j--;
             }
         }
-        std::sort(moveVector.begin(), moveVector.end(), std::greater<std::pair<int,std::pair<int,int>>>());
+        std::sort(moveVector.begin(), moveVector.end(), std::greater<std::pair<int,std::pair<int,int>>>()); //Make sure that the best move will be checked first next iteration
     }
 
     MakeGameMove(bestMove.first,bestMove.second);
@@ -96,7 +96,7 @@ int Game::miniMax(int depth, int& nodes, long long int endTime, int alpha, int b
         if(getTime() > endTime) stop = true;
     } 
 
-    if(stop) return 0;
+    if(stop) return 0; //stop means to abort completely so don't bother calculating any score. The best found move so far has already been saved anyways
     if(depth == 0 || nodes == 0) return Quiescent(alpha, beta);
     
     bool madeMove = false;
@@ -112,7 +112,7 @@ int Game::miniMax(int depth, int& nodes, long long int endTime, int alpha, int b
                     eval = -miniMax(depth-1,nodes,endTime,-beta,-alpha);
                     if (eval >= beta){
                         UnmakeMove();
-                        return eval+1;
+                        return eval+1; //The plus one makes sure this move gets placed after the best move in the moveVector
                     }
                     if(eval > alpha) alpha = eval;
                     gameState.awaitingPromotion = true;
@@ -123,7 +123,7 @@ int Game::miniMax(int depth, int& nodes, long long int endTime, int alpha, int b
                 eval = -miniMax(depth-1,nodes,endTime,-beta,-alpha);
                 if (eval >= beta){
                     UnmakeMove();
-                    return eval+1;
+                    return eval+1; //The plus one makes sure this move gets placed after the best move in the moveVector
                 }
                 if(eval > alpha) alpha = eval;
             }
