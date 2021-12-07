@@ -41,7 +41,7 @@ if those moves intersect with the bitboard corresponding to the enemy type of th
 
 class Game{
 private:
-    #define inf 1000000
+    #define inf 1000000 //Having inf be a lot smaller than 2<<31 means we can have things like 2*inf < 5*inf
 
 
     EngineMode mode;
