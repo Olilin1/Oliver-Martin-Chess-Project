@@ -31,14 +31,14 @@ enum UncoloredPiece{
     King = 11
 };
 
-enum LaunchMode {
+enum LaunchMode { //LaunchMode for our GUI
     PVP = 1,
     DEBUG = 2,
     PVEWHITE = 3,
     PVEBLACK = 4
 };
 
-enum EngineMode{
+enum EngineMode{ //LaunchMode for the engine
     NORMAL,
     UCI
 };
