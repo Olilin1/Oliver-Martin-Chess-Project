@@ -13,6 +13,7 @@
 #include<stack>
 #include<utility>
 #include<chrono>
+#include<algorithm>
 
 /*A class that handles all the logic for the game,
 Board represents the board as a 1d array, gameState keeps track of misc things like player, castling, and so on
@@ -78,6 +79,7 @@ public:
     std::pair<int,int> intToPair(int square);
     void setMode(EngineMode mode);
     std::string moveToLongNotation(Move move);
+    std::string moveToLongNotation(std::pair<int,int> move);
     std::string pieceToLongNotation(Piece p);
     void setDebugMode(bool on);
     void setStop(bool st);

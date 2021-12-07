@@ -300,6 +300,11 @@ std::string Game::moveToLongNotation(Move move){
     return longNotation;
 }
 
+std::string Game::moveToLongNotation(std::pair<int,int> move){
+    std::string longNotation = SquareToAlgebraic(move.first) + SquareToAlgebraic(move.second);
+    return longNotation;
+}
+
 void Game::setDebugMode(bool on){
     debugMode = on;
     return;

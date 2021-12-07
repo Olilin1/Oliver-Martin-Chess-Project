@@ -148,10 +148,10 @@ int main() {
                     calculation = std::thread(&Game::AiMove, g, params, std::ref(m), std::ref(done));
                 }
                 else if(input == "stop"){
+                    cout << "bestmove "  << g->moveToLongNotation(m) << endl;
                     g->setStop(true);
                     calculation.join();
                     done = false;
-                    cout << "bestmove "  << g->moveToLongNotation(m) << endl;
                 }
                 else if(input == "quit"){
                     return 0;

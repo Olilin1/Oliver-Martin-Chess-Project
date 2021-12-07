@@ -25,67 +25,80 @@ void Game::AiMove(search_parameters params, Move& m, bool& done){
     }
 
 
-
-
-
-    maxEval = 500*inf;
-    beta = maxEval;
-    alpha = -maxEval;
-
     std::pair<int,int> bestMove;
     Piece promotion;
 
     std::set<std::pair<int, int>> allMoves;
     MakeAllPseudoMoves(allMoves);
+    std::vector<std::pair<int, std::pair<int,int>>> moveVector;
+
     for(auto move : allMoves){
-        if(MakeGameMove(move.first,move.second)){
-            if(gameState.awaitingPromotion){
-                for(auto p : {Queen,Knight,Rook,Bishop}){
-                    Piece promotionPiece = ConvertToOppositeColoredPiece(p);
-                    MakeBoardMove(-1, -1, promotionPiece);
-                    eval = -miniMax(depth,nodes,time,-beta,-alpha);
-                    if(eval > alpha){
+        moveVector.push_back(std::make_pair(-1, move));
+    }
+
+    for(int i = 1; i <= depth && !stop; i++){
+        maxEval = (i+1) * inf + 1;
+        beta = maxEval;
+        alpha = -maxEval;
+        for(int j = 0; j < moveVector.size() && !stop; j++){
+            auto& move = moveVector[j];
+            if(MakeGameMove(move.second.first,move.second.second)){
+                if(gameState.awaitingPromotion){
+                    for(auto p : {Queen,Knight,Rook,Bishop}){
+                        Piece promotionPiece = ConvertToOppositeColoredPiece(p);
+                        MakeBoardMove(-1, -1, promotionPiece);
+                        eval = -miniMax(i-1,nodes,time,-beta,-alpha);
+                        move.first = eval;
+                        if(eval > alpha && !stop){
+                            alpha = eval;
+                            bestMove = move.second;
+                            promotion = promotionPiece;
+                            m = moveStack.top();
+                        }
+                        gameState.awaitingPromotion = true;
+                    }
+                    gameState.awaitingPromotion = false;
+                }
+                else{
+                    eval = -miniMax(i-1,nodes,time,-beta,-alpha);
+                    move.first = eval;
+                    
+                    if(eval > alpha && !stop){
                         alpha = eval;
-                        bestMove = move;
-                        promotion = promotionPiece;
+                        bestMove = move.second;
                         m = moveStack.top();
                     }
-                    gameState.awaitingPromotion = true;
                 }
-                gameState.awaitingPromotion = false;
+                UnmakeMove();
             }
             else{
-                eval = -miniMax(depth-1,nodes,time,-beta,-alpha);
-                if(eval > alpha){
-                    alpha = eval;
-                    bestMove = move;
-                    m = moveStack.top();
-                }
+                moveVector.erase(moveVector.begin()+j);
+                j--;
             }
-            UnmakeMove();
         }
+        std::sort(moveVector.begin(), moveVector.end(), std::greater<std::pair<int,std::pair<int,int>>>());
     }
 
     MakeGameMove(bestMove.first,bestMove.second);
     if(gameState.awaitingPromotion){
         MakeBoardMove(-1, -1, promotion);
     }
-    m = moveStack.top();
+
     done = true;
     return;
 }
 
 int Game::miniMax(int depth, int& nodes, long long int endTime, int alpha, int beta){
     int eval;
-    bool timeUp = false;
+    nodes--;
 
     if(endTime != -1){
-        if(getTime() > endTime) timeUp = true;
+        if(getTime() > endTime) stop = true;
     } 
 
-
-    if(depth == 0 || nodes == 0 || timeUp ||stop) return Quiescent(alpha, beta);
-    nodes--;
+    if(stop) return 0;
+    if(depth == 0 || nodes == 0) return Quiescent(alpha, beta);
+    
     bool madeMove = false;
     std::set<std::pair<int,int>> allMoves;
     MakeAllPseudoMoves(allMoves);
@@ -96,10 +109,10 @@ int Game::miniMax(int depth, int& nodes, long long int endTime, int alpha, int b
             if(gameState.awaitingPromotion){
                 for(auto p : {Queen,Knight,Rook,Bishop}){
                     MakeBoardMove(-1, -1, ConvertToOppositeColoredPiece(p));
-                    eval = -miniMax(depth,nodes,endTime,-beta,-alpha);
+                    eval = -miniMax(depth-1,nodes,endTime,-beta,-alpha);
                     if (eval >= beta){
                         UnmakeMove();
-                        return eval;
+                        return eval+1;
                     }
                     if(eval > alpha) alpha = eval;
                     gameState.awaitingPromotion = true;
@@ -110,7 +123,7 @@ int Game::miniMax(int depth, int& nodes, long long int endTime, int alpha, int b
                 eval = -miniMax(depth-1,nodes,endTime,-beta,-alpha);
                 if (eval >= beta){
                     UnmakeMove();
-                    return beta;
+                    return eval+1;
                 }
                 if(eval > alpha) alpha = eval;
             }
