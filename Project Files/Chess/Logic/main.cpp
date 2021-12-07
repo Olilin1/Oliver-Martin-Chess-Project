@@ -15,6 +15,7 @@ or "g++ *.cpp" should also work
 
 
 using namespace std;
+
 string input;
 bool toRead;
 bool done;
@@ -27,20 +28,21 @@ void get_input(){
 
 int main() {
     cin >> input;
-    Move m;
+    Move m; 
     std::thread calculation;
     std::thread reading;
     done = false;
     toRead = false;
     readingRightNow = false;
-    if(input == "uci"){
-        cout << "id name " << Game::name << "\nid author " << Game::author << "\nuciok" << endl;
+    if(input == "uci"){ //If the engine is supposed to run in UCI mode, this will be the first input
+        cout << "id name " << Game::name << "\nid author " << Game::author << endl; //According to protocoll we have to identify the engine. 
+        cout << "\nuciok" << endl; //After the identification process we print available settings, (none currently), and then print uciok
         cin >> input;
-        if(input == "isready"){
+        if(input == "isready"){ //Time to start the engine
             Game* g = new Game;
             g->setMode(UCI);
 
-            cout << "readyok"<<endl;
+            cout << "readyok"<<endl; //Tell GUI that we are done intializing
 
             while(true){
                 
@@ -49,15 +51,15 @@ int main() {
                     reading = std::thread(get_input);
                 }
                 
-                while(!toRead && !done);
+                while(!toRead && !done); //Wait until we get input from GUI OR engine is done calculating
                 
-                if(done){
+                if(done){ //Print the best move and cleanup threads.
                     done = false;
                     calculation.join();
                     cout << "bestmove " << g->moveToLongNotation(m) << endl;
                     continue;
                 }
-                else if(toRead){
+                else if(toRead){ //Cleanup threads
                     toRead = false;
                     reading.join();
                     readingRightNow = false;
@@ -66,17 +68,17 @@ int main() {
                 
                 stringstream ss(input);
                 ss >> input;
-                if(input == "ucinewgame"){
+                if(input == "ucinewgame"){ //The gui tells us the next position command is a new game. Currently we don't care
 
                 }
-                else if(input == "position"){
+                else if(input == "position"){ //The gui tells us what position to setup
 
                     ss >> input;
                     if(input == "startpos"){
                         string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
                         g->SetupGame(fen);
                     }
-                    else{
+                    else{ //This is ugly and should be rewritten in the future
                         string fen = input;
                         ss >> input;
                         fen.append(" " + input);
@@ -92,76 +94,76 @@ int main() {
                     }
                     bool first = 1;
                     while(ss >> input){
-                        if(first){
+                        if(first){ //The first word after the fen string will be "moves", so we skip it
                             first = 0;
                             continue;
                         }
-                        g->MakeGameMove(input);
+                        g->MakeGameMove(input); //Make the move the GUI tells us to make
                     }
                 }
-                else if(input == "go"){
+                else if(input == "go"){ //The GUI tells the engine to start calculating.
                     done = false;
                     g->setStop(false);
                     search_parameters params;
                     while(ss >> input){
-                        if(input == "searchmoves"){
+                        if(input == "searchmoves"){ //Limit search to following moves. (Currently unimplemented)
                             while(ss >> input){
                                 params.searchmoves.push_back(input);
                             }
                         }
-                        else if(input ==  "ponder"){
+                        else if(input ==  "ponder"){ //Start search in ponder mode. (Currently unimplemented)
 
                         }
-                        else if(input == "wtime"){
+                        else if(input == "wtime"){ //How much time does white have remaining (Currently unimplemented)
                             ss >> input;
                         }
-                        else if(input == "btime"){
+                        else if(input == "btime"){ //how much time does black have remaining (Currently unimplemented)
                             ss >> input;
                         }
-                        else if(input == "winc"){
+                        else if(input == "winc"){ //The time increase per move for white (Currently unimplemented)
                             ss >> input;
                         }
-                        else if(input == "binc"){
+                        else if(input == "binc"){ //The time increase per move for black (Currently unimplemented)
                             ss >> input;
                         }
-                        else if(input == "movestogo"){
+                        else if(input == "movestogo"){ //The amount of moves left until the next time controll (Currently unimplemented)
                             ss >> input;
                         }
-                        else if(input == "depth"){
+                        else if(input == "depth"){ //How many plies (halfmoves) to search
                             ss >> params.depth;
                         }
-                        else if(input == "nodes"){
+                        else if(input == "nodes"){ //How many nodes to search
                             ss >> params.nodes;
                         }
-                        else if(input == "mate"){
+                        else if(input == "mate"){ //Search for mate in N moves (Currently unimplemented)
                             ss >> input;
                         }
-                        else if(input == "movetime"){
+                        else if(input == "movetime"){ //Search for N milliseconds.
                             ss >> params.moveTime;
                         }
-                        else if(input == "infinite"){
-                            params.depth = 1000; //Meh, good enough for now
+                        else if(input == "infinite"){ //Search until a stop command is sent.
+                            params.depth = -1; 
                             params.moveTime = -1;
                             params.nodes = -1;
                         }
                     }
-                    calculation = std::thread(&Game::AiMove, g, params, std::ref(m), std::ref(done));
+                    calculation = std::thread(&Game::AiMove, g, params, std::ref(m), std::ref(done)); //Start the calculation on a new thread so we can still recieve input
                 }
-                else if(input == "stop"){
+                else if(input == "stop"){ //Immediately stop calculating and print the best move
                     cout << "bestmove "  << g->moveToLongNotation(m) << endl;
                     g->setStop(true);
                     calculation.join();
                     done = false;
                 }
-                else if(input == "quit"){
+                else if(input == "quit"){ //Quit the engine
                     return 0;
                 }
-                else if(input == "isready"){
+                else if(input == "isready"){ //Check if the engine is ready for input
                     cout << "readyok" << endl;
                 }
             }
         }
-        else if(input == "quit"){
+        else if(input == "quit"){ //Quit the engine
             return 0;
         }
     }
