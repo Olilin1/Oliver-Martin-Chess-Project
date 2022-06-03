@@ -156,12 +156,14 @@ int main() {
                     done = false;
                 }
                 else if(input == "quit"){ //Quit the engine
+                    delete g;
                     return 0;
                 }
                 else if(input == "isready"){ //Check if the engine is ready for input
                     cout << "readyok" << endl;
                 }
             }
+            delete g;
         }
         else if(input == "quit"){ //Quit the engine
             return 0;
