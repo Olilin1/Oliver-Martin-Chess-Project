@@ -1,4 +1,4 @@
-# Morrje-Ollindg-Project
+# Oliver-Martin-Project
 
 This is a chess game + chess AI.
 
